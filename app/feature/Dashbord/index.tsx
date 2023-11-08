@@ -1,4 +1,4 @@
-export default function DashbordPage() {
+export default function Dashbord() {
   return (
     <div className="m-10 text-center">
       <span className="text-lg">Dashbord</span>
