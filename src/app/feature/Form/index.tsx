@@ -2,9 +2,9 @@ import { Button } from "../../components/Button";
 
 export default function Form() {
   return (
-    <div className="m-10 text-center bg-slate-950">
-      <span className="text-8xl">Form！！</span>
-      <Button label="Button" type="button" color="500" />
+    <div className="w-100  h-200 m-10 text-center">
+      <span className="text-4xl">Form！！</span>
+      <Button label="Button" type="button" style="primary" />
     </div>
   );
 }
