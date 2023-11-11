@@ -7,6 +7,7 @@ export default function Form() {
       <span className="text-4xl">Form！！</span>
       <Checkbox label="Radio" />
       <Checkbox label="Radio2" />
+      <Checkbox label="Radio3" />
       <Button label="Button" type="button" style="primary" />
     </div>
   );
