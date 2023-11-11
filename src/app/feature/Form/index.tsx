@@ -5,9 +5,9 @@ export default function Form() {
   return (
     <div className="w-100  h-200 m-10 text-center">
       <span className="text-4xl">Form！！</span>
-      <Checkbox label="Radio" />
-      <Checkbox label="Radio2" />
-      <Checkbox label="Radio3" />
+      <Checkbox id="radio1" label="Radio1" />
+      <Checkbox id="radio2" label="Radio2" />
+      <Checkbox id="radio3" label="Radio3" />
       <Button label="Button" type="button" style="primary" />
     </div>
   );
