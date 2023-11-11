@@ -6,6 +6,7 @@ export default function Form() {
     <div className="w-100  h-200 m-10 text-center">
       <span className="text-4xl">Form！！</span>
       <Checkbox label="Radio" />
+      <Checkbox label="Radio2" />
       <Button label="Button" type="button" style="primary" />
     </div>
   );
