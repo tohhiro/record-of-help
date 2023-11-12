@@ -1,5 +1,5 @@
 import React from "react";
-import { buttonStyles } from "@/app/styles/componentStyles";
+import { buttonStyles } from "../../styles/componentStyles";
 
 type Props = {
   label: string;
