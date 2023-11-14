@@ -1,5 +1,5 @@
-import Dashbord from "./feature/Dashbord";
-import Form from "./feature/Form";
+import { Dashbord } from "./feature/Dashbord";
+import { Form } from "./feature/Form";
 import { Header } from "./feature/Header";
 
 export default function Home() {
