@@ -1,7 +1,7 @@
-export default function Dashbord() {
+export const Dashbord = () => {
   return (
     <div className="m-10 text-center">
       <span className="text-lg">Dashbord</span>
     </div>
   );
-}
+};
