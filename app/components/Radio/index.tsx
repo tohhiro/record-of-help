@@ -1,5 +1,5 @@
 import React from "react";
-import { radioStyles } from "../../styles/componentStyles";
+import { radioStyles } from "./index.styles";
 
 type Props = {
   id: string;
