@@ -1,5 +1,5 @@
 import React from "react";
-import { checkboxStyles, radioStyles } from "../../styles/componentStyles";
+import { checkboxStyles } from "./index.styles";
 
 type Props = {
   id: string;
@@ -9,7 +9,7 @@ type Props = {
 export const Checkbox = (props: Props) => {
   const { id, label } = props;
   return (
-    <div className={radioStyles.container}>
+    <div className={checkboxStyles.container}>
       <input type="Checkbox" id={id} className={checkboxStyles.checkbox} />
       <label htmlFor={id} className={checkboxStyles.label}>
         {label}
