@@ -22,7 +22,12 @@ export const Form = () => {
           <Checkbox id="checkbox2" label="カーテン" />
           <Checkbox id="checkbox3" label="食事準備" />
         </div>
-        <Button label="Submit" type="submit" style="primary" />
+        <Button
+          label="Submit"
+          type="submit"
+          style="primary"
+          onClick={() => {}} // 一旦空関数を渡す
+        />
       </form>
     </div>
   );
