@@ -1,7 +1,7 @@
 import React from "react";
 import { radioStyles } from "./index.styles";
 
-type Props = {
+export type Props = {
   id: string;
   label: string;
   name: string;
