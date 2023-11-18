@@ -6,7 +6,7 @@ export default {
   component: Button,
 };
 
-export const Default: React.FC = (): JSX.Element => {
+export const Default = (): JSX.Element => {
   const mockData: Props = {
     label: "Buttonラベル",
     type: "button",
