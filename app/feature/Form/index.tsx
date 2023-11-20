@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "../../components/Button";
 import { Checkbox } from "../../components/Checkbox";
 import { Radio } from "../../components/Radio";
+import { Textarea } from "../../components/Textarea";
 
 export const Form = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,6 +22,9 @@ export const Form = () => {
           <Checkbox id="checkbox1" label="皿洗い" />
           <Checkbox id="checkbox2" label="カーテン" />
           <Checkbox id="checkbox3" label="食事準備" />
+        </div>
+        <div className="w-80 my-8 m-auto">
+          <Textarea id="textarea" label="備考" placeholder="備考があれば入力" />
         </div>
         <Button
           label="Submit"
