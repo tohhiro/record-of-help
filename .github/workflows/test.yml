@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - "app/**"
+      - ".github/**"
 
 jobs:
   test:
