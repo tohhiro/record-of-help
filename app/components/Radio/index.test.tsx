@@ -9,6 +9,7 @@ describe("Radio", () => {
       id: "radio1",
       label: "Radio Label",
       name: "radioName",
+      value: "radioValue",
     };
     render(<Radio {...mockValues} />);
     const labelOfcheckboxComponent = screen.getByLabelText(mockValues.label);
