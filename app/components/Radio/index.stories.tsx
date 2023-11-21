@@ -12,6 +12,7 @@ export const Default: React.FC = (): JSX.Element => {
     id: "radio",
     label: "radioラベル",
     name: "radio",
+    value: "radio",
   };
 
   return <Radio {...mockData} />;
