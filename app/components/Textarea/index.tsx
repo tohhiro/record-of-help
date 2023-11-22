@@ -18,7 +18,7 @@ export const Textarea = (props: Props) => {
         id={id}
         className={textareaStyles.textarea}
         placeholder={placeholder}
-      ></textarea>
+      />
     </div>
   );
 };
