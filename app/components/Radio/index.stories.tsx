@@ -11,7 +11,6 @@ export const Default: React.FC = (): JSX.Element => {
   const mockData: Props = {
     id: "radio",
     label: "radioラベル",
-    name: "radio",
     value: "radio",
   };
 

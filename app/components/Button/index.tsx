@@ -6,7 +6,7 @@ export type Props = {
   label: string;
   type: "submit" | "reset" | "button";
   style: "primary" | "secondary" | "disabled";
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
 };
 

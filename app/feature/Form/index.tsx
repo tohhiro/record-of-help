@@ -8,7 +8,7 @@ import { Textarea } from "../../components/Textarea";
 
 type FormProps = {
   person: string;
-  helps?: boolean;
+  helps?: boolean[];
   comments: string;
 };
 
@@ -18,7 +18,11 @@ export const Form = () => {
   };
 
   const { register, handleSubmit, control, watch } = useForm<FormProps>();
-  console.log(watch("comments"));
+
+  // テスト用
+  console.log("person", watch("person"));
+  console.log("helps", watch("helps"));
+  console.log("comments", watch("comments"));
 
   return (
     <div className="w-100  h-200 m-10 text-center">
@@ -26,10 +30,10 @@ export const Form = () => {
         <Controller
           name="person"
           control={control}
-          render={() => (
+          render={({ field }) => (
             <div className="w-80 my-8 m-auto">
-              <Radio id="eito" label="eito" value="eito" name="person" />
-              <Radio id="mei" label="mei" value="mei" name="person" />
+              <Radio id="eito" label="eito" {...field} value="eito" />
+              <Radio id="mei" label="mei" {...field} value="mei" />
             </div>
           )}
         />
@@ -37,6 +41,7 @@ export const Form = () => {
         <Controller
           name="helps"
           control={control}
+          defaultValue={[]}
           render={() => (
             <div className="w-80 my-8 m-auto">
               <Checkbox id="dish" label="皿洗い" />
@@ -49,6 +54,7 @@ export const Form = () => {
         <Controller
           name="comments"
           control={control}
+          defaultValue=""
           render={() => (
             <div className="w-80 my-8 m-auto">
               <Textarea
@@ -60,12 +66,7 @@ export const Form = () => {
           )}
         />
 
-        <Button
-          label="Submit"
-          type="submit"
-          style="primary"
-          onClick={() => {}} // 一旦空関数を渡す
-        />
+        <Button label="Submit" type="submit" style="primary" />
       </form>
     </div>
   );
