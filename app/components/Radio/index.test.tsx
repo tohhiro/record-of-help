@@ -8,7 +8,6 @@ describe("Radio", () => {
     const mockValues: Props = {
       id: "radio1",
       label: "Radio Label",
-      name: "radioName",
       value: "radioValue",
     };
     render(<Radio {...mockValues} />);
