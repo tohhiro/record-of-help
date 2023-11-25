@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { textareaStyles } from "./index.styles";
 
 export type Props = {
@@ -7,8 +7,8 @@ export type Props = {
   placeholder: string;
 };
 
-export const Textarea = (props: Props) => {
-  const { label, id, placeholder } = props;
+export const Textarea = forwardRef((props: Props, _ref) => {
+  const { label, id, placeholder, ...field } = props;
   return (
     <div className={textareaStyles.container}>
       <label htmlFor={id} className={textareaStyles.label}>
@@ -18,7 +18,8 @@ export const Textarea = (props: Props) => {
         id={id}
         className={textareaStyles.textarea}
         placeholder={placeholder}
+        {...field}
       />
     </div>
   );
-};
+});
