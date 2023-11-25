@@ -8,6 +8,8 @@ describe("Checkbox", () => {
     const mockValues: Props = {
       label: "Checkbox Label",
       id: "checkbox1",
+      value: "checkboxValue",
+      ref: null,
     };
     render(<Checkbox {...mockValues} />);
     const labelOfcheckboxComponent = screen.getByLabelText(mockValues.label);
