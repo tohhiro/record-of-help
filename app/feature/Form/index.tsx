@@ -1,19 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button } from "../../components/Button";
 import { Checkbox } from "../../components/Checkbox";
 import { Radio } from "../../components/Radio";
 import { Textarea } from "../../components/Textarea";
-import { type } from "os";
+import { convertHelps } from "./convertHelps";
 
-type FormProps = {
+export type FormProps = {
   person: string;
   helps: string[];
   comments: string;
 };
 
-type Helps = {
+export type Helps = {
   id: string;
   label: string;
 };
@@ -33,19 +33,17 @@ const helps: Helps[] = [
   },
 ];
 
-export const Form = () => {
-  const onSubmit: SubmitHandler<FormProps> = (data) => {
-    console.log(data); // テスト用
-  };
 
-  const { register, handleSubmit, control, watch } = useForm<FormProps>({
+export const Form = () => {
+
+    const onSubmit: SubmitHandler<FormProps> = (data) => {
+      const result = convertHelps(helps, data);
+      console.log(result); // テスト用
+    }
+
+  const { register, handleSubmit, control } = useForm<FormProps>({
     mode: "onChange",
   });
-
-  // テスト用
-  console.log("person", watch("person"));
-  console.log("helps", watch("helps"));
-  console.log("comments", watch("comments"));
 
   return (
     <div className="w-100  h-200 m-10 text-center">
