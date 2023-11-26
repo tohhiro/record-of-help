@@ -6,10 +6,15 @@ type HelpsData = {
     prepareEat: boolean;
   };
 
+const initHelpsData: HelpsData = {
+    dish: false,
+    curtain: false,
+    prepareEat: false,
+  };
+
 export const convertHelps = (helps: Helps[], data: FormProps) => {
-    const checkedHelps = helps.reduce((acc, item) => {
-        return  data.helps.includes(item.id) ? { ...acc, [item.id]: true } : { ...acc, [item.id]: false };
-      }, {} as HelpsData);
+    const checkedHelps = helps.reduce((acc, help) => (
+        data.helps.includes(help.id) ? { ...acc, [help.id]: true } : { ...acc }
+    ), initHelpsData);
     return checkedHelps;
 }
-
