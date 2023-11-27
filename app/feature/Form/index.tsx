@@ -37,8 +37,13 @@ const helps: Helps[] = [
 export const Form = () => {
 
     const onSubmit: SubmitHandler<FormProps> = (data) => {
-      const result = convertHelps(helps, data);
-      console.log(result); // テスト用
+      const helpsData = convertHelps(helps, data);
+      const sendingData = {
+        ...helpsData,
+        person: data.person,
+        comments: data.comments,
+      };
+      console.log(sendingData); // テスト用
     }
 
   const { register, handleSubmit, control } = useForm<FormProps>({
