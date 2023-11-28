@@ -31,6 +31,14 @@ const helps: Helps[] = [
     id: "prepareEat",
     label: "食事準備",
   },
+  {
+    id: "landry",
+    label: "洗濯物片付け",
+  },
+  {
+    id: "towel",
+    label: "芽生のタオルを取る",
+  }
 ];
 
 
@@ -46,9 +54,11 @@ export const Form = () => {
       console.log(sendingData); // テスト用
     }
 
-  const { register, handleSubmit, control } = useForm<FormProps>({
+  const { register, formState: { errors }, handleSubmit, control } = useForm<FormProps>({
     mode: "onChange",
   });
+
+  console.log(errors); // テスト用
 
   return (
     <div className="w-100  h-200 m-10 text-center">
@@ -56,6 +66,9 @@ export const Form = () => {
         <Controller
           name="person"
           control={control}
+          rules={{
+            required: true,
+          }}
           render={({ field }) => (
             <div className="w-80 my-8 m-auto">
               <Radio id="eito" label="eito" {...field} value="eito" />
@@ -63,7 +76,9 @@ export const Form = () => {
             </div>
           )}
         />
-
+        <div className="my-2 m-auto text-center">
+        {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
+        </div>
         <div className="w-80 my-8 m-auto">
           {helps.map((help) => (
             <Checkbox
