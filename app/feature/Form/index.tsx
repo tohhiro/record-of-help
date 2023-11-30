@@ -7,7 +7,7 @@ import { Radio } from "../../components/Radio";
 import { Textarea } from "../../components/Textarea";
 import { convertHelps } from "./convertHelps";
 
-export type FormProps = {
+export type Props = {
   person: string;
   helps: string[];
   comments: string;
@@ -44,7 +44,7 @@ const helps: Helps[] = [
 
 export const Form = () => {
 
-    const onSubmit: SubmitHandler<FormProps> = (data) => {
+    const onSubmit: SubmitHandler<Props> = (data) => {
       const helpsData = convertHelps(helps, data);
       const sendingData = {
         ...helpsData,
@@ -54,7 +54,7 @@ export const Form = () => {
       console.log(sendingData); // テスト用
     }
 
-  const { register, formState: { errors }, handleSubmit, control } = useForm<FormProps>({
+  const { register, formState: { errors }, handleSubmit, control } = useForm<Props>({
     mode: "onChange",
   });
 

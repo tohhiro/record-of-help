@@ -1,5 +1,5 @@
 import { convertHelps } from "./convertHelps";
-import type { Helps, FormProps } from '.'
+import type { Helps, Props } from '.'
 
 describe('convertHelps', () => {
     it('data.helpsにある文字列、dish、curtainがtrueでオブジェクトに入る', () => {
@@ -9,7 +9,7 @@ describe('convertHelps', () => {
             { id: 'prepareEat', label: 'Prepare to eat' },
         ]
 
-        const data: FormProps = {
+        const data: Props = {
             person: 'John',
             comments: 'I need help',
             helps: ['dish', 'curtain']
