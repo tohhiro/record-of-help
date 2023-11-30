@@ -1,4 +1,4 @@
-import type { Helps, FormProps } from '.'
+import type { Helps, Props } from '.'
 
 type HelpsData = {
     dish: boolean;
@@ -12,7 +12,7 @@ const initHelpsData: HelpsData = {
     prepareEat: false,
   };
 
-export const convertHelps = (helps: Helps[], data: FormProps) => {
+export const convertHelps = (helps: Helps[], data: Props) => {
     const checkedHelps = helps.reduce((acc, help) => (
         data.helps.includes(help.id) ? { ...acc, [help.id]: true } : { ...acc }
     ), initHelpsData);
