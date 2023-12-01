@@ -12,10 +12,10 @@ describe("Radio", () => {
       value: "radioValue",
     };
     render(<Radio {...mockValues} />);
-    const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
-    expect(labelOfCheckboxComponent).toBeInTheDocument();
-    const inputOfCheckboxComponent = screen.getByRole("radio");
-    expect(inputOfCheckboxComponent).toHaveAttribute("type", "radio");
+    const labelOfRadio = screen.getByLabelText(mockValues.label);
+    expect(labelOfRadio).toBeInTheDocument();
+    const inputOfRadioComponent = screen.getByRole("radio");
+    expect(inputOfRadioComponent).toHaveAttribute("type", "radio");
   });
   test("Radioボタンがクリックできる", () => {
     const mockValues: Props = {
@@ -24,13 +24,12 @@ describe("Radio", () => {
       value: "radioValue",
     };
     render(<Radio {...mockValues} />);
-    const checkboxComponent = screen.getByRole('radio',{name: mockValues.label});
-    expect(checkboxComponent).toBeEnabled()
-    expect(checkboxComponent.getAttribute('checked')).toBeNull(); 
+    const radioComponent = screen.getByRole('radio',{name: mockValues.label});
+    expect(radioComponent).toBeEnabled()
+    expect(radioComponent.getAttribute('checked')).toBeNull(); 
 
     const user = userEvent.setup()
-    user.click(checkboxComponent)
-    expect(checkboxComponent.getAttribute('checked')); 
-    
+    user.click(radioComponent)
+    expect(radioComponent.getAttribute('checked')); 
   });
 });
