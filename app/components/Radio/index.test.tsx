@@ -11,9 +11,9 @@ describe("Radio", () => {
       value: "radioValue",
     };
     render(<Radio {...mockValues} />);
-    const labelOfcheckboxComponent = screen.getByLabelText(mockValues.label);
-    expect(labelOfcheckboxComponent).toBeInTheDocument();
-    const inputOfcheckboxComponent = screen.getByRole("radio");
-    expect(inputOfcheckboxComponent).toHaveAttribute("type", "radio");
+    const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
+    expect(labelOfCheckboxComponent).toBeInTheDocument();
+    const inputOfCheckboxComponent = screen.getByRole("radio");
+    expect(inputOfCheckboxComponent).toHaveAttribute("type", "radio");
   });
 });

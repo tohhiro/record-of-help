@@ -11,8 +11,8 @@ describe("Textarea", () => {
       placeholder: "テキストを入力してください",
     };
     render(<Textarea {...mockValues} />);
-    const labelOftextareaComponent = screen.getByLabelText(mockValues.label);
-    expect(labelOftextareaComponent).toBeInTheDocument();
+    const labelOfTextareaComponent = screen.getByLabelText(mockValues.label);
+    expect(labelOfTextareaComponent).toBeInTheDocument();
     const textareaComponent = screen.queryByPlaceholderText(
       mockValues.placeholder
     );

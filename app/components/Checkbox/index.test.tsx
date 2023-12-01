@@ -12,9 +12,9 @@ describe("Checkbox", () => {
       ref: null,
     };
     render(<Checkbox {...mockValues} />);
-    const labelOfcheckboxComponent = screen.getByLabelText(mockValues.label);
-    expect(labelOfcheckboxComponent).toBeInTheDocument();
-    const inputOfcheckboxComponent = screen.getByRole("checkbox");
-    expect(inputOfcheckboxComponent).toHaveAttribute("type", "checkbox");
+    const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
+    expect(labelOfCheckboxComponent).toBeInTheDocument();
+    const inputOfCheckboxComponent = screen.getByRole("checkbox");
+    expect(inputOfCheckboxComponent).toHaveAttribute("type", "checkbox");
   });
 });
