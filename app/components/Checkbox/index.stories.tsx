@@ -10,6 +10,8 @@ export const Default: React.FC = (): JSX.Element => {
   const mockData: Props = {
     id: "checkbox",
     label: "Checkboxラベル",
+    value: "checkbox value",
+    ref: null
   };
 
   return <Checkbox {...mockData} />;
