@@ -5,7 +5,7 @@ import { buttonStyles } from "./index.styles";
 export type Props = {
   label: string;
   type: "submit" | "reset" | "button";
-  style: "primary" | "secondary" | "disabled";
+  style: "primary" | "secondary";
   onClick?: () => void;
   disabled?: boolean;
 };
@@ -15,7 +15,7 @@ export const Button = (props: Props) => {
   return (
     <div>
       <button
-        className={`${buttonStyles[style]}`}
+        className={`${buttonStyles[disabled? "disabled" : style]}`}
         type={type}
         disabled={disabled}
         onClick={onClick}
