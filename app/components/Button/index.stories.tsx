@@ -17,3 +17,15 @@ export const Default = (): JSX.Element => {
 
   return <Button {...mockData} />;
 };
+
+export const Disabled = (): JSX.Element => {
+  const mockData: Props = {
+    label: "Buttonラベル",
+    type: "button",
+    style: "primary",
+    onClick: () => {},
+    disabled: true,
+  };
+
+  return <Button {...mockData} />;
+};
