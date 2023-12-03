@@ -18,7 +18,7 @@ export type Helps = {
   label: string;
 };
 
-const helps: Helps[] = [
+export const helps: Helps[] = [
   {
     id: "dish",
     label: "皿洗い",
