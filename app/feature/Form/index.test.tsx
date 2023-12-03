@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
-import { Form, Props, helps } from ".";
+import { Form, helps } from ".";
 
 describe("Form", () => {
     describe("radio",()=>{
@@ -25,7 +25,7 @@ describe("Form", () => {
             const radioButtonValues = ["eito", "mei"];
             radioButtonValues.forEach(async (value) => {
                 const radioButton = screen.getByRole("radio", { name: value });
-                userEvent.click(radioButton)
+                user.click(radioButton)
                 await waitFor(() => expect(radioButton).toHaveAttribute("checked", true));
             })
         });
@@ -48,7 +48,7 @@ describe("Form", () => {
             const user = userEvent.setup()
             helps.forEach(async (help) => {
                 const checkbox = screen.getByRole("checkbox", { name: help.label });
-                userEvent.click(checkbox)
+                user.click(checkbox)
                 await waitFor(() => expect(checkbox).toHaveAttribute("checked", true));
             })
         });
