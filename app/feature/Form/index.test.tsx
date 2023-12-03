@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import { Form, Props, helps } from ".";
@@ -51,6 +51,20 @@ describe("Form", () => {
                 userEvent.click(checkbox)
                 await waitFor(() => expect(checkbox).toHaveAttribute("checked", true));
             })
+        });
+    })
+    describe("textarea",()=>{
+        test("textareaが1つレンダーされる", () => {
+            render(<Form />);
+            const textarea = screen.getAllByRole("textbox");
+            expect(textarea).toHaveLength(1);
+        });
+        test("textareaに入力ができる", () => {
+            render(<Form />);
+            const textarea = screen.getByRole("textbox");
+            const typeText = "テスト"
+            fireEvent.change(textarea, { target: { value: typeText } });
+            expect((textarea as HTMLTextAreaElement).value).toBe(typeText)
         });
     })
 });
