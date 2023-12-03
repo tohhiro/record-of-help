@@ -20,14 +20,14 @@ describe("Form", () => {
             })
        });
        test("radioボタンのチェックを入れると、チェックされたradioボタンの属性がcheckedになっている", async () => {
-        render(<Form />);
-        const user = userEvent.setup()
-        const radioButtonValues = ["eito", "mei"];
-        radioButtonValues.forEach(async (value) => {
-            const radioButton = screen.getByRole("radio", { name: value });
-            userEvent.click(radioButton)
-            await waitFor(() => expect(radioButton).toHaveAttribute("checked", true));
-        })
-   });
+            render(<Form />);
+            const user = userEvent.setup()
+            const radioButtonValues = ["eito", "mei"];
+            radioButtonValues.forEach(async (value) => {
+                const radioButton = screen.getByRole("radio", { name: value });
+                userEvent.click(radioButton)
+                await waitFor(() => expect(radioButton).toHaveAttribute("checked", true));
+            })
+        });
     })
 });
