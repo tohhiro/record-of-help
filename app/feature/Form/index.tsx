@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useState} from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Button } from "../../components/Button";
 import { Checkbox } from "../../components/Checkbox";
@@ -44,6 +44,8 @@ export const helps: Helps[] = [
 
 export const Form = () => {
 
+  const [submitButton, setSubmitButton] = useState<boolean>(false);
+
     const onSubmit: SubmitHandler<Props> = (data) => {
       const helpsData = convertHelps(helps, data);
       const sendingData = {
@@ -51,6 +53,7 @@ export const Form = () => {
         person: data.person,
         comments: data.comments,
       };
+      setSubmitButton(true);
       console.log(sendingData); // テスト用
     }
 
@@ -107,7 +110,7 @@ export const Form = () => {
           )}
         />
 
-        <Button label="Submit" type="submit" style="primary" />
+        <Button label="Submit" type="submit" style="primary" disabled={submitButton}/>
       </form>
     </div>
   );
