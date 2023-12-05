@@ -67,4 +67,32 @@ describe("Form", () => {
             expect((textarea as HTMLTextAreaElement).value).toBe(typeText)
         });
     })
+    describe("button",()=>{
+        test("buttonが1つ有効な状態でレンダーされる", () => {
+            render(<Form />);
+            const button = screen.getByRole("button");
+            expect(button).toBeEnabled();
+        })
+        test("buttonをそのままクリックするとバリデーションエラーがでる", async() => {
+            render(<Form />);
+            const button = screen.getByRole("button");
+            const user = userEvent.setup()
+            user.click(button)
+            await waitFor(()=> expect(screen.getByText("必須項目です")).toBeInTheDocument());
+        })
+        test("buttonをクリックするdisabledになる", async () => {
+            render(<Form />);
+            const button = screen.getByRole("button");
+            const radioButton = screen.getByRole("radio", { name: "eito" });
+            const checkbox = screen.getByRole("checkbox", { name: "皿洗い" });
+                
+            const user = userEvent.setup()
+            // NOTE: バリエーションエラーにならないように、ラジオボタンとチェックボックスをクリックしておく
+            user.click(radioButton)
+            user.click(checkbox)
+            user.click(button)
+
+            await waitFor(()=>expect(button).toBeDisabled());
+        })
+    })
 });
