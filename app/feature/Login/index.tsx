@@ -14,6 +14,7 @@ export const Login = () => {
     const [submitButton, setSubmitButton] = useState<boolean>(false);
     const { register, formState: { errors }, handleSubmit, control } = useForm<Props>()
     const onSubmit: SubmitHandler<Props> = (data) => {
+        setSubmitButton(true);
         console.log(data);
     }
     return (
@@ -21,7 +22,7 @@ export const Login = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input id="email" label="メールアドレス" type="text" {...register}/>
                 <Input id="password" label="パスワード" type="password"  {...register}/>
-                <Button label="ログイン" type="submit" style="primary" />
+                <Button label="ログイン" type="submit" style="primary" disabled={submitButton}/>
             </form>
         </div>
     )
