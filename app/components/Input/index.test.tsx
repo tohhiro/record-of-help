@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Input, Props } from ".";
 import userEvent from "@testing-library/user-event";
@@ -32,9 +32,8 @@ describe("Input", () => {
         const typeText = "ほげほげ"
         const user = userEvent.setup()
 
-
-         fireEvent.change(inputComponent, { target: { value: typeText } });
-         expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText)
+        user.type(inputComponent, typeText);
+        await waitFor(() => expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText))
     })
     test("inputがdisabledで表示", () => {
         const mockValues: Props = {
