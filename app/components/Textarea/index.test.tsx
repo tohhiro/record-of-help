@@ -1,7 +1,8 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Textarea, Props } from ".";
+import userEvent from "@testing-library/user-event";
 
 describe("Textarea", () => {
   test("textareaがレンダーされる", () => {
@@ -21,7 +22,7 @@ describe("Textarea", () => {
       mockValues.placeholder
     );
   });
-  test("textareaに入力ができる",()=>{
+  test("textareaに入力ができる", async ()=>{
     const mockValues: Props = {
     id: "textarea",
     label: "Textarea Label",
@@ -30,7 +31,8 @@ describe("Textarea", () => {
     render(<Textarea {...mockValues} />);
     const textareaComponent = screen.getByRole("textbox", { name: mockValues.label });
     const typeText = "テスト"
-    fireEvent.change(textareaComponent, { target: { value: typeText } });
-    expect((textareaComponent as HTMLTextAreaElement).value).toBe(typeText)
+    const user = userEvent.setup()
+    user.type(textareaComponent, typeText)
+    await waitFor (()=>expect((textareaComponent as HTMLTextAreaElement).value).toBe(typeText))
   })
 });

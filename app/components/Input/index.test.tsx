@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Input, Props } from ".";
 import userEvent from "@testing-library/user-event";
@@ -32,11 +32,10 @@ describe("Input", () => {
         const typeText = "ほげほげ"
         const user = userEvent.setup()
 
-
-         fireEvent.change(inputComponent, { target: { value: typeText } });
-         expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText)
+        user.type(inputComponent, typeText);
+        await waitFor(() => expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText))
     })
-    test("inputがdisabledで表示", () => {
+    test("inputがdisabledで表示", async() => {
         const mockValues: Props = {
             id: "input",
             label: "Input Label",
@@ -48,5 +47,10 @@ describe("Input", () => {
         const inputComponent = screen.getByRole("textbox", { name: mockValues.label });
         expect(inputComponent).toHaveAttribute('type', mockValues.type);
         expect(inputComponent).toBeDisabled();
+
+        const typeText = "ほげほげ"
+        const user = userEvent.setup()
+        user.type(inputComponent, typeText);
+        await waitFor(() => expect((inputComponent as HTMLTextAreaElement).value).toBe(""))
     })
 })
