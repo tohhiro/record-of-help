@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import { Form, helps } from ".";
@@ -59,12 +59,14 @@ describe("Form", () => {
             const textarea = screen.getAllByRole("textbox");
             expect(textarea).toHaveLength(1);
         });
-        test("textareaに入力ができる", () => {
+        test("textareaに入力ができる", async() => {
             render(<Form />);
             const textarea = screen.getByRole("textbox");
             const typeText = "テスト"
-            fireEvent.change(textarea, { target: { value: typeText } });
-            expect((textarea as HTMLTextAreaElement).value).toBe(typeText)
+         
+            const user = userEvent.setup()
+            user.type(textarea, typeText)
+            await waitFor(() => expect((textarea as HTMLTextAreaElement).value).toBe(typeText))
         });
     })
     describe("button",()=>{
