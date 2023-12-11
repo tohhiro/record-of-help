@@ -7,8 +7,12 @@ on:
     paths:
       - "app/**"
       - ".github/**"
-    paths-ignore:
-      - ".vscode/**"
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - "app/**"
+      - ".github/**"
 
 jobs:
   test:
