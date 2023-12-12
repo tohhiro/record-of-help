@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import "../../globals.css";
 import { inputStyles } from "./index.styles";
 
@@ -20,8 +20,8 @@ type HiddenProps = {
 
 export type Props = DefaultProps | HiddenProps
 
-export const Input = (props: Props) => {
-  const { id, label, type, onClick, disabled } = props;
+export const Input = forwardRef((props: Props, _ref) => {
+  const { id, label, type, onClick, disabled, ...field } = props;
   return (
     <div>
         <label htmlFor={id} className={inputStyles.label}>
@@ -33,7 +33,8 @@ export const Input = (props: Props) => {
             type={type}
             disabled={disabled}
             onClick={onClick}
+            {...field}
         />
     </div>
   );
-};
+});
