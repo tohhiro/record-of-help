@@ -5,12 +5,14 @@ on:
     branches:
       - main
     paths:
+      - "!.*"
       - "app/**"
       - ".github/**"
   pull_request_target:
     branches:
       - main
     paths:
+      - "!.*"
       - "app/**"
       - ".github/**"
 
