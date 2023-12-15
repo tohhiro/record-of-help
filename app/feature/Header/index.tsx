@@ -1,3 +1,4 @@
+import React from "react";
 import { headerStyles } from "./index.styles";
 
 export const headerText = "Record of help";

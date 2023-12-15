@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Dashbord = () => {
   return (
     <div className="m-10 text-center">
