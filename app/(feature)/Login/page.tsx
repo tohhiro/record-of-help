@@ -12,7 +12,7 @@ export type Props = {
 };
 
 
-export const Login = () => {
+const Login = () => {
     const [submitButton, setSubmitButton] = useState<boolean>(false);
     const { register, formState: { errors }, handleSubmit, control } = useForm<Props>({
         mode: "onChange",
@@ -55,3 +55,5 @@ export const Login = () => {
         </div>
     )
  }
+
+export default Login;

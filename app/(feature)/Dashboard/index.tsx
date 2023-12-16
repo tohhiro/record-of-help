@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Dashbord = () => {
+export const Dashboard = () => {
   return (
     <div className="m-10 text-center">
-      <span className="text-lg">Dashbord</span>
+      <span className="text-lg">Dashboard</span>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import "../../styles/globals.css";
 import { radioStyles } from "./index.styles";
 
 export type Props = {

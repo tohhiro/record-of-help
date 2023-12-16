@@ -1,6 +1,6 @@
 import React from "react";
-import "../../globals.css";
-import { Form } from ".";
+import "../../styles/globals.css";
+import Form from "./page";
 
 export default {
   title: "app/feature/Form",

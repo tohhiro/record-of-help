@@ -1,11 +1,11 @@
-import { Form } from "./feature/Form";
-import { Header } from "./feature/Header";
+'use client';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <main>
-      <Header />
-      <Form />
-    </main>
-  );
+  const router = useRouter();
+  React.useEffect(() => {
+    router.push('/login');
+  }, []);
+  return <div />;
 }

@@ -1,5 +1,5 @@
 import { convertHelps } from "./convertHelps";
-import type { Helps, Props } from '.'
+import type { Helps, Props } from './page'
 
 describe('convertHelps', () => {
     it('data.helpsにある文字列、dish、curtainがtrueでオブジェクトに入る', () => {

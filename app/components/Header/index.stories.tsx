@@ -1,9 +1,9 @@
 import React from "react";
-import "../../globals.css";
+import "../../styles/globals.css";
 import { Header } from ".";
 
 export default {
-  title: "app/feature/Header",
+  title: "app/components/Header",
   component: Header,
 };
 

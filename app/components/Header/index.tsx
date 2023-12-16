@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/globals.css";
 import { headerStyles } from "./index.styles";
 
 export const headerText = "Record of help";
