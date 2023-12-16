@@ -1,5 +1,5 @@
 import React, { forwardRef, Ref } from "react";
-import "../../globals.css";
+import "../../styles/globals.css";
 import { checkboxStyles } from "./index.styles";
 
 export type Props = {

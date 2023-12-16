@@ -42,7 +42,7 @@ export const helps: Helps[] = [
 ];
 
 
-export const Form = () => {
+const Form = () => {
 
   const [submitButton, setSubmitButton] = useState<boolean>(false);
 
@@ -115,3 +115,5 @@ export const Form = () => {
     </div>
   );
 };
+
+export default Form;

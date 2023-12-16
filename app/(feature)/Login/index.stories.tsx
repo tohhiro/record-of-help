@@ -1,6 +1,6 @@
 import React from "react";
-import "../../globals.css";
-import { Login } from ".";
+import "../../styles/globals.css";
+import Login from "./page";
 
 export default {
   title: "app/feature/Login",

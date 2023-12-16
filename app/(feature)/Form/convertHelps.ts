@@ -1,4 +1,4 @@
-import type { Helps, Props } from '.'
+import type { Helps, Props } from './page'
 
 type HelpsData = {
     dish: boolean;
