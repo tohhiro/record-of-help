@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "!.*"
+      - "!.vscode/**"
       - "app/**"
       - ".github/**"
   pull_request_target:
@@ -13,6 +14,7 @@ on:
       - main
     paths:
       - "!.*"
+      - "!.vscode/**"
       - "app/**"
       - ".github/**"
 
