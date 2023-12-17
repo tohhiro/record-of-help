@@ -11,8 +11,12 @@ export type Props = {
     password: string;
 };
 
+// export const metadata = {
+//     title: "Record of Help | Login",
+//     description: "This App is recording help by your children",
+//   };
 
-const Login = () => {
+export default function Page() {
     const [submitButton, setSubmitButton] = useState<boolean>(false);
     const { formState: { errors }, handleSubmit, control } = useForm<Props>({
         mode: "onChange",
@@ -61,5 +65,3 @@ const Login = () => {
         </div>
     )
  }
-
-export default Login;

@@ -1,13 +1,12 @@
 import React from "react";
-import "../../styles/globals.css";
-import Login from "./page";
+import Page from "./page";
 
 export default {
   title: "app/feature/Login",
-  component: Login,
+  component: Page,
 };
   
   export const Default: React.FC = (): JSX.Element => {
-    return <Login />;
+    return <Page />;
   };
   

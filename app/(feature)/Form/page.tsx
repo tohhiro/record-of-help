@@ -41,8 +41,12 @@ export const helps: Helps[] = [
   }
 ];
 
+// export const metadata = {
+//   title: "Record of Help | Record",
+//   description: "This App is recording help by your children",
+// };
 
-const Form = () => {
+export default function Page() {
 
   const [submitButton, setSubmitButton] = useState<boolean>(false);
 
@@ -115,5 +119,3 @@ const Form = () => {
     </div>
   );
 };
-
-export default Form;
