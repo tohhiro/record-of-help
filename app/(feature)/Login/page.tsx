@@ -11,8 +11,7 @@ export type Props = {
     password: string;
 };
 
-
-const Login = () => {
+export default function Page() {
     const [submitButton, setSubmitButton] = useState<boolean>(false);
     const { formState: { errors }, handleSubmit, control } = useForm<Props>({
         mode: "onChange",
@@ -61,5 +60,3 @@ const Login = () => {
         </div>
     )
  }
-
-export default Login;
