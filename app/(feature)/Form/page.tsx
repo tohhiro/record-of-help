@@ -60,8 +60,6 @@ export default function Page() {
     mode: "onChange",
   });
 
-  console.log(errors); // テスト用
-
   return (
     <div className="w-100  h-200 m-10 text-center">
       <form onSubmit={handleSubmit(onSubmit)}>
