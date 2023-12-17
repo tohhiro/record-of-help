@@ -1,6 +1,8 @@
 "use client";
 import React, {useState} from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { validationSchema } from "./validationSchema";
 import { Button } from "../../components/Button";
 import { Checkbox } from "../../components/Checkbox";
 import { Radio } from "../../components/Radio";
@@ -52,15 +54,16 @@ export default function Page() {
         person: data.person,
         comments: data.comments,
       };
-      setSubmitButton(true);
+
+
+      !errors.root && setSubmitButton(true);
       console.log(sendingData); // テスト用
     }
 
   const { register, formState: { errors }, handleSubmit, control } = useForm<Props>({
     mode: "onChange",
+    resolver: zodResolver(validationSchema)
   });
-
-  console.log(errors); // テスト用
 
   return (
     <div className="w-100  h-200 m-10 text-center">
@@ -91,6 +94,7 @@ export default function Page() {
               {...register("helps")}
             />
           ))}
+          {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
 
         <Controller

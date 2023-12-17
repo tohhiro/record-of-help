@@ -75,12 +75,12 @@ describe("Form", () => {
             const button = screen.getByRole("button");
             expect(button).toBeEnabled();
         })
-        test("buttonをそのままクリックするとバリデーションエラーがでる", async() => {
+        test("buttonをそのままクリックすると「必須項目です」のバリデーションエラーが2つでる", async() => {
             render(<Form />);
             const button = screen.getByRole("button");
             const user = userEvent.setup()
             user.click(button)
-            await waitFor(()=> expect(screen.getByText("必須項目です")).toBeInTheDocument());
+            await waitFor(()=> expect(screen.getAllByText("必須項目です")).toHaveLength(2));
         })
         test("buttonをクリックするdisabledになる", async () => {
             render(<Form />);
