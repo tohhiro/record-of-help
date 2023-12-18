@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
-import "../../styles/globals.css";
-import { radioStyles } from "./index.styles";
+import React, { forwardRef } from 'react';
+import '../../styles/globals.css';
+import { radioStyles } from './index.styles';
 
 export type Props = {
   id: string;

@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
-import "../../styles/globals.css";
-import { textareaStyles } from "./index.styles";
+import React, { forwardRef } from 'react';
+import '../../styles/globals.css';
+import { textareaStyles } from './index.styles';
 
 export type Props = {
   label: string;

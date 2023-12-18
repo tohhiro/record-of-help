@@ -1,10 +1,9 @@
-import React from "react";
-import { PropsWithChildren } from "react";
-import "./styles/globals.css";
+import React, { PropsWithChildren } from 'react';
+import './styles/globals.css';
 
 export const metadata = {
-  title: "Record of Help",
-  description: "This App is recording help by your children",
+  title: 'Record of Help',
+  description: 'This App is recording help by your children',
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

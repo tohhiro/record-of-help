@@ -1,9 +1,37 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:storybook/recommended"],
+  "ignorePatterns": [
+    "/eslint/**/.js",
+    "/storybook-static/",
+    "/.next/",
+    "/src/**/*.generated.ts"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:storybook/recommended",
+    "airbnb-base"
+  ],
 
-  "eslintConfig": {
-    "rules": {
-      "react/display-name": 0
-    }
+  "rules": {
+    "react/display-name": 0,
+    "linebreak-style": "off",
+    "import/extensions": "off",
+    "lines-around-directive": "off",
+    "no-undef": "off",
+    "arrow-body-style": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-named-default": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "import/prefer-default-export": "off",
+    "import/order": "off",
+    "object-curly-newline":"off",
+    "import/newline-after-import": "off",
+    "no-unused-vars": ["error", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_",
+      "destructuredArrayIgnorePattern": "^_"
+    }],
+    "no-void": "off"
   }
 }

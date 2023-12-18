@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function Page() {
   return (
@@ -6,4 +6,4 @@ export default function Page() {
       <span className="text-lg">Dashboard</span>
     </div>
   );
-};
+}
