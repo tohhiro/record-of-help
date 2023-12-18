@@ -1,11 +1,7 @@
 // cSpell Settings
 {
-    "version": "0.2",
-    "language": "en,lorem",
-    "words": [
-      "eito",
-      "hookform",
-      "tailwindcss"
-    ],
-    "flagWords": []
-  }
+  "version": "0.2",
+  "language": "en,lorem",
+  "words": ["eito", "hookform", "tailwindcss", "linebreak", "Parens","paren"],
+  "flagWords": []
+}

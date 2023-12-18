@@ -5,18 +5,18 @@ on:
     branches:
       - main
     paths:
-      - "!.*"
-      - "!.vscode/**"
-      - "app/**"
-      - ".github/**"
+      - '!.*'
+      - '!.vscode/**'
+      - 'app/**'
+      - '.github/**'
   pull_request_target:
     branches:
       - main
     paths:
-      - "!.*"
-      - "!.vscode/**"
-      - "app/**"
-      - ".github/**"
+      - '!.*'
+      - '!.vscode/**'
+      - 'app/**'
+      - '.github/**'
 
 jobs:
   test:
@@ -29,7 +29,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
 
       - name: Install npm
         run: npm install

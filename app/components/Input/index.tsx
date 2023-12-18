@@ -1,40 +1,40 @@
-import React, { forwardRef } from "react";
-import "../../styles/globals.css";
-import { inputStyles } from "./index.styles";
+import React, { forwardRef } from 'react';
+import '../../styles/globals.css';
+import { inputStyles } from './index.styles';
 
 type DefaultProps = {
-    id: string,
-    label: string,
-    type: "text" | "password",
-    onClick?: () => void,
-    disabled?: boolean 
-}
+  id: string;
+  label: string;
+  type: 'text' | 'password';
+  onClick?: () => void;
+  disabled?: boolean;
+};
 
 type HiddenProps = {
-    id: string,
-    label: never
-    type: "hidden",
-    onClick?: () => void,
-    disabled: never
-}
+  id: string;
+  label: never;
+  type: 'hidden';
+  onClick?: () => void;
+  disabled: never;
+};
 
-export type Props = DefaultProps | HiddenProps
+export type Props = DefaultProps | HiddenProps;
 
 export const Input = forwardRef((props: Props, _ref) => {
   const { id, label, type, onClick, disabled, ...field } = props;
   return (
     <div>
-        <label htmlFor={id} className={inputStyles.label}>
-            {label}
-        </label>
-        <input
-            id={id} 
-            className={`${inputStyles[disabled ? "disabled" : "input"]}`}
-            type={type}
-            disabled={disabled}
-            onClick={onClick}
-            {...field}
-        />
+      <label htmlFor={id} className={inputStyles.label}>
+        {label}
+      </label>
+      <input
+        id={id}
+        className={`${inputStyles[disabled ? 'disabled' : 'input']}`}
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+        {...field}
+      />
     </div>
   );
 });

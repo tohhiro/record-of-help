@@ -1,13 +1,13 @@
-"use client";
-import React, {useState} from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { validationSchema } from "./validationSchema";
-import { Button } from "../../components/Button";
-import { Checkbox } from "../../components/Checkbox";
-import { Radio } from "../../components/Radio";
-import { Textarea } from "../../components/Textarea";
-import { convertHelps } from "./convertHelps";
+'use client';
+import React, { useState } from 'react';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { validationSchema } from './validationSchema';
+import { Button } from '../../components/Button';
+import { Checkbox } from '../../components/Checkbox';
+import { Radio } from '../../components/Radio';
+import { Textarea } from '../../components/Textarea';
+import { convertHelps } from './convertHelps';
 
 export type Props = {
   person: string;
@@ -22,47 +22,50 @@ export type Helps = {
 
 export const helps: Helps[] = [
   {
-    id: "dish",
-    label: "皿洗い",
+    id: 'dish',
+    label: '皿洗い',
   },
   {
-    id: "curtain",
-    label: "カーテン",
+    id: 'curtain',
+    label: 'カーテン',
   },
   {
-    id: "prepareEat",
-    label: "食事準備",
+    id: 'prepareEat',
+    label: '食事準備',
   },
   {
-    id: "landry",
-    label: "洗濯物片付け",
+    id: 'landry',
+    label: '洗濯物片付け',
   },
   {
-    id: "towel",
-    label: "芽生のタオルを取る",
-  }
+    id: 'towel',
+    label: '芽生のタオルを取る',
+  },
 ];
 
 export default function Page() {
-
   const [submitButton, setSubmitButton] = useState<boolean>(false);
 
-    const onSubmit: SubmitHandler<Props> = (data) => {
-      const helpsData = convertHelps(helps, data);
-      const sendingData = {
-        ...helpsData,
-        person: data.person,
-        comments: data.comments,
-      };
+  const onSubmit: SubmitHandler<Props> = (data) => {
+    const helpsData = convertHelps(helps, data);
+    const sendingData = {
+      ...helpsData,
+      person: data.person,
+      comments: data.comments,
+    };
 
+    !errors.root && setSubmitButton(true);
+    console.log(sendingData); // テスト用
+  };
 
-      !errors.root && setSubmitButton(true);
-      console.log(sendingData); // テスト用
-    }
-
-  const { register, formState: { errors }, handleSubmit, control } = useForm<Props>({
-    mode: "onChange",
-    resolver: zodResolver(validationSchema)
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    control,
+  } = useForm<Props>({
+    mode: 'onChange',
+    resolver: zodResolver(validationSchema),
   });
 
   return (
@@ -82,7 +85,9 @@ export default function Page() {
           )}
         />
         <div className="my-2 m-auto text-center">
-        {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
+          {errors.person && (
+            <p className="text-xs text-red-500">必須項目です</p>
+          )}
         </div>
         <div className="w-80 my-8 m-auto">
           {helps.map((help) => (
@@ -91,7 +96,7 @@ export default function Page() {
               id={help.id}
               label={help.label}
               value={help.id}
-              {...register("helps")}
+              {...register('helps')}
             />
           ))}
           {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
@@ -113,8 +118,13 @@ export default function Page() {
           )}
         />
 
-        <Button label="Submit" type="submit" style="primary" disabled={submitButton}/>
+        <Button
+          label="Submit"
+          type="submit"
+          style="primary"
+          disabled={submitButton}
+        />
       </form>
     </div>
   );
-};
+}

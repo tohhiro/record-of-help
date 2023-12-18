@@ -1,11 +1,11 @@
-import React from "react";
-import "../../styles/globals.css";
-import { buttonStyles } from "./index.styles";
+import React from 'react';
+import '../../styles/globals.css';
+import { buttonStyles } from './index.styles';
 
 export type Props = {
   label: string;
-  type: "submit" | "reset" | "button";
-  style: "primary" | "secondary";
+  type: 'submit' | 'reset' | 'button';
+  style: 'primary' | 'secondary';
   onClick?: () => void;
   disabled?: boolean;
 };
@@ -15,7 +15,7 @@ export const Button = (props: Props) => {
   return (
     <div>
       <button
-        className={`${buttonStyles[disabled? "disabled" : style]}`}
+        className={`${buttonStyles[disabled ? 'disabled' : style]}`}
         type={type}
         disabled={disabled}
         onClick={onClick}
