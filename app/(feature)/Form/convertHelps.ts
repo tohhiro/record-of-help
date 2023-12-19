@@ -15,7 +15,7 @@ const initHelpsData: HelpsData = {
 export const convertHelps = (helps: Helps[], data: Props) => {
   const checkedHelps = helps.reduce(
     (acc, help) =>
-      data.helps.includes(help.id) ? { ...acc, [help.id]: true } : { ...acc },
+      (data.helps.includes(help.id) ? { ...acc, [help.id]: true } : { ...acc }),
     initHelpsData,
   );
   return checkedHelps;

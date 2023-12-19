@@ -18,7 +18,7 @@ export const Default: React.FC = (): JSX.Element => {
   return <Input {...mockData} />;
 };
 
-export const password: React.FC = (): JSX.Element => {
+export const Password: React.FC = (): JSX.Element => {
   const mockData: Props = {
     ...baseMockData,
     type: 'password',

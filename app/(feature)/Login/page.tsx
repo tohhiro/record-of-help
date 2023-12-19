@@ -24,6 +24,7 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<Props> = (data) => {
     setSubmitButton(true);
+    // eslint-disable-next-line no-console
     console.log('data', data);
   };
   return (
