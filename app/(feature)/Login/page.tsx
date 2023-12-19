@@ -42,9 +42,7 @@ export default function Page() {
               <Input id="email" label="メールアドレス" type="text" {...field} />
             )}
           />
-          <p className="text-xs text-red-500">
-            {errors.email?.message && errors.email?.message}
-          </p>
+          <p className="text-xs text-red-500">{errors.email?.message && errors.email?.message}</p>
         </div>
         <div className="w-80 my-8 m-auto">
           <Controller
@@ -55,12 +53,7 @@ export default function Page() {
               required: true,
             }}
             render={({ field }) => (
-              <Input
-                id="password"
-                label="パスワード"
-                type="password"
-                {...field}
-              />
+              <Input id="password" label="パスワード" type="password" {...field} />
             )}
           />
           <p className="text-xs text-red-500">
@@ -68,12 +61,7 @@ export default function Page() {
           </p>
         </div>
         <div className="w-80 my-8 m-auto">
-          <Button
-            label="ログイン"
-            type="submit"
-            style="primary"
-            disabled={submitButton}
-          />
+          <Button label="ログイン" type="submit" style="primary" disabled={submitButton} />
         </div>
       </form>
     </div>

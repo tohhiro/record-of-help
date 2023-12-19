@@ -87,9 +87,7 @@ export default function Page() {
           )}
         />
         <div className="my-2 m-auto text-center">
-          {errors.person && (
-            <p className="text-xs text-red-500">必須項目です</p>
-          )}
+          {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
         <div className="w-80 my-8 m-auto">
           {helps.map((help) => (
@@ -110,22 +108,12 @@ export default function Page() {
           defaultValue=""
           render={({ field }) => (
             <div className="w-80 my-8 m-auto">
-              <Textarea
-                id="textarea"
-                label="備考"
-                placeholder="備考があれば入力"
-                {...field}
-              />
+              <Textarea id="textarea" label="備考" placeholder="備考があれば入力" {...field} />
             </div>
           )}
         />
 
-        <Button
-          label="Submit"
-          type="submit"
-          style="primary"
-          disabled={submitButton}
-        />
+        <Button label="Submit" type="submit" style="primary" disabled={submitButton} />
       </form>
     </div>
   );
