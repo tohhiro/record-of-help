@@ -1,0 +1,38 @@
+name: Run Eslint
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '!.*'
+      - '!.vscode/**'
+      - 'app/**'
+      - '.github/**'
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - '!.*'
+      - '!.vscode/**'
+      - 'app/**'
+      - '.github/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install npm
+        run: npm install
+
+      - name: Run Lint
+        run: npm run lint

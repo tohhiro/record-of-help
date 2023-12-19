@@ -54,7 +54,9 @@ export default function Page() {
       comments: data.comments,
     };
 
-    !errors.root && setSubmitButton(true);
+    setSubmitButton(true);
+
+    // eslint-disable-next-line no-console
     console.log(sendingData); // テスト用
   };
 
