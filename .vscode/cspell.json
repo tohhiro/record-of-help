@@ -2,6 +2,15 @@
 {
   "version": "0.2",
   "language": "en,lorem",
-  "words": ["eito", "hookform", "tailwindcss", "linebreak", "Parens","paren"],
+  "words": [
+    "nextjs",
+    "eito",
+    "hookform",
+    "tailwindcss",
+    "linebreak",
+    "Parens",
+    "paren",
+    "supabase"
+  ],
   "flagWords": []
 }
