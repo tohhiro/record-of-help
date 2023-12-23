@@ -25,15 +25,16 @@ export default function Page() {
   });
 
   const login = useSignIn();
-
   const onSubmit: SubmitHandler<Props> = async (data) => {
+    setSubmitButton(true);
     const res = await login.signIn(data);
+    console.log(res);
 
     if (res.error?.status === 400) {
+      setSubmitButton(false);
       // eslint-disable-next-line no-alert
       return alert('ログインに失敗しました。 \n メールアドレスかパスワードが間違っています。');
     }
-    setSubmitButton(true);
   };
 
   return (
