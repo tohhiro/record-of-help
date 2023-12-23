@@ -4,6 +4,22 @@ import '@testing-library/jest-dom';
 import { default as Login } from './page';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('../../hooks/useSignIn', () => {
+  const originalModule = jest.requireActual('../../hooks/useSignIn');
+
+  return {
+    useSignIn: jest.fn(() => {
+      return {
+        ...originalModule,
+        signIn: jest.fn().mockResolvedValueOnce({
+          data: null,
+          error: null,
+        }),
+      };
+    }),
+  };
+});
+
 describe('Login', () => {
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
     render(<Login />);
@@ -44,19 +60,16 @@ describe('Login', () => {
     const user = userEvent.setup();
 
     user.type(emailInputComponent, email);
-    await waitFor(() =>
-      expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email),
-    );
+    await waitFor(() => expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email));
 
     user.type(passwordInputComponent, password);
     await waitFor(() =>
-      expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(
-        password,
-      ),
+      expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password),
     );
   });
   test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', async () => {
     render(<Login />);
+
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
     });
@@ -70,18 +83,16 @@ describe('Login', () => {
     const user = userEvent.setup();
 
     user.type(emailInputComponent, email);
-    await waitFor(() =>
-      expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email),
-    );
+    await waitFor(() => expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email));
 
     user.type(passwordInputComponent, password);
     await waitFor(() =>
-      expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(
-        password,
-      ),
+      expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password),
     );
 
     user.click(loginButtonComponent);
-    await waitFor(() => expect(loginButtonComponent).toBeDisabled());
+    await waitFor(() => {
+      expect(loginButtonComponent).toBeDisabled();
+    });
   });
 });
