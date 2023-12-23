@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
+import { useSignIn } from '@/app/hooks/useSignIn';
 
 export type Props = {
   email: string;
@@ -13,6 +14,7 @@ export type Props = {
 
 export default function Page() {
   const [submitButton, setSubmitButton] = useState<boolean>(false);
+
   const {
     formState: { errors },
     handleSubmit,
@@ -22,11 +24,19 @@ export default function Page() {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<Props> = (data) => {
+  const login = useSignIn();
+  const onSubmit: SubmitHandler<Props> = async (data) => {
     setSubmitButton(true);
-    // eslint-disable-next-line no-console
-    console.log('data', data);
+    const res = await login.signIn(data);
+    console.log(res);
+
+    if (res.error?.status === 400) {
+      setSubmitButton(false);
+      // eslint-disable-next-line no-alert
+      return alert('ログインに失敗しました。 \n メールアドレスかパスワードが間違っています。');
+    }
   };
+
   return (
     <div className={'w-100  h-200 m-10 text-center'}>
       <form onSubmit={handleSubmit(onSubmit)}>
