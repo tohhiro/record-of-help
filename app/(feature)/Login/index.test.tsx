@@ -20,6 +20,18 @@ jest.mock('../../hooks/useSignIn', () => {
   };
 });
 
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+  return {
+    useRouter: jest.fn(() => {
+      return {
+        ...originalModule,
+        replace: jest.fn(),
+      };
+    }),
+  };
+});
+
 describe('Login', () => {
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
     render(<Login />);

@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
@@ -25,16 +26,18 @@ export default function Page() {
   });
 
   const login = useSignIn();
+  const router = useRouter();
   const onSubmit: SubmitHandler<Props> = async (data) => {
     setSubmitButton(true);
     const res = await login.signIn(data);
-    console.log(res);
 
     if (res.error?.status === 400) {
       setSubmitButton(false);
       // eslint-disable-next-line no-alert
       return alert('ログインに失敗しました。 \n メールアドレスかパスワードが間違っています。');
     }
+
+    router.replace('/form');
   };
 
   return (
