@@ -61,7 +61,7 @@ export default function Page() {
 
     console.log('sendingData', sendingData);
 
-    setSubmitButton(false);
+    setSubmitButton(true);
 
     // post.postHelp(sendingData);
   };
