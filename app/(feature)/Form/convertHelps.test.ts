@@ -7,6 +7,8 @@ describe('convertHelps', () => {
       { id: 'dish', label: 'Dish' },
       { id: 'curtain', label: 'Curtain' },
       { id: 'prepareEat', label: 'Prepare to eat' },
+      { id: 'landry', label: 'Landry' },
+      { id: 'towel', label: 'Towel' },
     ];
 
     const data: Props = {
@@ -20,6 +22,8 @@ describe('convertHelps', () => {
       dish: true,
       curtain: true,
       prepareEat: false,
+      landry: false,
+      towel: false,
     });
   });
 });
