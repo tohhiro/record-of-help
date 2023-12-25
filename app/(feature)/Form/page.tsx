@@ -8,7 +8,7 @@ import { Checkbox } from '../../components/Checkbox';
 import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
-// import { usePostHelp } from '@/app/hooks/usePostHelp';
+import { usePostHelp } from '@/app/hooks/usePostHelp';
 
 export type Props = {
   person: string;
@@ -47,10 +47,9 @@ export const helps: Helps[] = [
 export default function Page() {
   const [submitButton, setSubmitButton] = useState<boolean>(false);
 
-  // const post = usePostHelp();
+  const post = usePostHelp();
 
   const onSubmit: SubmitHandler<Props> = (data) => {
-    console.log('data', data);
     const helpsData = convertHelps(helps, data);
 
     const sendingData = {
@@ -59,11 +58,9 @@ export default function Page() {
       comments: data.comments,
     };
 
-    console.log('sendingData', sendingData);
-
     setSubmitButton(true);
 
-    // post.postHelp(sendingData);
+    post.postHelp(sendingData);
   };
 
   const {
@@ -110,6 +107,9 @@ export default function Page() {
         <Controller
           name="comments"
           control={control}
+          rules={{
+            required: true,
+          }}
           render={({ field }) => (
             <div className="w-80 my-8 m-auto">
               <Textarea id="textarea" label="備考" placeholder="備考があれば入力" {...field} />
