@@ -4,6 +4,18 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { default as Form, helps } from './page';
 
+jest.mock('next/navigation', () => {
+  const originalModule = jest.requireActual('next/navigation');
+  return {
+    useRouter: jest.fn(() => {
+      return {
+        ...originalModule,
+        replace: jest.fn(),
+      };
+    }),
+  };
+});
+
 describe('Form', () => {
   describe('radio', () => {
     test('radioボタンが2つレンダリングされる', () => {
@@ -26,9 +38,7 @@ describe('Form', () => {
       radioButtonValues.forEach(async (value) => {
         const radioButton = screen.getByRole('radio', { name: value });
         user.click(radioButton);
-        await waitFor(() =>
-          expect(radioButton).toHaveAttribute('checked', true),
-        );
+        await waitFor(() => expect(radioButton).toHaveAttribute('checked', true));
       });
     });
   });
@@ -68,9 +78,7 @@ describe('Form', () => {
 
       const user = userEvent.setup();
       user.type(textarea, typeText);
-      await waitFor(() =>
-        expect((textarea as HTMLTextAreaElement).value).toBe(typeText),
-      );
+      await waitFor(() => expect((textarea as HTMLTextAreaElement).value).toBe(typeText));
     });
   });
   describe('button', () => {
@@ -84,9 +92,7 @@ describe('Form', () => {
       const button = screen.getByRole('button');
       const user = userEvent.setup();
       user.click(button);
-      await waitFor(() =>
-        expect(screen.getAllByText('必須項目です')).toHaveLength(2),
-      );
+      await waitFor(() => expect(screen.getAllByText('必須項目です')).toHaveLength(2));
     });
     test('buttonをクリックするdisabledになる', async () => {
       render(<Form />);

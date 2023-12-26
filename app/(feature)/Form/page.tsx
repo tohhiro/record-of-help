@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
@@ -48,8 +49,9 @@ export default function Page() {
   const [submitButton, setSubmitButton] = useState<boolean>(false);
 
   const post = usePostHelp();
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<Props> = (data) => {
+  const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(helps, data);
 
     const sendingData = {
@@ -60,7 +62,15 @@ export default function Page() {
 
     setSubmitButton(true);
 
-    post.postHelp(sendingData);
+    const res = await post.postHelp(sendingData);
+
+    if (Number(res.error?.code) >= 400) {
+      setSubmitButton(false);
+      // eslint-disable-next-line no-alert
+      return alert('ログインに失敗しました。 \n メールアドレスかパスワードが間違っています。');
+    }
+
+    router.replace('/dashboard');
   };
 
   const {
