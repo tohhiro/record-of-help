@@ -3,18 +3,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { default as Form, helps } from './page';
+import mockRouter from 'next-router-mock';
 
-jest.mock('next/navigation', () => {
-  const originalModule = jest.requireActual('next/navigation');
-  return {
-    useRouter: jest.fn(() => {
-      return {
-        ...originalModule,
-        replace: jest.fn(),
-      };
-    }),
-  };
-});
+jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 describe('Form', () => {
   describe('radio', () => {
@@ -96,6 +87,7 @@ describe('Form', () => {
     });
     test('buttonをクリックするdisabledになる', async () => {
       render(<Form />);
+      mockRouter.replace('/dashboard');
       const button = screen.getByRole('button');
       const radioButton = screen.getByRole('radio', { name: 'eito' });
       const checkbox = screen.getByRole('checkbox', { name: '皿洗い' });
