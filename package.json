@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "test": "jest",
     "sb": "storybook dev -p 6006",
-    "sb:build": "storybook build"
+    "sb:build": "storybook build",
+    "supabase:gen": "npx supabase gen types typescript --linked > supabase/schema.ts && npx prettier --write supabase/schema.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -24,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.48.2",
+    "swr": "^2.2.4",
     "typescript": "5.2.2",
     "zod": "^3.22.4"
   },
