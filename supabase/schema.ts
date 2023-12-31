@@ -84,21 +84,21 @@ export interface Database {
           created_at: string;
           help_id: string | null;
           id: string;
-          price: number | null;
+          price: number;
           update_at: string | null;
         };
         Insert: {
           created_at?: string;
           help_id?: string | null;
           id?: string;
-          price?: number | null;
+          price: number;
           update_at?: string | null;
         };
         Update: {
           created_at?: string;
           help_id?: string | null;
           id?: string;
-          price?: number | null;
+          price?: number;
           update_at?: string | null;
         };
         Relationships: [
@@ -115,38 +115,38 @@ export interface Database {
         Row: {
           comments: string | null;
           created_at: string;
-          curtain: boolean;
+          curtain: number;
           del_flag: boolean | null;
-          dish: boolean | null;
+          dish: number | null;
           id: string;
-          landry: boolean | null;
+          landry: number | null;
           person: string;
-          prepareEat: boolean | null;
-          towel: boolean | null;
+          prepareEat: number | null;
+          towel: number | null;
         };
         Insert: {
           comments?: string | null;
           created_at?: string;
-          curtain: boolean;
+          curtain: number;
           del_flag?: boolean | null;
-          dish?: boolean | null;
+          dish?: number | null;
           id?: string;
-          landry?: boolean | null;
+          landry?: number | null;
           person: string;
-          prepareEat?: boolean | null;
-          towel?: boolean | null;
+          prepareEat?: number | null;
+          towel?: number | null;
         };
         Update: {
           comments?: string | null;
           created_at?: string;
-          curtain?: boolean;
+          curtain?: number;
           del_flag?: boolean | null;
-          dish?: boolean | null;
+          dish?: number | null;
           id?: string;
-          landry?: boolean | null;
+          landry?: number | null;
           person?: string;
-          prepareEat?: boolean | null;
-          towel?: boolean | null;
+          prepareEat?: number | null;
+          towel?: number | null;
         };
         Relationships: [];
       };

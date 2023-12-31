@@ -3,11 +3,11 @@ import { supabase } from '../libs/supabase';
 type Props = {
   person: string;
   comments: string;
-  dish: boolean;
-  curtain: boolean;
-  prepareEat: boolean;
-  landry: boolean;
-  towel: boolean;
+  dish: number;
+  curtain: number;
+  prepareEat: number;
+  landry: number;
+  towel: number;
 };
 
 export const usePostHelp = () => {
