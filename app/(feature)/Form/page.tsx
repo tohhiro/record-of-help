@@ -10,6 +10,7 @@ import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
 import { usePostHelp } from '@/app/hooks/usePostHelp';
+import { useFetchPricesList } from '@/app/hooks/useFetchPricesList';
 
 export type Props = {
   person: string;
@@ -20,30 +21,9 @@ export type Props = {
 export type Helps = {
   id: string;
   label: string;
+  column: string;
+  value: number;
 };
-
-export const helps: Helps[] = [
-  {
-    id: 'dish',
-    label: '皿洗い',
-  },
-  {
-    id: 'curtain',
-    label: 'カーテン',
-  },
-  {
-    id: 'prepareEat',
-    label: '食事準備',
-  },
-  {
-    id: 'landry',
-    label: '洗濯物片付け',
-  },
-  {
-    id: 'towel',
-    label: '芽生のタオルを取る',
-  },
-];
 
 export default function Page() {
   const [submitButton, setSubmitButton] = useState<boolean>(false);
@@ -51,14 +31,20 @@ export default function Page() {
   const post = usePostHelp();
   const router = useRouter();
 
+  const price = useFetchPricesList();
+  const priceList: Helps[] | undefined = price.success();
+  console.log('priceList: ', priceList);
+
   const onSubmit: SubmitHandler<Props> = async (data) => {
-    const helpsData = convertHelps(helps, data);
+    const helpsData = convertHelps(data.helps);
 
     const sendingData = {
       ...helpsData,
       person: data.person,
       comments: data.comments,
     };
+
+    console.log('sendingData', sendingData);
 
     setSubmitButton(true);
 
@@ -102,16 +88,20 @@ export default function Page() {
           {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
         <div className="w-80 my-8 m-auto">
-          {helps.map((help) => (
-            <Checkbox
-              key={help.id}
-              id={help.id}
-              label={help.label}
-              value={help.id}
-              {...register('helps')}
-            />
-          ))}
-          {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
+          {priceList ? (
+            priceList.map((item) => (
+              <Checkbox
+                key={item.id}
+                id={item.id}
+                label={item.label}
+                value={`${item.column},${item.value}`}
+                {...register('helps')}
+              />
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
+          errors.helps && <p className="text-xs text-red-500">必須項目です</p>
         </div>
 
         <Controller

@@ -1,25 +1,15 @@
-import type { Helps, Props } from './page';
+export const convertHelps = (data: string[]) => {
+  const defaultHelps = {
+    dish: 0,
+    curtain: 0,
+    prepareEat: 0,
+    landry: 0,
+    towel: 0,
+  };
+  return data.reduce((acc, help) => {
+    const tmp = help.split(',');
+    const tmp2 = { [tmp[0]]: Number(tmp[1]) };
 
-type HelpsData = {
-  dish: boolean;
-  curtain: boolean;
-  prepareEat: boolean;
-  landry: boolean;
-  towel: boolean;
-};
-
-const initHelpsData: HelpsData = {
-  dish: false,
-  curtain: false,
-  prepareEat: false,
-  landry: false,
-  towel: false,
-};
-
-export const convertHelps = (helps: Helps[], data: Props) => {
-  const checkedHelps = helps.reduce(
-    (acc, help) => (data.helps.includes(help.id) ? { ...acc, [help.id]: true } : { ...acc }),
-    initHelpsData,
-  );
-  return checkedHelps;
+    return { ...acc, ...tmp2 };
+  }, defaultHelps);
 };

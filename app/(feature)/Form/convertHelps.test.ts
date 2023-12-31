@@ -1,29 +1,28 @@
 import { convertHelps } from './convertHelps';
-import type { Helps, Props } from './page';
 
 describe('convertHelps', () => {
-  it('data.helpsにある文字列、dish、curtainがtrueでオブジェクトに入る', () => {
-    const helps: Helps[] = [
-      { id: 'dish', label: 'Dish' },
-      { id: 'curtain', label: 'Curtain' },
-      { id: 'prepareEat', label: 'Prepare to eat' },
-      { id: 'landry', label: 'Landry' },
-      { id: 'towel', label: 'Towel' },
-    ];
+  it('dataとして入った文字列の配列を、カンマ区切りで分解しオブジェクトに変換する', () => {
+    const data = ['dish,30', 'curtain,10', 'prepareEat,20', 'landry,20', 'towel,10'];
 
-    const data: Props = {
-      person: 'John',
-      comments: 'I need help',
-      helps: ['dish', 'curtain'],
-    };
-
-    const result = convertHelps(helps, data);
+    const result = convertHelps(data);
     expect(result).toEqual({
-      dish: true,
-      curtain: true,
-      prepareEat: false,
-      landry: false,
-      towel: false,
+      dish: 30,
+      curtain: 10,
+      prepareEat: 20,
+      landry: 20,
+      towel: 10,
+    });
+  });
+  it('dataとして入った文字列の配列が2つの場合、存在しないものは0で生成される', () => {
+    const data = ['dish,30', 'towel,10'];
+
+    const result = convertHelps(data);
+    expect(result).toEqual({
+      dish: 30,
+      curtain: 0,
+      prepareEat: 0,
+      landry: 0,
+      towel: 10,
     });
   });
 });
