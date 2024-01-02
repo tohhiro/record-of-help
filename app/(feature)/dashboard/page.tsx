@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useFetchRawsData } from '@/app/hooks/useFetchRawsData';
+import { Table } from '../../components/Table';
 
 export default function Page() {
   const fetch = useFetchRawsData();
@@ -8,12 +9,7 @@ export default function Page() {
 
   return (
     <div className="m-10 text-center">
-      <span className="text-lg">Dashboard</span>
-      {data?.map((item, idx) => (
-        <div key={idx}>
-          <span>{item.person}</span>
-        </div>
-      ))}
+      <Table data={data} />
     </div>
   );
 }
