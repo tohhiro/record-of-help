@@ -101,7 +101,7 @@ export default function Page() {
           ) : (
             <p>Loading...</p>
           )}
-          errors.helps && <p className="text-xs text-red-500">必須項目です</p>
+          {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
 
         <Controller
