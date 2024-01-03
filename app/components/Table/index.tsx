@@ -28,6 +28,7 @@ export const theadNames = {
 
 export const Table = forwardRef(({ data }: { data: Props[] | null | undefined }) => {
   const createTable = (tableData: Props[]) => {
+    const filteredTableData = tableData.filter((item) => item.del_flag === false);
     return (
       <table className={tableStyles.table}>
         <thead className={tableStyles.thead}>
@@ -40,7 +41,7 @@ export const Table = forwardRef(({ data }: { data: Props[] | null | undefined })
           </tr>
         </thead>
         <tbody>
-          {tableData.map((item) => (
+          {filteredTableData.map((item) => (
             <tr key={item.id} className={tableStyles.tr}>
               <td className={tableStyles.td}>{item.person}</td>
               <td className={tableStyles.td}>{item.dish}</td>
