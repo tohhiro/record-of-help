@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
-import { useSignIn } from '@/app/hooks/useSignIn';
+import { useSignIn } from '../../hooks/useSignIn';
 
 export type Props = {
   email: string;

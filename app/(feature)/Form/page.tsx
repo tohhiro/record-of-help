@@ -9,8 +9,8 @@ import { Checkbox } from '../../components/Checkbox';
 import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
-import { usePostHelp } from '@/app/hooks/usePostHelp';
-import { useFetchPricesList } from '@/app/hooks/useFetchPricesList';
+import { usePostHelp } from '../../hooks/usePostHelp';
+import { useFetchPricesList } from '../../hooks/useFetchPricesList';
 
 export type Props = {
   person: string;

@@ -6,6 +6,15 @@ export default {
   component: Page,
 };
 
-export const Default: React.FC = (): JSX.Element => {
+export const Default = (): JSX.Element => {
   return <Page />;
+};
+
+Default.parameters = {
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      pathname: '/posts',
+    },
+  },
 };
