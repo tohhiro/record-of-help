@@ -1,5 +1,6 @@
 import React from 'react';
 import Page from './page';
+import { mockNextRouter } from '../../../mocks/common/mockNextRouter';
 import { mockUseSignInHandler } from '../../../mocks/msw/handlers/mockUseSignIn';
 
 export default {
@@ -7,17 +8,14 @@ export default {
   component: Page,
 };
 
+const { nextjs } = mockNextRouter('/login');
+
 export const Default = (): JSX.Element => {
   return <Page />;
 };
 
 Default.parameters = {
-  nextjs: {
-    appDirectory: true,
-    navigation: {
-      pathname: '/posts',
-    },
-  },
+  nextjs,
   msw: {
     handlers: [mockUseSignInHandler.start()],
   },
