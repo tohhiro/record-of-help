@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,14 +31,16 @@ export default function Page() {
   const post = usePostHelp();
   const router = useRouter();
 
-  const { success } = useFetchPricesList();
-  const pricesList = success?.data?.map((item) => ({
+  const pricesListRaw = useFetchPricesList();
+
+  const pricesList = pricesListRaw?.data?.map((item) => ({
     id: item.id,
     label: item.label,
     column: item.help,
     value: item.prices_list[0].price,
   }));
 
+  // eslint-disable-next-line no-console
   console.log('pricesList: ', pricesList);
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
@@ -50,6 +52,7 @@ export default function Page() {
       comments: data.comments,
     };
 
+    // eslint-disable-next-line no-console
     console.log('sendingData', sendingData);
 
     setSubmitButton(true);
@@ -94,8 +97,8 @@ export default function Page() {
           {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
         <div className="w-80 my-8 m-auto">
-          {pricesList ? (
-            pricesList.map((item) => (
+          <Suspense fallback={<p>Loading...</p>}>
+            {pricesList?.map((item) => (
               <Checkbox
                 key={item.id}
                 id={item.id}
@@ -103,10 +106,8 @@ export default function Page() {
                 value={`${item.column},${item.value}`}
                 {...register('helps')}
               />
-            ))
-          ) : (
-            <p>Loading...</p>
-          )}
+            ))}
+          </Suspense>
           {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
 
