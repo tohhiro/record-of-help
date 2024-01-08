@@ -31,9 +31,15 @@ export default function Page() {
   const post = usePostHelp();
   const router = useRouter();
 
-  const price = useFetchPricesList();
-  const priceList: Helps[] | undefined = price.success();
-  console.log('priceList: ', priceList);
+  const { success } = useFetchPricesList();
+  const pricesList = success?.data?.map((item) => ({
+    id: item.id,
+    label: item.label,
+    column: item.help,
+    value: item.prices_list[0].price,
+  }));
+
+  console.log('pricesList: ', pricesList);
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.helps);
@@ -88,8 +94,8 @@ export default function Page() {
           {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
         <div className="w-80 my-8 m-auto">
-          {priceList ? (
-            priceList.map((item) => (
+          {pricesList ? (
+            pricesList.map((item) => (
               <Checkbox
                 key={item.id}
                 id={item.id}
