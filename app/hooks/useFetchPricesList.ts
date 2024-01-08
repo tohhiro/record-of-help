@@ -9,19 +9,12 @@ export const useFetchPricesList = () => {
 
   const { data, error } = useSWR('helps_list_and_prices_list', fetcher, { refreshInterval: 1000 });
 
-  const pricesList = data?.data?.map((item) => ({
-    id: item.id,
-    label: item.label,
-    column: item.help,
-    value: item.prices_list[0].price,
-  }));
-
   return {
-    success: () => {
-      return pricesList;
+    success: {
+      ...data,
     },
-    error: () => {
-      return error;
+    error: {
+      ...error,
     },
   };
 };

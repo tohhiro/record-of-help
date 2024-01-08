@@ -10,12 +10,12 @@ jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 jest.mock('../../hooks/useFetchPricesList', () => {
   const originalModule = jest.requireActual('../../hooks/useFetchPricesList');
-  const priceList = jest.requireActual('../../../mocks/pricesList');
+  const pricesList = jest.requireActual('../../../mocks/pricesList');
 
   return {
     ...originalModule,
-    success: jest.fn().mockResolvedValue(priceList as Helps[]),
-    error: jest.fn().mockResolvedValueOnce(null),
+    success: pricesList as Helps[],
+    error: null,
   };
 });
 
