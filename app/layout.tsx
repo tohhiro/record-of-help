@@ -1,5 +1,6 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import './styles/globals.css';
+import { Header } from './components/Header';
 
 export const metadata = {
   title: 'Record of Help',
@@ -9,7 +10,10 @@ export const metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
