@@ -26,7 +26,7 @@ export const theadNames = {
   created_at: '日付',
 };
 
-export const Table = forwardRef(({ data }: { data: Props[] | null | undefined }) => {
+export const Table = forwardRef(({ data }: { data: Props[] | null | undefined }, _ref) => {
   const createTable = (tableData: Props[]) => {
     const filteredTableData = tableData.filter((item) => item.del_flag === false);
     return (
