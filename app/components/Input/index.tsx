@@ -5,7 +5,7 @@ import { inputStyles } from './index.styles';
 type DefaultProps = {
   id: string;
   label: string;
-  type: 'text' | 'password';
+  type: 'text' | 'password' | 'date';
   onClick?: () => void;
   disabled?: boolean;
 };
