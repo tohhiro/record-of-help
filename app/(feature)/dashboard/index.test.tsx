@@ -18,12 +18,36 @@ jest.mock('../../hooks/useFetchPricesList', () => {
 });
 
 describe('Dashboard', () => {
-  test('テーブルに入ったpropsがレンダリングされる', () => {
-    act(() => {
+  describe('検索パネル', () => {
+    test('SelectBoxが1つレンダリングされる', () => {
       render(<Dashboard />);
-      waitFor(() => {
-        const checkboxes = screen.getAllByRole('cell');
-        expect(checkboxes).toHaveLength(mockRawsData.length);
+      const select = screen.getAllByRole('combobox');
+      expect(select).toHaveLength(1);
+    });
+    test('Inputがdate属性で2つレンダリングされる', () => {
+      render(<Dashboard />);
+      const startInput = screen.getByLabelText('開始');
+      const endInput = screen.getByLabelText('終了');
+      [startInput, endInput].forEach((input) => {
+        expect(input).toBeInTheDocument();
+        expect(input).toHaveAttribute('type', 'date');
+      });
+    });
+    test('Buttonがsubmit属性で1つレンダリングされる', () => {
+      render(<Dashboard />);
+      const button = screen.getByRole('button');
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('type', 'submit');
+    });
+  });
+  describe('rawsData表示箇所', () => {
+    test('テーブルに入ったpropsがレンダリングされる', () => {
+      act(() => {
+        render(<Dashboard />);
+        waitFor(() => {
+          const checkboxes = screen.getAllByRole('cell');
+          expect(checkboxes).toHaveLength(mockRawsData.length);
+        });
       });
     });
   });
