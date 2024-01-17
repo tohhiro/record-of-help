@@ -1,27 +1,83 @@
 'use client';
 import React, { memo } from 'react';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useFetchRawsData } from '../../hooks/useFetchRawsData';
 import { Table } from '../../components/Table';
 import { SelectBox } from '../../components/SelectBox';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
+import { validationSchema } from './validationSchema';
+
+type OptionsType = {
+  value: string;
+  label: string;
+};
+
+type Props = {
+  person: OptionsType;
+  start: string;
+  end: string;
+};
 
 const SearchPanel = memo(() => {
-  const options = [
+  const options: OptionsType[] = [
     { value: 'all', label: 'All' },
     { value: 'eito', label: 'Eito' },
     { value: 'mei', label: 'Mei' },
-  ];
+  ] as const;
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<Props>({
+    mode: 'onChange',
+    resolver: zodResolver(validationSchema),
+  });
+
+  const onSubmit: SubmitHandler<Props> = (data) => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+  };
 
   return (
     <>
-      <form className="flex justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10"
+      >
         <div className="w-100">
-          <SelectBox options={options} id="person_select" label="対象者を選択" />
+          <Controller
+            name="person"
+            control={control}
+            defaultValue={{ value: '', label: '' }}
+            render={({ field }) => (
+              <SelectBox options={options} id="person_select" label="対象者を選択" {...field} />
+            )}
+          />
+          <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
         </div>
+
         <div className="flex justify-center items-center gap-4">
-          <Input type="date" id="start" label="開始" />
-          <Input type="date" id="end" label="終了" />
+          <div>
+            <Controller
+              name="start"
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Input type="date" id="start" label="開始" {...field} />}
+            />
+            <p className="text-xs text-red-500">{errors.start && errors.start.message}</p>
+          </div>
+          <div>
+            <Controller
+              name="end"
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Input type="date" id="end" label="終了" {...field} />}
+            />
+            <p className="text-xs text-red-500">{errors.end && errors.end.message}</p>
+          </div>
         </div>
         <div className="mt-8">
           <Button type="submit" style="primary" label="検索" />
