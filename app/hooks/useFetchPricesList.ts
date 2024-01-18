@@ -2,7 +2,7 @@ import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from '../libs/supabase';
 import useSWR from 'swr';
 
-type ReturnType = {
+type ResponseType = {
   data:
     | {
         created_at: string;
@@ -22,7 +22,7 @@ type ReturnType = {
   error: PostgrestError | null;
 };
 
-export const useFetchPricesList = (): ReturnType | undefined => {
+export const useFetchPricesList = (): ResponseType | undefined => {
   const fetcher = async () => {
     const { data, error } = await supabase.from('helps_list').select('*, prices_list (*)');
     return { data, error };
