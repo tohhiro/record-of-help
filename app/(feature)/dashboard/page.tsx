@@ -16,8 +16,8 @@ type OptionsType = {
 
 type Props = {
   person: OptionsType;
-  start: string;
-  end: string;
+  startDate: string;
+  endDate: string;
 };
 
 const SearchPanel = memo(() => {
@@ -26,6 +26,8 @@ const SearchPanel = memo(() => {
     { value: 'eito', label: 'Eito' },
     { value: 'mei', label: 'Mei' },
   ] as const;
+
+  const { conditionsFetch } = useFetchRawsData();
 
   const {
     handleSubmit,
@@ -36,9 +38,16 @@ const SearchPanel = memo(() => {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<Props> = (data) => {
+  const onSubmit: SubmitHandler<Props> = async (data) => {
+    const sendingData = {
+      ...data,
+      person: data.person.value,
+    };
     // eslint-disable-next-line no-console
-    console.log(data);
+    console.log(sendingData);
+    const fetchConditions = await conditionsFetch(sendingData);
+    // eslint-disable-next-line no-console
+    console.log(fetchConditions);
   };
 
   return (
@@ -62,21 +71,21 @@ const SearchPanel = memo(() => {
         <div className="flex justify-center items-center gap-4">
           <div>
             <Controller
-              name="start"
+              name="startDate"
               control={control}
               defaultValue=""
               render={({ field }) => <Input type="date" id="start" label="開始" {...field} />}
             />
-            <p className="text-xs text-red-500">{errors.start && errors.start.message}</p>
+            <p className="text-xs text-red-500">{errors.startDate && errors.startDate.message}</p>
           </div>
           <div>
             <Controller
-              name="end"
+              name="endDate"
               control={control}
               defaultValue=""
               render={({ field }) => <Input type="date" id="end" label="終了" {...field} />}
             />
-            <p className="text-xs text-red-500">{errors.end && errors.end.message}</p>
+            <p className="text-xs text-red-500">{errors.endDate && errors.endDate.message}</p>
           </div>
         </div>
         <div className="mt-8">
