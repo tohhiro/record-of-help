@@ -1,28 +1,37 @@
+'use client';
+import { useState, useEffect } from 'react';
 import { supabase } from '../libs/supabase';
 import useSWR, { mutate } from 'swr';
+import type { Database } from '../../supabase/schema';
+
+type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
+
+type ConditionsArgsType = {
+  person: string;
+  startDate: string;
+  endDate: string;
+};
+
+const commonSupabaseFetcher = () => {
+  return supabase.from('raws_data').select('*').order('created_at', { ascending: true });
+};
 
 const allFetcher = async () => {
-  const { data, error } = await supabase.from('raws_data').select('*');
+  const { data, error } = await commonSupabaseFetcher();
   return { data, error };
 };
 
-const conditionsFetcher = async (args: { person: string; startDate: string; endDate: string }) => {
+const conditionsFetcher = async (args: ConditionsArgsType) => {
   const fetchPerson = () => {
     if (args.person === 'all') {
-      return supabase
-        .from('raws_data')
-        .select('*')
+      return commonSupabaseFetcher()
         .gte('created_at', args.startDate)
-        .lte('created_at', args.endDate)
-        .order('created_at', { ascending: true });
+        .lte('created_at', args.endDate);
     }
-    return supabase
-      .from('raws_data')
-      .select('*')
-      .eq('person', args.person)
+    return commonSupabaseFetcher()
       .gte('created_at', args.startDate)
       .lte('created_at', args.endDate)
-      .order('created_at', { ascending: true });
+      .eq('person', args.person);
   };
 
   const { data, error } = await fetchPerson();
@@ -30,22 +39,28 @@ const conditionsFetcher = async (args: { person: string; startDate: string; endD
 };
 
 export const useFetchRawsData = () => {
+  const [rawsData, setRawsData] = useState<Props | null>(null);
   const { data, error } = useSWR('raws_data', allFetcher);
 
-  const mutateFetch = async (args: { person: string; startDate: string; endDate: string }) => {
-    const result = await mutate('raws_data', conditionsFetcher({ ...args }));
-    return { result };
+  useEffect(() => {
+    setRawsData(data?.data || null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  const mutateFetch = async (args: ConditionsArgsType) => {
+    const result = await mutate('raws_data_conditions', conditionsFetcher({ ...args }));
+    setRawsData(result?.data || null);
   };
 
   return {
-    success: () => {
-      return { ...data };
+    success: {
+      rawsData,
     },
-    error: () => {
-      return error;
+    error: {
+      error,
     },
-    conditionsFetch: (args: { person: string; startDate: string; endDate: string }) => {
-      return mutateFetch(args);
+    conditionsFetch: (args: ConditionsArgsType) => {
+      mutateFetch(args);
     },
   };
 };
