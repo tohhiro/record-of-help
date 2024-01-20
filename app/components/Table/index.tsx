@@ -1,19 +1,9 @@
 import React, { forwardRef } from 'react';
 import '../../styles/globals.css';
 import { tableStyles } from './index.styles';
+import type { Database } from '../../../supabase/schema';
 
-export type Props = {
-  id: string;
-  person: string;
-  curtain: number;
-  dish: number | null;
-  landry: number | null;
-  prepareEat: number | null;
-  towel: number | null;
-  comments: string | null;
-  created_at: string;
-  del_flag: boolean | null;
-};
+export type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
 export const theadNames = {
   person: '名前',
@@ -26,9 +16,10 @@ export const theadNames = {
   created_at: '日付',
 };
 
-export const Table = forwardRef(({ data }: { data: Props[] | null | undefined }, _ref) => {
-  const createTable = (tableData: Props[]) => {
-    const filteredTableData = tableData.filter((item) => item.del_flag === false);
+export const Table = forwardRef(({ data }: { data: Props | null | undefined }, _ref) => {
+  const createTable = (tableData: Props) => {
+    if (!tableData) return;
+    const filteredTableData = tableData && tableData.filter((item) => item.del_flag === false);
     return (
       <table className={tableStyles.table}>
         <thead className={tableStyles.thead}>
