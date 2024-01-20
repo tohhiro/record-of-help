@@ -7,7 +7,17 @@ export default {
 };
 
 export const Default: React.FC = (): JSX.Element => {
-  const mockData: Props[] = [
+  const mockThData = {
+    person: '名前',
+    dish: '皿洗い',
+    curtain: 'カーテン開閉',
+    prepareEat: '食事準備',
+    landry: '洗濯物片付け',
+    towel: '芽生タオル',
+    comments: 'コメント',
+    created_at: '日付',
+  };
+  const mockTdData: Props = [
     {
       id: '1',
       person: 'taro',
@@ -46,5 +56,5 @@ export const Default: React.FC = (): JSX.Element => {
     },
   ];
 
-  return <Table data={mockData} />;
+  return <Table thData={mockThData} tdData={mockTdData} />;
 };
