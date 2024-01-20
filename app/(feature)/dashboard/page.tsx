@@ -1,5 +1,5 @@
 'use client';
-import React, { memo } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFetchRawsData } from '../../hooks/useFetchRawsData';
@@ -8,6 +8,9 @@ import { SelectBox } from '../../components/SelectBox';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { validationSchema } from './validationSchema';
+import type { Database } from '../../../supabase/schema';
+
+type FetchProps = Database['public']['Tables']['raws_data']['Row'][] | null;
 
 type OptionsType = {
   value: string;
@@ -20,14 +23,15 @@ type Props = {
   endDate: string;
 };
 
-const SearchPanel = memo(() => {
-  const options: OptionsType[] = [
-    { value: 'all', label: 'All' },
-    { value: 'eito', label: 'Eito' },
-    { value: 'mei', label: 'Mei' },
-  ] as const;
+const options: OptionsType[] = [
+  { value: 'all', label: 'All' },
+  { value: 'eito', label: 'Eito' },
+  { value: 'mei', label: 'Mei' },
+] as const;
 
-  const { conditionsFetch } = useFetchRawsData();
+export default function Page() {
+  const { success, conditionsFetch } = useFetchRawsData();
+  const fetchData: FetchProps = success.rawsData;
 
   const {
     handleSubmit,
@@ -38,20 +42,17 @@ const SearchPanel = memo(() => {
     resolver: zodResolver(validationSchema),
   });
 
-  const onSubmit: SubmitHandler<Props> = async (data) => {
+  const onSubmit: SubmitHandler<Props> = (data) => {
     const sendingData = {
       ...data,
       person: data.person.value,
     };
-    // eslint-disable-next-line no-console
-    console.log(sendingData);
-    const fetchConditions = await conditionsFetch(sendingData);
-    // eslint-disable-next-line no-console
-    console.log(fetchConditions);
+
+    conditionsFetch(sendingData);
   };
 
   return (
-    <>
+    <div className="m-10 text-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10"
@@ -92,18 +93,7 @@ const SearchPanel = memo(() => {
           <Button type="submit" style="primary" label="検索" />
         </div>
       </form>
-    </>
-  );
-});
-
-export default function Page() {
-  const fetch = useFetchRawsData();
-  const { data } = fetch.success();
-
-  return (
-    <div className="m-10 text-center">
-      <SearchPanel />
-      <Table data={data} />
+      <Table data={fetchData} />
     </div>
   );
 }
