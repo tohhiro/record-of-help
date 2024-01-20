@@ -29,6 +29,17 @@ const options: OptionsType[] = [
   { value: 'mei', label: 'Mei' },
 ] as const;
 
+const thData = {
+  person: '名前',
+  dish: '皿洗い',
+  curtain: 'カーテン開閉',
+  prepareEat: '食事準備',
+  landry: '洗濯物片付け',
+  towel: '芽生タオル',
+  comments: 'コメント',
+  created_at: '日付',
+} as const;
+
 export default function Page() {
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: FetchProps = success.rawsData;
@@ -93,7 +104,7 @@ export default function Page() {
           <Button type="submit" style="primary" label="検索" />
         </div>
       </form>
-      <Table data={fetchData} />
+      <Table thData={thData} tdData={fetchData} />
     </div>
   );
 }
