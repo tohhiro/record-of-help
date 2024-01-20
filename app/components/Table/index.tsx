@@ -27,14 +27,11 @@ export const Table = forwardRef(
           <tbody>
             {filteredTableData.map((item) => (
               <tr key={item.id} className={tableStyles.tr}>
-                <td className={tableStyles.td}>{item.person}</td>
-                <td className={tableStyles.td}>{item.dish}</td>
-                <td className={tableStyles.td}>{item.curtain}</td>
-                <td className={tableStyles.td}>{item.prepareEat}</td>
-                <td className={tableStyles.td}>{item.landry}</td>
-                <td className={tableStyles.td}>{item.towel}</td>
-                <td className={tableStyles.td}>{item.comments}</td>
-                <td className={tableStyles.td}>{item.created_at}</td>
+                {Object.keys(thData).map((key: string, idx) => (
+                  <td key={`${idx}${key}`} className={tableStyles.td}>
+                    {item[key as keyof typeof item]}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
