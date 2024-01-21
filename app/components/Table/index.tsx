@@ -29,7 +29,9 @@ export const Table = forwardRef(
               <tr key={item.id} className={tableStyles.tr}>
                 {Object.keys(thData).map((key: string, idx) => (
                   <td key={`${idx}${key}`} className={tableStyles.td}>
-                    {item[key as keyof typeof item]}
+                    {(key as keyof typeof item) === 'created_at'
+                      ? String(new Date(String(item[key as keyof typeof item])).toLocaleString())
+                      : String(item[key as keyof typeof item])}
                   </td>
                 ))}
               </tr>
