@@ -25,12 +25,12 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
   const fetchPerson = () => {
     if (args.person === 'all') {
       return commonSupabaseFetcher()
-        .gte('created_at', args.startDate)
-        .lte('created_at', args.endDate);
+        .gte('created_at', `${args.startDate} 00:00:00`)
+        .lte('created_at', `${args.endDate} 23:59:59`);
     }
     return commonSupabaseFetcher()
-      .gte('created_at', args.startDate)
-      .lte('created_at', args.endDate)
+      .gte('created_at', `${args.startDate} 00:00:00`)
+      .lte('created_at', `${args.endDate} 23:59:59`)
       .eq('person', args.person);
   };
 
