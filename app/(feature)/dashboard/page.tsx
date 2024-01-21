@@ -9,8 +9,9 @@ import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { validationSchema } from './validationSchema';
 import type { Database } from '../../../supabase/schema';
+import { sumObjectArrayData } from './sumObjectArrayData';
 
-type FetchProps = Database['public']['Tables']['raws_data']['Row'][] | null;
+export type FetchProps = Database['public']['Tables']['raws_data']['Row'][] | null;
 
 type OptionsType = {
   value: string;
@@ -40,9 +41,13 @@ const thData = {
   created_at: '日付',
 } as const;
 
+export const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'towel'];
+
 export default function Page() {
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: FetchProps = success.rawsData;
+
+  const sumFetchData = sumObjectArrayData(fetchData, wageItem);
 
   const {
     handleSubmit,
@@ -63,7 +68,7 @@ export default function Page() {
   };
 
   return (
-    <div className="m-10 text-center">
+    <div className="m-8 text-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10"
@@ -104,7 +109,10 @@ export default function Page() {
           <Button type="submit" style="primary" label="検索" />
         </div>
       </form>
-      <Table thData={thData} tdData={fetchData} />
+      <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
+      <div className="mt-8">
+        <Table thData={thData} tdData={fetchData} />
+      </div>
     </div>
   );
 }
