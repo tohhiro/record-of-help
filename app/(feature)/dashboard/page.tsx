@@ -71,7 +71,7 @@ export default function Page() {
     <div className="m-8 text-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10"
+        className="flex flex-col md:flex-row justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10"
       >
         <div className="w-100">
           <Controller
