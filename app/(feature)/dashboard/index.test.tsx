@@ -40,6 +40,17 @@ describe('Dashboard', () => {
       expect(button).toHaveAttribute('type', 'submit');
     });
   });
+  describe('合計表示', () => {
+    test('「合計：¥180」が表示される', () => {
+      render(<Dashboard />);
+      act(() => {
+        waitFor(() => {
+          const showSumWage = screen.getByText('合計：¥180');
+          expect(showSumWage).toBeInTheDocument();
+        });
+      });
+    });
+  });
   describe('rawsData表示箇所', () => {
     test('テーブルに入ったpropsがレンダリングされる', () => {
       act(() => {
