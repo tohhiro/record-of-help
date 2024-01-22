@@ -40,9 +40,6 @@ export default function Page() {
     value: item.prices_list[0].price,
   }));
 
-  // eslint-disable-next-line no-console
-  console.log('pricesList: ', pricesList);
-
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.helps);
 
@@ -51,9 +48,6 @@ export default function Page() {
       person: data.person,
       comments: data.comments,
     };
-
-    // eslint-disable-next-line no-console
-    console.log('sendingData', sendingData);
 
     setSubmitButton(true);
 

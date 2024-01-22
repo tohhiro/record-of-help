@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SelectBox, Props } from '.';
 import userEvent from '@testing-library/user-event';
@@ -24,12 +24,10 @@ describe('SelectBox', () => {
     render(<SelectBox {...mockValues} />);
     const select = screen.getByRole('combobox');
     const user = userEvent.setup();
-    act(async () => {
-      await user.click(select);
-      mockOptions.forEach(async (option) => {
-        await user.click(screen.getByText(option.label));
-        expect(select).toHaveAttribute('value', option.value);
-      });
+    await user.click(select);
+    mockOptions.forEach(async (option) => {
+      await user.click(screen.getByText(option.label));
+      expect(select).toHaveAttribute('value', option.value);
     });
   });
 });
