@@ -1,6 +1,7 @@
 import type { FetchProps } from './page';
 
 export const sumObjectArrayData = (data: FetchProps, sumItem: string[]) => {
+  if (!data) return 0;
   const sumEachObject = data?.map((item) => {
     return Object.keys(item).reduce((acc, cur) => {
       if (!item) return acc;
@@ -11,9 +12,9 @@ export const sumObjectArrayData = (data: FetchProps, sumItem: string[]) => {
     }, 0);
   });
 
-  const sumArray = sumEachObject?.reduce((acc, cur) => {
+  const sumArray = sumEachObject.reduce((acc, cur) => {
     return acc + cur;
-  });
+  }, 0);
 
   return sumArray;
 };

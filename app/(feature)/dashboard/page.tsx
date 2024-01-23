@@ -20,8 +20,10 @@ type OptionsType = {
 
 type Props = {
   person: OptionsType;
-  startDate: string;
-  endDate: string;
+  selectDate: {
+    startDate: string;
+    endDate: string;
+  };
 };
 
 const options: OptionsType[] = [
@@ -54,14 +56,14 @@ export default function Page() {
     control,
     formState: { errors },
   } = useForm<Props>({
-    mode: 'onChange',
     resolver: zodResolver(validationSchema),
   });
 
   const onSubmit: SubmitHandler<Props> = (data) => {
     const sendingData = {
-      ...data,
       person: data.person.value,
+      startDate: data.selectDate.startDate,
+      endDate: data.selectDate.endDate,
     };
 
     conditionsFetch(sendingData);
@@ -82,36 +84,44 @@ export default function Page() {
               <SelectBox options={options} id="person_select" label="対象者を選択" {...field} />
             )}
           />
-          <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
+          <p className="text-xs text-red-500 h-4">{errors.person && errors.person.message}</p>
         </div>
 
         <div className="flex justify-center items-center gap-4">
           <div>
             <Controller
-              name="startDate"
+              name="selectDate.startDate"
               control={control}
               defaultValue=""
               render={({ field }) => <Input type="date" id="start" label="開始" {...field} />}
             />
-            <p className="text-xs text-red-500">{errors.startDate && errors.startDate.message}</p>
+            <p className="text-xs text-red-500 h-4">
+              {errors.selectDate?.startDate && errors.selectDate.startDate.message}
+            </p>
           </div>
           <div>
             <Controller
-              name="endDate"
+              name="selectDate.endDate"
               control={control}
               defaultValue=""
               render={({ field }) => <Input type="date" id="end" label="終了" {...field} />}
             />
-            <p className="text-xs text-red-500">{errors.endDate && errors.endDate.message}</p>
+            <p className="text-xs text-red-500 h-4">
+              {errors.selectDate?.endDate && errors.selectDate.endDate.message}
+            </p>
           </div>
         </div>
-        <div className="mt-8">
+        <div className="mt-8 mb-4">
           <Button type="submit" style="primary" label="検索" />
         </div>
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
       <div className="mt-8">
-        <Table thData={thData} tdData={fetchData} />
+        {fetchData && fetchData.length === 0 ? (
+          <p>データがありません</p>
+        ) : (
+          <Table thData={thData} tdData={fetchData} />
+        )}
       </div>
     </div>
   );
