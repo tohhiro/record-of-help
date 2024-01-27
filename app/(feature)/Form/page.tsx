@@ -9,10 +9,9 @@ import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
 import { usePostHelp } from '../../hooks/usePostHelp';
-import { CheckboxList } from './CheckboxList';
+import { PricesList } from './PricesList';
 import Loading from './loading';
 import Error from './error';
-// import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { ErrorBoundary } from 'react-error-boundary';
 
 export type Props = {
@@ -87,7 +86,7 @@ export default function Page() {
         <div className="w-80 my-8 m-auto">
           <ErrorBoundary fallback={<Error />}>
             <Suspense fallback={<Loading />}>
-              <CheckboxList {...register('helps')} />
+              <PricesList {...register('helps')} />
             </Suspense>
           </ErrorBoundary>
 

@@ -4,7 +4,7 @@ import { Checkbox } from '../../../components/Checkbox';
 import { useFetchPricesList } from '../../../hooks/useFetchPricesList';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-export const CheckboxList = forwardRef((register: UseFormRegisterReturn<'helps'>, _ref) => {
+export const PricesList = forwardRef((register: UseFormRegisterReturn<'helps'>, _ref) => {
   const pricesListRaw = useFetchPricesList();
 
   const pricesList = pricesListRaw?.data?.map((item) => ({
