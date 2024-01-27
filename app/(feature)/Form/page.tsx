@@ -5,12 +5,15 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
 import { Button } from '../../components/Button';
-import { Checkbox } from '../../components/Checkbox';
 import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
 import { usePostHelp } from '../../hooks/usePostHelp';
-import { useFetchPricesList } from '../../hooks/useFetchPricesList';
+import { CheckboxList } from './CheckboxList';
+import Loading from './loading';
+import Error from './error';
+// import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 
 export type Props = {
   person: string;
@@ -30,15 +33,6 @@ export default function Page() {
 
   const post = usePostHelp();
   const router = useRouter();
-
-  const pricesListRaw = useFetchPricesList();
-
-  const pricesList = pricesListRaw?.data?.map((item) => ({
-    id: item.id,
-    label: item.label,
-    column: item.help,
-    value: item.prices_list[0].price,
-  }));
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.helps);
@@ -91,17 +85,12 @@ export default function Page() {
           {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
         <div className="w-80 my-8 m-auto">
-          <Suspense fallback={<p>Loading...</p>}>
-            {pricesList?.map((item) => (
-              <Checkbox
-                key={item.id}
-                id={item.id}
-                label={item.label}
-                value={`${item.column},${item.value}`}
-                {...register('helps')}
-              />
-            ))}
-          </Suspense>
+          <ErrorBoundary fallback={<Error />}>
+            <Suspense fallback={<Loading />}>
+              <CheckboxList {...register('helps')} />
+            </Suspense>
+          </ErrorBoundary>
+
           {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
 
