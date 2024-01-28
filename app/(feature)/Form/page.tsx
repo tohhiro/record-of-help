@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,6 +13,7 @@ import { PricesList } from './PricesList';
 import Loading from './loading';
 import Error from './error';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
 
 export type Props = {
   person: string;
@@ -32,6 +33,11 @@ export default function Page() {
 
   const post = usePostHelp();
   const router = useRouter();
+  const token = useCheckLocalStorageToken();
+
+  useEffect(() => {
+    if (!token) router.replace('/login');
+  }, []);
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.helps);
@@ -49,7 +55,7 @@ export default function Page() {
     if (Number(res.error?.code) >= 400) {
       setSubmitButton(false);
       // eslint-disable-next-line no-alert
-      return alert('ログインに失敗しました。 \n メールアドレスかパスワードが間違っています。');
+      return alert('送信に失敗しました');
     }
 
     router.replace('/dashboard');
