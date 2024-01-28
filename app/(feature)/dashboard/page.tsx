@@ -32,7 +32,7 @@ const options: OptionsType[] = [
   { value: 'all', label: 'All' },
   { value: 'eito', label: 'Eito' },
   { value: 'mei', label: 'Mei' },
-] as const;
+];
 
 const thData = {
   person: '名前',
@@ -45,7 +45,7 @@ const thData = {
   created_at: '日付',
 } as const;
 
-export const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'towel'];
+const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'towel'];
 
 export default function Page() {
   const token = useCheckLocalStorageToken();
