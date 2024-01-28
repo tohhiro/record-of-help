@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,9 +10,7 @@ import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
 import { usePostHelp } from '../../hooks/usePostHelp';
 import { PricesList } from './PricesList';
-import Loading from './loading';
-import Error from './error';
-import { ErrorBoundary } from 'react-error-boundary';
+
 import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
 
 export type Props = {
@@ -90,11 +88,7 @@ export default function Page() {
           {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
         <div className="w-80 my-8 m-auto">
-          <ErrorBoundary fallback={<Error />}>
-            <Suspense fallback={<Loading />}>
-              <PricesList {...register('helps')} />
-            </Suspense>
-          </ErrorBoundary>
+          <PricesList {...register('helps')} />
 
           {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
         </div>
