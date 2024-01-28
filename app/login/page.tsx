@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
-import { Button } from '../../components/Button';
-import { Input } from '../../components/Input';
-import { useSignIn } from '../../hooks/useSignIn';
+import { Button } from '../components/Button';
+import { Input } from '../components/Input';
+import { useSignIn } from '../hooks/useSignIn';
 
 export type Props = {
   email: string;

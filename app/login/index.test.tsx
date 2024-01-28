@@ -7,8 +7,8 @@ import mockRouter from 'next-router-mock';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
-jest.mock('../../hooks/useSignIn', () => {
-  const originalModule = jest.requireActual('../../hooks/useSignIn');
+jest.mock('../hooks/useSignIn', () => {
+  const originalModule = jest.requireActual('../hooks/useSignIn');
 
   return {
     useSignIn: jest.fn(() => {
