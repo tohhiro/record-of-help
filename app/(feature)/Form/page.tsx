@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,7 +11,7 @@ import { convertHelps } from './convertHelps';
 import { usePostHelp } from '../../hooks/usePostHelp';
 import { PricesList } from './PricesList';
 
-import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
+// import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
 
 export type Props = {
   person: string;
@@ -31,11 +31,11 @@ export default function Page() {
 
   const post = usePostHelp();
   const router = useRouter();
-  const token = useCheckLocalStorageToken();
+  // const token = useCheckLocalStorageToken();
 
-  useEffect(() => {
-    if (!token) router.replace('/login');
-  }, []);
+  // useEffect(() => {
+  //   if (!token) router.replace('/login');
+  // }, []);
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.helps);
