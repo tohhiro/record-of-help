@@ -53,6 +53,8 @@ export default function Page() {
 
   useEffect(() => {
     if (!token) router.replace('/login');
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { success, conditionsFetch } = useFetchRawsData();
