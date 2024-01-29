@@ -3,7 +3,7 @@ import Page from './page';
 import { mockNextRouter } from '../../../mocks/common/mockNextRouter';
 
 export default {
-  title: 'app/feature/Form',
+  title: 'app/feature/form',
   component: Page,
 };
 
