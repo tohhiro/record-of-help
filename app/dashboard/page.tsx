@@ -1,17 +1,17 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFetchRawsData } from '../../hooks/useFetchRawsData';
-import { Table } from '../../components/Table';
-import { SelectBox } from '../../components/SelectBox';
-import { Input } from '../../components/Input';
-import { Button } from '../../components/Button';
+import { useFetchRawsData } from '../hooks/useFetchRawsData';
+import { Table } from '../components/Table';
+import { SelectBox } from '../components/SelectBox';
+import { Input } from '../components/Input';
+import { Button } from '../components/Button';
 import { validationSchema } from './validationSchema';
-import type { Database } from '../../../supabase/schema';
+import type { Database } from '../../supabase/schema';
 import { sumObjectArrayData } from './sumObjectArrayData';
-import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
+// import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
 
 export type FetchProps = Database['public']['Tables']['raws_data']['Row'][] | null;
 
@@ -48,12 +48,12 @@ const thData = {
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'towel'];
 
 export default function Page() {
-  const token = useCheckLocalStorageToken();
-  const router = useRouter();
+  // const token = useCheckLocalStorageToken();
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (!token) router.replace('/login');
-  }, []);
+  // useEffect(() => {
+  //   if (!token) router.replace('/login');
+  // }, []);
 
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: FetchProps = success.rawsData;
