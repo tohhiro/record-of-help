@@ -1,9 +1,9 @@
 import React from 'react';
 import Page from './page';
-import { mockNextRouter } from '../../mocks/common/mockNextRouter';
+import { mockNextRouter } from '../../../mocks/common/mockNextRouter';
 
 export default {
-  title: 'app/feature/Dashboard',
+  title: 'app/feature/Form',
   component: Page,
 };
 

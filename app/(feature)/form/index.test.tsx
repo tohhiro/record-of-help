@@ -4,13 +4,13 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { default as Form, Helps } from './page';
 import mockRouter from 'next-router-mock';
-import { mockPricesList } from '../../mocks/pricesList';
+import { mockPricesList } from '../../../mocks/pricesList';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
-jest.mock('../hooks/useFetchPricesList', () => {
-  const originalModule = jest.requireActual('../hooks/useFetchPricesList');
-  const pricesList = jest.requireActual('../../mocks/pricesList');
+jest.mock('../../hooks/useFetchPricesList', () => {
+  const originalModule = jest.requireActual('../../hooks/useFetchPricesList');
+  const pricesList = jest.requireActual('../../../mocks/pricesList');
 
   return {
     ...originalModule,
