@@ -1,7 +1,7 @@
 import React from 'react';
 import Page from './page';
-import { mockNextRouter } from '../../mocks/common/mockNextRouter';
-import { mockUseSignInHandler } from '../../mocks/msw/handlers/mockUseSignIn';
+import { mockNextRouter } from '../../../mocks/common/mockNextRouter';
+import { mockUseSignInHandler } from '../../../mocks/msw/handlers/mockUseSignIn';
 
 export default {
   title: 'app/feature/Login',
