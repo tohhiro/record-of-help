@@ -4,7 +4,7 @@ export const convertHelps = (data: string[]) => {
     curtain: 0,
     prepareEat: 0,
     landry: 0,
-    towel: 0,
+    special: 0,
   };
   return data.reduce((acc, help) => {
     const tmp = help.split(',');

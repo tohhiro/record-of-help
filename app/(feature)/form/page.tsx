@@ -9,14 +9,12 @@ import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
 import { usePostHelp } from '../../hooks/usePostHelp';
-import { PricesList } from './PricesList';
-
-// import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
+import { useFetchPricesList } from '../../hooks/useFetchPricesList';
+import { Checkbox } from '../../components/Checkbox';
 
 export type Props = {
   person: string;
-  helps: string[];
-  comments: string;
+  items: { helps: string[]; comments: string };
 };
 
 export type Helps = {
@@ -37,13 +35,22 @@ export default function Page() {
   //   if (!token) router.replace('/login');
   // }, []);
 
+  const pricesListRaw = useFetchPricesList();
+
+  const pricesList = pricesListRaw?.data?.map((item) => ({
+    id: item.id,
+    label: item.label,
+    column: item.help,
+    value: item.prices_list[0].price,
+  }));
+
   const onSubmit: SubmitHandler<Props> = async (data) => {
-    const helpsData = convertHelps(data.helps);
+    const helpsData = convertHelps(data.items.helps);
 
     const sendingData = {
       ...helpsData,
       person: data.person,
-      comments: data.comments,
+      comments: data.items.comments,
     };
 
     setSubmitButton(true);
@@ -65,6 +72,7 @@ export default function Page() {
     handleSubmit,
     control,
   } = useForm<Props>({
+    mode: 'onChange',
     resolver: zodResolver(validationSchema),
   });
 
@@ -74,6 +82,7 @@ export default function Page() {
         <Controller
           name="person"
           control={control}
+          defaultValue=""
           rules={{
             required: true,
           }}
@@ -85,17 +94,39 @@ export default function Page() {
           )}
         />
         <div className="my-2 m-auto text-center">
-          {errors.person && <p className="text-xs text-red-500">必須項目です</p>}
+          <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
         </div>
         <div className="w-80 my-8 m-auto">
-          <PricesList {...register('helps')} />
-
-          {errors.helps && <p className="text-xs text-red-500">必須項目です</p>}
+          {
+            <Controller
+              name="items.helps"
+              control={control}
+              defaultValue={[]}
+              rules={{ required: true }}
+              render={() => (
+                <>
+                  {pricesList?.map((item) => (
+                    <Checkbox
+                      key={item.id}
+                      label={item.label}
+                      id={item.id}
+                      value={`${item.column},${item.value}`}
+                      {...register('items.helps')}
+                    />
+                  ))}
+                </>
+              )}
+            />
+          }
+          <p className="text-xs text-red-500">
+            {errors.items?.helps && errors.items.helps.message}
+          </p>
         </div>
 
         <Controller
-          name="comments"
+          name="items.comments"
           control={control}
+          defaultValue=""
           rules={{
             required: true,
           }}
@@ -105,6 +136,9 @@ export default function Page() {
             </div>
           )}
         />
+        <p className="text-xs text-red-500">
+          {errors.items?.comments && errors.items.comments.message}
+        </p>
 
         <Button label="Submit" type="submit" style="primary" disabled={submitButton} />
       </form>

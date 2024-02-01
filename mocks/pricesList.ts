@@ -24,9 +24,9 @@ export const mockPricesList = [
     value: 20,
   },
   {
-    id: 'towel',
-    label: '芽生のタオルを取る',
-    column: 'towel',
-    value: 10,
+    id: 'special',
+    label: 'スペシャル',
+    column: 'special',
+    value: 50,
   },
 ];

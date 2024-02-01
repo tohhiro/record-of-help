@@ -7,7 +7,7 @@ type Props = {
   curtain: number;
   prepareEat: number;
   landry: number;
-  towel: number;
+  special: number;
 };
 
 export const usePostHelp = () => {
