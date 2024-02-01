@@ -14,14 +14,18 @@ export const PricesList = forwardRef((register: UseFormRegisterReturn<'helps'>, 
     value: item.prices_list[0].price,
   }));
 
-  return pricesList?.map((item) => (
-    <Checkbox
-      key={item.id}
-      id={item.id}
-      label={item.label}
-      value={`${item.column},${item.value}`}
-      {...register}
-      {..._ref}
-    />
-  ));
+  return (
+    <>
+      {pricesList?.map((item) => (
+        <Checkbox
+          key={item.id}
+          label={item.label}
+          id={item.id}
+          value={`${item.column},${item.value}`}
+          {...register}
+          {..._ref}
+        />
+      ))}
+    </>
+  );
 });

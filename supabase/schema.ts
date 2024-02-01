@@ -122,7 +122,7 @@ export interface Database {
           landry: number | null;
           person: string;
           prepareEat: number | null;
-          towel: number | null;
+          special: number | null;
         };
         Insert: {
           comments?: string | null;
@@ -134,7 +134,7 @@ export interface Database {
           landry?: number | null;
           person: string;
           prepareEat?: number | null;
-          towel?: number | null;
+          special?: number | null;
         };
         Update: {
           comments?: string | null;
@@ -146,7 +146,7 @@ export interface Database {
           landry?: number | null;
           person?: string;
           prepareEat?: number | null;
-          towel?: number | null;
+          special?: number | null;
         };
         Relationships: [];
       };

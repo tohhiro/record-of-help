@@ -40,12 +40,12 @@ const thData = {
   curtain: 'カーテン開閉',
   prepareEat: '食事準備',
   landry: '洗濯物片付け',
-  towel: '芽生タオル',
+  special: 'スペシャル',
   comments: 'コメント',
   created_at: '日付',
 } as const;
 
-const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'towel'];
+const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 
 export default function Page() {
   // const token = useCheckLocalStorageToken();
