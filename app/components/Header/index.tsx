@@ -18,7 +18,9 @@ export const Header = ({ links }: { links: NavType }) => {
     <header role="banner">
       <nav className={headerStyles.navContainer}>
         <div className={headerStyles.navBaseStyle}>
-          <span className={headerStyles.headerTitle}>{headerText}</span>
+          <Link href="/login">
+            <span className={headerStyles.headerTitle}>{headerText}</span>
+          </Link>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
@@ -51,11 +53,8 @@ export const Header = ({ links }: { links: NavType }) => {
           >
             <ul className={headerStyles.menuUlStyle}>
               {Object.keys(links).map((link) => (
-                <li key={link}>
-                  <Link
-                    href={links[link as keyof typeof links]}
-                    className={headerStyles.menuLiStyle}
-                  >
+                <li key={link} className={headerStyles.menuLiStyle}>
+                  <Link href={links[link as keyof typeof links]} onClick={() => setMenuOpen(false)}>
                     {link}
                   </Link>
                 </li>
