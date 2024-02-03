@@ -17,6 +17,10 @@ export const Header = ({ links }: { links: NavType }) => {
   return (
     <header role="banner">
       <nav className={headerStyles.navContainer}>
+        {process.env.NEXT_PUBLIC_ENV === 'development' && (
+          <div className="fixed bg-green-400 text-xs w-screen text-white text-center">Staging</div>
+        )}
+
         <div className={headerStyles.navBaseStyle}>
           <Link href="/login">
             <span className={headerStyles.headerTitle}>{headerText}</span>
