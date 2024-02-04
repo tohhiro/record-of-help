@@ -1,4 +1,6 @@
 export const headerStyles = {
+  ribbonText:
+    'inline-block absolute top-0 py-[7px] left-[-26px] top-[10px] w-[100px] text-center text-xs leading-4 bg-green-400 opacity-90 text-white tracking-wider rotate-[-45deg] shadow-[0 2px 5px rgba(0, 0, 0, 0.2)]',
   navContainer: 'bg-black border-gray-200 dark:bg-gray-900',
   navBaseStyle: 'max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4',
   headerTitle:
