@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 // import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,7 +29,7 @@ type Props = {
 };
 
 const options: OptionsType[] = [
-  { value: 'all', label: 'All' },
+  { value: '', label: 'All' },
   { value: 'eito', label: 'Eito' },
   { value: 'mei', label: 'Mei' },
 ];
@@ -126,11 +126,9 @@ export default function Page() {
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
       <div className="mt-8">
-        {fetchData && fetchData.length === 0 ? (
-          <p>データがありません</p>
-        ) : (
+        <Suspense fallback={<div>Loading...</div>}>
           <Table thData={thData} tdData={fetchData} />
-        )}
+        </Suspense>
       </div>
     </div>
   );

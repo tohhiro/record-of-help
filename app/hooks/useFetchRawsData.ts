@@ -7,23 +7,28 @@ import type { Database } from '../../supabase/schema';
 type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
 type ConditionsArgsType = {
-  person: string;
   startDate: string;
   endDate: string;
+  person?: string;
+};
+
+const getNowMonthFirstLast = () => {
+  const nowDate = new Date();
+  const nowMonthFirst = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+  const nowMonthLast = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+  return {
+    startDate: nowMonthFirst.toISOString().split('T')[0],
+    endDate: nowMonthLast.toISOString().split('T')[0],
+  };
 };
 
 const commonSupabaseFetcher = () => {
   return supabase.from('raws_data').select('*').order('created_at', { ascending: true });
 };
 
-const allFetcher = async () => {
-  const { data, error } = await commonSupabaseFetcher();
-  return { data, error };
-};
-
 const conditionsFetcher = async (args: ConditionsArgsType) => {
   const fetchPerson = () => {
-    if (args.person === 'all') {
+    if (!args.person) {
       return commonSupabaseFetcher()
         .gte('created_at', `${args.startDate} 00:00:00`)
         .lte('created_at', `${args.endDate} 23:59:59`);
@@ -40,12 +45,33 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
 
 export const useFetchRawsData = () => {
   const [rawsData, setRawsData] = useState<Props | null>(null);
-  const { data, error } = useSWR('raws_data', allFetcher);
+  const { startDate, endDate } = getNowMonthFirstLast();
+  const sendingData: ConditionsArgsType = {
+    person: '',
+    startDate,
+    endDate,
+  };
 
+  const { data } = useSWR('raws_data', () => conditionsFetcher({ ...sendingData }), {
+    suspense: true,
+    fallbackData: { data: null, error: null },
+  });
   useEffect(() => {
     setRawsData(data?.data || null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
+  // useEffect(() => {
+  //   const firstFetch = async () => {
+  //     const result = await mutate('raws_data', () => conditionsFetcher({ ...sendingData }), {
+  //       suspense: true,
+  //     });
+  //     return result;
+  //   };
+  //   firstFetch().then((res) => {
+  //     setRawsData(res?.data || null);
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const mutateFetch = async (args: ConditionsArgsType) => {
     const result = await mutate('raws_data_conditions', conditionsFetcher({ ...args }));
@@ -55,9 +81,6 @@ export const useFetchRawsData = () => {
   return {
     success: {
       rawsData,
-    },
-    error: {
-      error,
     },
     conditionsFetch: (args: ConditionsArgsType) => {
       mutateFetch(args);

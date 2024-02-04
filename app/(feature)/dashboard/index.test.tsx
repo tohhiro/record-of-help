@@ -19,9 +19,9 @@ jest.mock('../../hooks/useFetchPricesList', () => {
 
 describe('Dashboard', () => {
   describe('検索パネル', () => {
-    test('SelectBoxが1つレンダリングされる', () => {
+    test('SelectBoxが1つレンダリングされる', async () => {
       render(<Dashboard />);
-      const select = screen.getAllByRole('combobox');
+      const select = await screen.findAllByRole('combobox');
       expect(select).toHaveLength(1);
     });
     test('Inputがdate属性で2つレンダリングされる', () => {
