@@ -60,19 +60,6 @@ export const useFetchRawsData = () => {
     setRawsData(data?.data || null);
   }, [data]);
 
-  // useEffect(() => {
-  //   const firstFetch = async () => {
-  //     const result = await mutate('raws_data', () => conditionsFetcher({ ...sendingData }), {
-  //       suspense: true,
-  //     });
-  //     return result;
-  //   };
-  //   firstFetch().then((res) => {
-  //     setRawsData(res?.data || null);
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   const mutateFetch = async (args: ConditionsArgsType) => {
     const result = await mutate('raws_data_conditions', conditionsFetcher({ ...args }));
     setRawsData(result?.data || null);

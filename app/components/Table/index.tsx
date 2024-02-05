@@ -6,12 +6,9 @@ import type { Database } from '../../../supabase/schema';
 export type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
 export const Table = forwardRef(
-  (
-    { thData, tdData }: { thData: { [key: string]: string }; tdData: Props | null | undefined },
-    _ref,
-  ) => {
+  ({ thData, tdData }: { thData: { [key: string]: string }; tdData: Props | null }, _ref) => {
     const createTable = (tableData: Props) => {
-      if (!tableData) return;
+      if (!tableData) return <div>データがありません</div>;
       const filteredTableData = tableData && tableData.filter((item) => item.del_flag === false);
       return (
         <table className={tableStyles.table}>
@@ -41,10 +38,6 @@ export const Table = forwardRef(
       );
     };
 
-    return (
-      <div className={tableStyles.container}>
-        {tdData ? createTable(tdData) : <div>データがありません</div>}
-      </div>
-    );
+    return createTable(tdData);
   },
 );
