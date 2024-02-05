@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-// import { useRouter } from 'next/navigation';
+import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFetchRawsData } from '../../hooks/useFetchRawsData';
 import { Table } from '../../components/Table';
@@ -11,7 +11,6 @@ import { Button } from '../../components/Button';
 import { validationSchema } from './validationSchema';
 import type { Database } from '../../../supabase/schema';
 import { sumObjectArrayData } from './sumObjectArrayData';
-// import { useCheckLocalStorageToken } from '../../hooks/useCheckLocalStorageToken';
 
 export type FetchProps = Database['public']['Tables']['raws_data']['Row'][] | null;
 
@@ -48,13 +47,6 @@ const thData = {
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 
 export default function Page() {
-  // const token = useCheckLocalStorageToken();
-  // const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!token) router.replace('/login');
-  // }, []);
-
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: FetchProps = success.rawsData;
 
@@ -79,11 +71,8 @@ export default function Page() {
   };
 
   return (
-    <div className="m-8 text-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col md:flex-row justify-center items-center gap-4 my-10 w-100 bg-slate-200 p-10"
-      >
+    <div className={dashboardStyles.container}>
+      <form onSubmit={handleSubmit(onSubmit)} className={dashboardStyles.formContainer}>
         <div className="w-100">
           <Controller
             name="person"
@@ -93,10 +82,12 @@ export default function Page() {
               <SelectBox options={options} id="person_select" label="対象者を選択" {...field} />
             )}
           />
-          <p className="text-xs text-red-500 h-4">{errors.person && errors.person.message}</p>
+          <p className={dashboardStyles.errorMessageContainer}>
+            {errors.person && errors.person.message}
+          </p>
         </div>
 
-        <div className="flex justify-center items-center gap-4">
+        <div className={dashboardStyles.inputDateContainer}>
           <div>
             <Controller
               name="selectDate.startDate"
@@ -104,7 +95,7 @@ export default function Page() {
               defaultValue=""
               render={({ field }) => <Input type="date" id="start" label="開始" {...field} />}
             />
-            <p className="text-xs text-red-500 h-4">
+            <p className={dashboardStyles.errorMessageContainer}>
               {errors.selectDate?.startDate && errors.selectDate.startDate.message}
             </p>
           </div>
@@ -115,12 +106,12 @@ export default function Page() {
               defaultValue=""
               render={({ field }) => <Input type="date" id="end" label="終了" {...field} />}
             />
-            <p className="text-xs text-red-500 h-4">
+            <p className={dashboardStyles.errorMessageContainer}>
               {errors.selectDate?.endDate && errors.selectDate.endDate.message}
             </p>
           </div>
         </div>
-        <div className="mt-8 mb-4">
+        <div className={dashboardStyles.sendingButton}>
           <Button type="submit" style="primary" label="検索" />
         </div>
       </form>
