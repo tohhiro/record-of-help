@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,8 +9,7 @@ import { Radio } from '../../components/Radio';
 import { Textarea } from '../../components/Textarea';
 import { convertHelps } from './convertHelps';
 import { usePostHelp } from '../../hooks/usePostHelp';
-import { useFetchPricesList } from '../../hooks/useFetchPricesList';
-import { Checkbox } from '../../components/Checkbox';
+import { PricesList } from './PricesList';
 
 export type Props = {
   person: string;
@@ -35,14 +34,14 @@ export default function Page() {
   //   if (!token) router.replace('/login');
   // }, []);
 
-  const pricesListRaw = useFetchPricesList();
+  // const pricesListRaw = useFetchPricesList();
 
-  const pricesList = pricesListRaw?.data?.map((item) => ({
-    id: item.id,
-    label: item.label,
-    column: item.help,
-    value: item.prices_list[0].price,
-  }));
+  // const pricesList = pricesListRaw?.data?.map((item) => ({
+  //   id: item.id,
+  //   label: item.label,
+  //   column: item.help,
+  //   value: item.prices_list[0].price,
+  // }));
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.items.helps);
@@ -97,7 +96,7 @@ export default function Page() {
           <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
         </div>
         <div className="w-80 my-8 m-auto">
-          {
+          <Suspense fallback={<p>...Loading</p>}>
             <Controller
               name="items.helps"
               control={control}
@@ -105,19 +104,12 @@ export default function Page() {
               rules={{ required: true }}
               render={() => (
                 <>
-                  {pricesList?.map((item) => (
-                    <Checkbox
-                      key={item.id}
-                      label={item.label}
-                      id={item.id}
-                      value={`${item.column},${item.value}`}
-                      {...register('items.helps')}
-                    />
-                  ))}
+                  <PricesList register={{ ...register('items.helps') }} />
                 </>
               )}
             />
-          }
+          </Suspense>
+
           <p className="text-xs text-red-500">
             {errors.items?.helps && errors.items.helps.message}
           </p>

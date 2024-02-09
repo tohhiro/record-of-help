@@ -4,28 +4,49 @@ import { Checkbox } from '../../../components/Checkbox';
 import { useFetchPricesList } from '../../../hooks/useFetchPricesList';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-export const PricesList = forwardRef((register: UseFormRegisterReturn<'helps'>, _ref) => {
-  const pricesListRaw = useFetchPricesList();
+export type Helps = {
+  id: string;
+  label: string;
+  column: string;
+  value: number;
+};
 
-  const pricesList = pricesListRaw?.data?.map((item) => ({
-    id: item.id,
-    label: item.label,
-    column: item.help,
-    value: item.prices_list[0].price,
-  }));
+export type Props = {
+  person: string;
+  items: { helps: string[]; comments: string };
+};
 
-  return (
-    <>
-      {pricesList?.map((item) => (
-        <Checkbox
-          key={item.id}
-          label={item.label}
-          id={item.id}
-          value={`${item.column},${item.value}`}
-          {...register}
-          {..._ref}
-        />
-      ))}
-    </>
-  );
-});
+export const PricesList = forwardRef(
+  (
+    {
+      register,
+    }: {
+      register: UseFormRegisterReturn<'items.helps'>;
+    },
+    _ref,
+  ) => {
+    const pricesListRaw = useFetchPricesList();
+
+    const pricesList = pricesListRaw?.data?.map((item) => ({
+      id: item.id,
+      label: item.label,
+      column: item.help,
+      value: item.prices_list[0].price,
+    }));
+
+    return (
+      <>
+        {pricesList?.map((item) => (
+          <Checkbox
+            key={item.id}
+            label={item.label}
+            id={item.id}
+            {...register}
+            {..._ref}
+            value={`${item.column},${item.value}`}
+          />
+        ))}
+      </>
+    );
+  },
+);
