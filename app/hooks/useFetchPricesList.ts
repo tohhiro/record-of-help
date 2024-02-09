@@ -28,7 +28,10 @@ export const useFetchPricesList = (): ResponseType | undefined => {
     return { data, error };
   };
 
-  const { data, error } = useSWR('helps_list_and_prices_list', fetcher);
+  const { data, error } = useSWR('helps_list_and_prices_list', fetcher, {
+    suspense: true,
+    fallbackData: { data: null, error: null },
+  });
 
   return {
     ...data,
