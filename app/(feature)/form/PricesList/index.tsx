@@ -27,6 +27,10 @@ export const PricesList = forwardRef(
   ) => {
     const pricesListRaw = useFetchPricesList();
 
+    if (!pricesListRaw) return null;
+
+    if (pricesListRaw.error) throw new Error(pricesListRaw.error.message);
+
     const pricesList = pricesListRaw?.data?.map((item) => ({
       id: item.id,
       label: item.label,

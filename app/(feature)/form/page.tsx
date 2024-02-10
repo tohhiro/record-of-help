@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,9 +33,7 @@ export default function Page() {
 
   // useEffect(() => {
   //   if (!token) router.replace('/login');
-  // }, []);
-
-  // const pricesListRaw = useFetchPricesList();
+  // }, [])
 
   // const pricesList = pricesListRaw?.data?.map((item) => ({
   //   id: item.id,
@@ -96,19 +95,21 @@ export default function Page() {
           <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
         </div>
         <div className="w-80 my-8 m-auto">
-          <Suspense fallback={<p>...Loading</p>}>
-            <Controller
-              name="items.helps"
-              control={control}
-              defaultValue={[]}
-              rules={{ required: true }}
-              render={() => (
-                <>
-                  <PricesList register={{ ...register('items.helps') }} />
-                </>
-              )}
-            />
-          </Suspense>
+          <Controller
+            name="items.helps"
+            control={control}
+            defaultValue={[]}
+            rules={{ required: true }}
+            render={() => (
+              <>
+                <ErrorBoundary fallback={<p>エラーが発生しました</p>}>
+                  <Suspense fallback={<p>...Loading</p>}>
+                    <PricesList register={{ ...register('items.helps') }} />
+                  </Suspense>
+                </ErrorBoundary>
+              </>
+            )}
+          />
 
           <p className="text-xs text-red-500">
             {errors.items?.helps && errors.items.helps.message}
