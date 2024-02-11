@@ -18,6 +18,7 @@ type ResponseType = {
     }[];
   }[];
   error: PostgrestError;
+  isLoading: boolean;
 };
 
 const fetcher = async () => {
@@ -29,7 +30,7 @@ const fetcher = async () => {
   }
 };
 export const useFetchPricesList = (): ResponseType | undefined => {
-  const { data, error } = useSWR('helps_list_and_prices_list', fetcher, {
+  const { data, error, isLoading } = useSWR('helps_list_and_prices_list', fetcher, {
     suspense: true,
     fallbackData: { data: null, error: null },
   });
@@ -37,5 +38,6 @@ export const useFetchPricesList = (): ResponseType | undefined => {
   return {
     ...data,
     ...error,
+    isLoading,
   };
 };

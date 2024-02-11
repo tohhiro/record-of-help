@@ -27,7 +27,7 @@ export const PricesList = forwardRef(
   ) => {
     const pricesListRaw = useFetchPricesList();
 
-    if (pricesListRaw?.data && pricesListRaw?.error) return null;
+    if (pricesListRaw?.isLoading) return <>Loading中やで</>;
 
     if (pricesListRaw?.error) throw new Error(pricesListRaw.error.message);
 
