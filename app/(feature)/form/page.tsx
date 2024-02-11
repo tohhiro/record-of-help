@@ -85,7 +85,7 @@ export default function Page() {
             required: true,
           }}
           render={({ field }) => (
-            <div className="w-80 my-8 m-auto">
+            <div className="w-80 my-4 m-auto">
               <Radio id="eito" label="eito" {...field} value="eito" />
               <Radio id="mei" label="mei" {...field} value="mei" />
             </div>
@@ -94,7 +94,7 @@ export default function Page() {
         <div className="my-2 m-auto text-center">
           <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
         </div>
-        <div className="w-80 my-8 m-auto">
+        <div className="w-80 my-4 m-auto">
           <Controller
             name="items.helps"
             control={control}
@@ -124,7 +124,7 @@ export default function Page() {
             required: true,
           }}
           render={({ field }) => (
-            <div className="w-80 my-8 m-auto">
+            <div className="w-80 my-4 m-auto">
               <Textarea id="textarea" label="備考" placeholder="備考があれば入力" {...field} />
             </div>
           )}
@@ -133,7 +133,9 @@ export default function Page() {
           {errors.items?.comments && errors.items.comments.message}
         </p>
 
-        <Button label="Submit" type="submit" style="primary" disabled={submitButton} />
+        <div className="w-80 my-4 m-auto">
+          <Button label="Submit" type="submit" style="primary" disabled={submitButton} />
+        </div>
       </form>
     </div>
   );

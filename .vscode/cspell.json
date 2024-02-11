@@ -10,7 +10,8 @@
     "linebreak",
     "Parens",
     "paren",
-    "supabase"
+    "supabase",
+    "PostgrestError"
   ],
   "flagWords": []
 }
