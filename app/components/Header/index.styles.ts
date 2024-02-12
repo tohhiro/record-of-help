@@ -10,4 +10,5 @@ export const headerStyles = {
   hamburgerContainer: 'w-full md:block md:w-auto',
   menuUlStyle: 'font-medium flex flex-col md:flex-row md:space-x-8 border-gray-100 md:p-0 mt-4',
   menuLiStyle: 'block text-white py-2 px-3 md:p-0 md:hover:text-green-400',
+  menuLink: 'block w-full h-full',
 };

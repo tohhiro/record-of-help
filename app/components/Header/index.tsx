@@ -58,7 +58,11 @@ export const Header = ({ links }: { links: NavType }) => {
             <ul className={headerStyles.menuUlStyle}>
               {Object.keys(links).map((link) => (
                 <li key={link} className={headerStyles.menuLiStyle}>
-                  <Link href={links[link as keyof typeof links]} onClick={() => setMenuOpen(false)}>
+                  <Link
+                    className={headerStyles.menuLink}
+                    href={links[link as keyof typeof links]}
+                    onClick={() => setMenuOpen(false)}
+                  >
                     {link}
                   </Link>
                 </li>
