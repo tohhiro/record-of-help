@@ -67,6 +67,11 @@ export const Header = ({ links }: { links: NavType }) => {
                   </Link>
                 </li>
               ))}
+              <li className={headerStyles.menuLiStyle}>
+                <Link href="#" className={headerStyles.menuLink}>
+                  Logout
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
