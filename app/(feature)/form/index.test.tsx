@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { default as Form, Helps } from './page';
@@ -43,8 +43,8 @@ describe('Form', () => {
       const radioButtonValues = ['eito', 'mei'];
       radioButtonValues.forEach(async (value) => {
         const radioButton = screen.getByRole('radio', { name: value });
-        await act(() => user.click(radioButton));
-        await waitFor(() => expect(radioButton).toHaveAttribute('checked', true));
+        await user.click(radioButton);
+        expect(radioButton).toHaveAttribute('checked', true);
       });
     });
   });
@@ -52,34 +52,30 @@ describe('Form', () => {
     test('checkboxが5個レンダリングされる', async () => {
       render(<Form />);
 
-      act(() => {
-        waitFor(() => {
-          const checkboxes = screen.getAllByRole('checkbox');
-          expect(checkboxes).toHaveLength(mockPricesList.length);
-        });
+      waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox');
+        expect(checkboxes).toHaveLength(mockPricesList.length);
       });
     });
     test('checkboxのvalue属性が正しく設定されている', () => {
       render(<Form />);
-      act(() => {
-        waitFor(() => {
-          const checkboxes = screen.getAllByRole('checkbox');
-          checkboxes.forEach((checkbox, idx) => {
-            expect(checkbox).toHaveAttribute('value', mockPricesList[idx].value);
-          });
+
+      waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox');
+        checkboxes.forEach((checkbox, idx) => {
+          expect(checkbox).toHaveAttribute('value', mockPricesList[idx].value);
         });
       });
     });
     test('checkboxのチェックを入れると、チェックされたcheckboxの属性がcheckedになっている', async () => {
       render(<Form />);
       const user = userEvent.setup();
-      act(() => {
-        waitFor(() => {
-          const checkboxes = screen.getAllByRole('checkbox');
-          checkboxes.forEach((checkbox) => {
-            user.click(checkbox);
-            waitFor(() => expect(checkbox).toHaveAttribute('checked', true));
-          });
+
+      waitFor(() => {
+        const checkboxes = screen.getAllByRole('checkbox');
+        checkboxes.forEach((checkbox) => {
+          user.click(checkbox);
+          waitFor(() => expect(checkbox).toHaveAttribute('checked', true));
         });
       });
     });
@@ -87,64 +83,57 @@ describe('Form', () => {
   describe('textarea', () => {
     test('textareaが1つレンダーされる', () => {
       render(<Form />);
-      act(() => {
-        waitFor(() => {
-          const textarea = screen.getAllByRole('textbox');
-          expect(textarea).toHaveLength(1);
-        });
-      });
+
+      const textarea = screen.getAllByRole('textbox');
+      expect(textarea).toHaveLength(1);
     });
     test('textareaに入力ができる', async () => {
       render(<Form />);
-      act(() => {
-        waitFor(() => {
-          const textarea = screen.getByRole('textbox');
-          const typeText = 'テスト';
-          const user = userEvent.setup();
-          user.type(textarea, typeText);
-          waitFor(() => expect((textarea as HTMLTextAreaElement).value).toBe(typeText));
-        });
+
+      waitFor(() => {
+        const textarea = screen.getByRole('textbox');
+        const typeText = 'テスト';
+        const user = userEvent.setup();
+        user.type(textarea, typeText);
+        expect((textarea as HTMLTextAreaElement).value).toBe(typeText);
       });
     });
   });
   describe('button', () => {
     test('buttonが1つ有効な状態でレンダーされる', () => {
       render(<Form />);
-      act(() => {
-        waitFor(() => {
-          const button = screen.getByRole('button');
-          expect(button).toBeEnabled();
-        });
+
+      waitFor(() => {
+        const button = screen.getByRole('button');
+        expect(button).toBeEnabled();
       });
     });
     test('buttonをそのままクリックすると「必須項目です」のバリデーションエラーが2つでる', async () => {
       render(<Form />);
-      act(() => {
-        waitFor(() => {
-          const button = screen.getByRole('button');
-          const user = userEvent.setup();
-          user.click(button);
-          waitFor(() => expect(screen.getAllByText('必須項目です')).toHaveLength(2));
-        });
+
+      waitFor(() => {
+        const button = screen.getByRole('button');
+        const user = userEvent.setup();
+        user.click(button);
+        waitFor(() => expect(screen.getAllByText('必須項目です')).toHaveLength(2));
       });
     });
     test('buttonをクリックするdisabledになる', async () => {
       render(<Form />);
       mockRouter.replace('/dashboard');
-      act(() => {
-        waitFor(() => {
-          const button = screen.getByRole('button');
-          const radioButton = screen.getByRole('radio', { name: 'eito' });
-          const checkbox = screen.getByRole('checkbox', { name: '皿洗い' });
 
-          const user = userEvent.setup();
-          // NOTE: バリエーションエラーにならないように、ラジオボタンとチェックボックスをクリックしておく
-          user.click(radioButton);
-          user.click(checkbox);
-          user.click(button);
+      waitFor(() => {
+        const button = screen.getByRole('button');
+        const radioButton = screen.getByRole('radio', { name: 'eito' });
+        const checkbox = screen.getByRole('checkbox', { name: '皿洗い' });
 
-          waitFor(() => expect(button).toBeDisabled());
-        });
+        const user = userEvent.setup();
+        // NOTE: バリエーションエラーにならないように、ラジオボタンとチェックボックスをクリックしておく
+        user.click(radioButton);
+        user.click(checkbox);
+        user.click(button);
+
+        waitFor(() => expect(button).toBeDisabled());
       });
     });
   });

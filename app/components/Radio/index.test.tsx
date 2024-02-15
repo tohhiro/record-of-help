@@ -17,7 +17,7 @@ describe('Radio', () => {
     const inputOfRadioComponent = screen.getByRole('radio');
     expect(inputOfRadioComponent).toHaveAttribute('type', 'radio');
   });
-  test('Radioボタンがクリックできる', () => {
+  test('Radioボタンがクリックできる', async () => {
     const mockValues: Props = {
       id: 'radio1',
       label: 'Radio Label',
@@ -31,7 +31,7 @@ describe('Radio', () => {
     expect(radioComponent.getAttribute('checked')).toBeNull();
 
     const user = userEvent.setup();
-    user.click(radioComponent);
+    await user.click(radioComponent);
     expect(radioComponent.getAttribute('checked'));
   });
 });

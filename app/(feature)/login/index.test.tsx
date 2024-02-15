@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { default as Login } from './page';
 import userEvent from '@testing-library/user-event';
@@ -52,7 +52,7 @@ describe('Login', () => {
       expect(item.component).toBeEnabled();
     });
   });
-  test('emailとpasswordが入力できる', () => {
+  test('emailとpasswordが入力できる', async () => {
     render(<Login />);
 
     const emailInputComponent = screen.getByRole('textbox', {
@@ -64,15 +64,13 @@ describe('Login', () => {
     const password = 'password';
     const user = userEvent.setup();
 
-    act(() => {
-      user.type(emailInputComponent, email);
-      waitFor(() => expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email));
+    await user.type(emailInputComponent, email);
+    expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email);
 
-      user.type(passwordInputComponent, password);
-      waitFor(() => expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password));
-    });
+    await user.type(passwordInputComponent, password);
+    expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password);
   });
-  test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', () => {
+  test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', async () => {
     mockRouter.replace('/from');
     render(<Login />);
 
@@ -88,17 +86,13 @@ describe('Login', () => {
     const password = 'password';
     const user = userEvent.setup();
 
-    act(() => {
-      user.type(emailInputComponent, email);
-      waitFor(() => expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email));
+    await user.type(emailInputComponent, email);
+    expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email);
 
-      user.type(passwordInputComponent, password);
-      waitFor(() => expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password));
+    await user.type(passwordInputComponent, password);
+    expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password);
 
-      user.click(loginButtonComponent);
-      waitFor(() => {
-        expect(loginButtonComponent).toBeDisabled();
-      });
-    });
+    await user.click(loginButtonComponent);
+    expect(loginButtonComponent).toBeDisabled();
   });
 });

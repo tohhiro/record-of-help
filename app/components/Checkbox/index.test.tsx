@@ -19,7 +19,7 @@ describe('Checkbox', () => {
     expect(inputOfCheckboxComponent).toHaveAttribute('type', 'checkbox');
   });
 
-  test('Checkboxがチェックできる', () => {
+  test('Checkboxがチェックできる', async () => {
     const mockValues: Props = {
       label: 'Checkbox Label',
       id: 'checkbox1',
@@ -34,7 +34,7 @@ describe('Checkbox', () => {
     expect(checkboxComponent.getAttribute('checked')).toBeNull();
 
     const user = userEvent.setup();
-    user.click(checkboxComponent);
+    await user.click(checkboxComponent);
     expect(checkboxComponent.getAttribute('checked'));
   });
 });
