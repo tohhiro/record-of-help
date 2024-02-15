@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { default as Dashboard } from './page';
 import { mockRawsData } from '../../../mocks/rawsData';
@@ -43,22 +43,19 @@ describe('Dashboard', () => {
   describe('合計表示', () => {
     test('「合計：¥180」が表示される', () => {
       render(<Dashboard />);
-      act(() => {
-        waitFor(() => {
-          const showSumWage = screen.getByText('合計：¥180');
-          expect(showSumWage).toBeInTheDocument();
-        });
+
+      waitFor(() => {
+        const showSumWage = screen.getByText('合計：¥180');
+        expect(showSumWage).toBeInTheDocument();
       });
     });
   });
   describe('rawsData表示箇所', () => {
     test('テーブルに入ったpropsがレンダリングされる', () => {
-      act(() => {
-        render(<Dashboard />);
-        waitFor(() => {
-          const checkboxes = screen.getAllByRole('cell');
-          expect(checkboxes).toHaveLength(mockRawsData.length);
-        });
+      render(<Dashboard />);
+      waitFor(() => {
+        const checkboxes = screen.getAllByRole('cell');
+        expect(checkboxes).toHaveLength(mockRawsData.length);
       });
     });
   });

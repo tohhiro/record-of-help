@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Textarea, Props } from '.';
 import userEvent from '@testing-library/user-event';
@@ -14,13 +14,8 @@ describe('Textarea', () => {
     render(<Textarea {...mockValues} />);
     const labelOfTextareaComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfTextareaComponent).toBeInTheDocument();
-    const textareaComponent = screen.queryByPlaceholderText(
-      mockValues.placeholder,
-    );
-    expect(textareaComponent).toHaveAttribute(
-      'placeholder',
-      mockValues.placeholder,
-    );
+    const textareaComponent = screen.queryByPlaceholderText(mockValues.placeholder);
+    expect(textareaComponent).toHaveAttribute('placeholder', mockValues.placeholder);
   });
   test('textareaに入力ができる', async () => {
     const mockValues: Props = {
@@ -34,9 +29,7 @@ describe('Textarea', () => {
     });
     const typeText = 'テスト';
     const user = userEvent.setup();
-    user.type(textareaComponent, typeText);
-    await waitFor(() =>
-      expect((textareaComponent as HTMLTextAreaElement).value).toBe(typeText),
-    );
+    await user.type(textareaComponent, typeText);
+    expect((textareaComponent as HTMLTextAreaElement).value).toBe(typeText);
   });
 });

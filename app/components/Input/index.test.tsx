@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Input, Props } from '.';
 import userEvent from '@testing-library/user-event';
@@ -36,10 +36,8 @@ describe('Input', () => {
     const typeText = 'ほげほげ';
     const user = userEvent.setup();
 
-    user.type(inputComponent, typeText);
-    await waitFor(() =>
-      expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText),
-    );
+    await user.type(inputComponent, typeText);
+    expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText);
   });
   test('inputがdisabledで表示', async () => {
     const mockValues: Props = {
@@ -58,9 +56,7 @@ describe('Input', () => {
 
     const typeText = 'ほげほげ';
     const user = userEvent.setup();
-    user.type(inputComponent, typeText);
-    await waitFor(() =>
-      expect((inputComponent as HTMLTextAreaElement).value).toBe(''),
-    );
+    await user.type(inputComponent, typeText);
+    expect((inputComponent as HTMLTextAreaElement).value).toBe('');
   });
 });
