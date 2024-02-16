@@ -5,12 +5,12 @@ import { Radio, Props } from '.';
 import userEvent from '@testing-library/user-event';
 
 describe('Radio', () => {
+  const mockValues: Props = {
+    id: 'radio1',
+    label: 'Radio Label',
+    value: 'radioValue',
+  };
   test('Radioボタンがレンダーされる', () => {
-    const mockValues: Props = {
-      id: 'radio1',
-      label: 'Radio Label',
-      value: 'radioValue',
-    };
     render(<Radio {...mockValues} />);
     const labelOfRadio = screen.getByLabelText(mockValues.label);
     expect(labelOfRadio).toBeInTheDocument();
@@ -18,11 +18,6 @@ describe('Radio', () => {
     expect(inputOfRadioComponent).toHaveAttribute('type', 'radio');
   });
   test('Radioボタンがクリックできる', async () => {
-    const mockValues: Props = {
-      id: 'radio1',
-      label: 'Radio Label',
-      value: 'radioValue',
-    };
     render(<Radio {...mockValues} />);
     const radioComponent = screen.getByRole('radio', {
       name: mockValues.label,
