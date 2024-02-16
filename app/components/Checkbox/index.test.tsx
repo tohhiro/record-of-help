@@ -5,13 +5,13 @@ import { Checkbox, Props } from '.';
 import userEvent from '@testing-library/user-event';
 
 describe('Checkbox', () => {
+  const mockValues: Props = {
+    label: 'Checkbox Label',
+    id: 'checkbox1',
+    value: 'checkboxValue',
+    ref: null,
+  };
   test('Checkboxがレンダーされる', () => {
-    const mockValues: Props = {
-      label: 'Checkbox Label',
-      id: 'checkbox1',
-      value: 'checkboxValue',
-      ref: null,
-    };
     render(<Checkbox {...mockValues} />);
     const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfCheckboxComponent).toBeInTheDocument();
@@ -20,12 +20,6 @@ describe('Checkbox', () => {
   });
 
   test('Checkboxがチェックできる', async () => {
-    const mockValues: Props = {
-      label: 'Checkbox Label',
-      id: 'checkbox1',
-      value: 'checkboxValue',
-      ref: null,
-    };
     render(<Checkbox {...mockValues} />);
     const checkboxComponent = screen.getByRole('checkbox', {
       name: mockValues.label,

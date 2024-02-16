@@ -4,40 +4,32 @@ import '@testing-library/jest-dom';
 import { Button, Props } from '.';
 
 describe('Button', () => {
+  const mockValues: Props = {
+    label: 'ボタン',
+    type: 'button',
+    style: 'primary',
+    onClick: jest.fn(),
+  };
   test('Buttonコンポーネントがレンダリングされる', () => {
-    const onClick = jest.fn();
-    const mockValues: Props = {
-      label: 'ボタン',
-      type: 'button',
-      style: 'primary',
-      onClick,
-    };
     render(<Button {...mockValues} />);
     const buttonComponent = screen.getByRole('button');
     expect(buttonComponent).toHaveTextContent(mockValues.label);
   });
   test('Buttonコンポーネントがdisabledでレンダリングされる', () => {
-    const onClick = jest.fn();
-    const mockValues: Props = {
-      label: 'ボタン',
-      type: 'button',
-      style: 'primary',
+    const mockValuesWithDisabledButton: Props = {
+      ...mockValues,
       disabled: true,
-      onClick,
     };
-    render(<Button {...mockValues} />);
+    render(<Button {...mockValuesWithDisabledButton} />);
     const buttonComponent = screen.getByRole('button');
     expect(buttonComponent).toBeDisabled();
   });
   test('Buttonコンポーネントのtype属性がsubmitでレンダリングされる', () => {
-    const onClick = jest.fn();
-    const mockValues: Props = {
-      label: 'ボタン',
-      type: 'submit',
+    const mockValuesWithAttrSubmit: Props = {
+      ...mockValues,
       style: 'primary',
-      onClick,
     };
-    render(<Button {...mockValues} />);
+    render(<Button {...mockValuesWithAttrSubmit} />);
     const buttonComponent = screen.getByRole('button');
     expect(buttonComponent).toHaveAttribute('type', mockValues.type);
   });

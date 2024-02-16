@@ -5,13 +5,13 @@ import { Input, Props } from '.';
 import userEvent from '@testing-library/user-event';
 
 describe('Input', () => {
+  const mockValues: Props = {
+    id: 'input',
+    label: 'Input Label',
+    type: 'text',
+    onClick: () => void 0,
+  };
   test('inputがレンダーされる', () => {
-    const mockValues: Props = {
-      id: 'input',
-      label: 'Input Label',
-      type: 'text',
-      onClick: () => void 0,
-    };
     render(<Input {...mockValues} />);
     const inputComponent = screen.getByRole('textbox', {
       name: mockValues.label,
@@ -20,12 +20,6 @@ describe('Input', () => {
     expect(inputComponent).toBeEnabled();
   });
   test('inputに「ほげほげ」と入力ができる', async () => {
-    const mockValues: Props = {
-      id: 'input',
-      label: 'Input Label',
-      type: 'text',
-      onClick: () => {},
-    };
     render(<Input {...mockValues} />);
     const inputComponent = screen.getByRole('textbox', {
       name: mockValues.label,
@@ -40,18 +34,15 @@ describe('Input', () => {
     expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText);
   });
   test('inputがdisabledで表示', async () => {
-    const mockValues: Props = {
-      id: 'input',
-      label: 'Input Label',
-      type: 'text',
-      onClick: () => void 0,
+    const mockValuesWithDisabledButton: Props = {
+      ...mockValues,
       disabled: true,
     };
-    render(<Input {...mockValues} />);
+    render(<Input {...mockValuesWithDisabledButton} />);
     const inputComponent = screen.getByRole('textbox', {
-      name: mockValues.label,
+      name: mockValuesWithDisabledButton.label,
     });
-    expect(inputComponent).toHaveAttribute('type', mockValues.type);
+    expect(inputComponent).toHaveAttribute('type', mockValuesWithDisabledButton.type);
     expect(inputComponent).toBeDisabled();
 
     const typeText = 'ほげほげ';
