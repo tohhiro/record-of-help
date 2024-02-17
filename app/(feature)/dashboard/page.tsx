@@ -87,8 +87,6 @@ export default function Page() {
     [dirtyFields !== undefined],
   );
 
-  console.log('isCheckingDirty', isCheckingDirty);
-
   const onSubmit: SubmitHandler<Props> = (data) => {
     const sendingData = {
       person: data.person.value === 'all' ? '' : data.person.value,
