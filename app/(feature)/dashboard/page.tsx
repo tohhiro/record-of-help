@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense } from 'react';
+import React, { useCallback, Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,8 +27,25 @@ type Props = {
   };
 };
 
+type IsDirtyFieldsProps = Partial<
+  Readonly<{
+    person?:
+      | {
+          value?: boolean | undefined;
+          label?: boolean | undefined;
+        }
+      | undefined;
+    selectDate?:
+      | {
+          startDate?: boolean | undefined;
+          endDate?: boolean | undefined;
+        }
+      | undefined;
+  }>
+>;
+
 const options: OptionsType[] = [
-  { value: '', label: 'All' },
+  { value: 'all', label: 'All' },
   { value: 'eito', label: 'Eito' },
   { value: 'mei', label: 'Mei' },
 ];
@@ -55,14 +72,26 @@ export default function Page() {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useForm<Props>({
     resolver: zodResolver(validationSchema),
   });
 
+  const isCheckingDirty = useCallback(
+    (dirtyFieldsObj: IsDirtyFieldsProps) => {
+      const { person, selectDate } = dirtyFieldsObj;
+      if (!person || !selectDate?.startDate || !selectDate?.endDate) return false;
+      return person && selectDate?.startDate && selectDate?.endDate;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dirtyFields !== undefined],
+  );
+
+  console.log('isCheckingDirty', isCheckingDirty);
+
   const onSubmit: SubmitHandler<Props> = (data) => {
     const sendingData = {
-      person: data.person.value,
+      person: data.person.value === 'all' ? '' : data.person.value,
       startDate: data.selectDate.startDate,
       endDate: data.selectDate.endDate,
     };
@@ -112,7 +141,12 @@ export default function Page() {
           </div>
         </div>
         <div className={dashboardStyles.sendingButton}>
-          <Button type="submit" style="primary" label="検索" />
+          <Button
+            type="submit"
+            style="primary"
+            label="検索"
+            disabled={!isCheckingDirty(dirtyFields)}
+          />
         </div>
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
