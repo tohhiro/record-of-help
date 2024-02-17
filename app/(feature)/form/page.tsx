@@ -25,7 +25,7 @@ export type Helps = {
 };
 
 export default function Page() {
-  const [submitButton, setSubmitButton] = useState<boolean>(false);
+  const [isSubmitting, isSetSubmitting] = useState<boolean>(false);
 
   const post = usePostHelp();
   const router = useRouter();
@@ -51,12 +51,12 @@ export default function Page() {
       comments: data.items.comments,
     };
 
-    setSubmitButton(true);
+    isSetSubmitting(true);
 
     const res = await post.postHelp(sendingData);
 
     if (Number(res.error?.code) >= 400) {
-      setSubmitButton(false);
+      isSetSubmitting(false);
       // eslint-disable-next-line no-alert
       return alert('送信に失敗しました');
     }
@@ -134,7 +134,7 @@ export default function Page() {
         </p>
 
         <div className="w-80 my-4 m-auto">
-          <Button label="Submit" type="submit" style="primary" disabled={submitButton} />
+          <Button label="Submit" type="submit" style="primary" disabled={isSubmitting} />
         </div>
       </form>
     </div>
