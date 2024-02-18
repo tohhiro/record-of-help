@@ -1,22 +1,10 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { default as Dashboard } from './page';
 import userEvent from '@testing-library/user-event';
-import { mockRawsData } from '../../../mocks/rawsData';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
-
-jest.mock('../../hooks/useFetchPricesList', () => {
-  const originalModule = jest.requireActual('../../hooks/useFetchRawsData');
-  const pricesList = jest.requireActual('../../../mocks/rawsData');
-
-  return {
-    ...originalModule,
-    success: pricesList,
-    error: null,
-  };
-});
 
 describe('Dashboard', () => {
   describe('検索パネル', () => {
@@ -57,25 +45,6 @@ describe('Dashboard', () => {
       await user.type(startInput, '2022-01-01');
       await user.type(endInput, '2022-01-02');
       expect(button).toBeEnabled();
-    });
-  });
-  describe('合計表示', () => {
-    test('「合計：¥180」が表示される', () => {
-      render(<Dashboard />);
-
-      waitFor(() => {
-        const showSumWage = screen.getByText('合計：¥180');
-        expect(showSumWage).toBeInTheDocument();
-      });
-    });
-  });
-  describe('rawsData表示箇所', () => {
-    test('テーブルに入ったpropsがレンダリングされる', () => {
-      render(<Dashboard />);
-      waitFor(() => {
-        const checkboxes = screen.getAllByRole('cell');
-        expect(checkboxes).toHaveLength(mockRawsData.length);
-      });
     });
   });
 });

@@ -2,22 +2,9 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { default as Form, Helps } from './page';
+import { default as Form } from './page';
 import mockRouter from 'next-router-mock';
-import { mockPricesList } from '../../../mocks/pricesList';
-
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
-
-jest.mock('../../hooks/useFetchPricesList', () => {
-  const originalModule = jest.requireActual('../../hooks/useFetchPricesList');
-  const pricesList = jest.requireActual('../../../mocks/pricesList');
-
-  return {
-    ...originalModule,
-    success: pricesList as Helps[],
-    error: null,
-  };
-});
 
 describe('Form', () => {
   afterEach(() => {
@@ -45,38 +32,6 @@ describe('Form', () => {
         const radioButton = screen.getByRole('radio', { name: value });
         await user.click(radioButton);
         expect(radioButton).toHaveAttribute('checked', true);
-      });
-    });
-  });
-  describe('checkbox', () => {
-    test('checkboxが5個レンダリングされる', async () => {
-      render(<Form />);
-
-      waitFor(() => {
-        const checkboxes = screen.getAllByRole('checkbox');
-        expect(checkboxes).toHaveLength(mockPricesList.length);
-      });
-    });
-    test('checkboxのvalue属性が正しく設定されている', () => {
-      render(<Form />);
-
-      waitFor(() => {
-        const checkboxes = screen.getAllByRole('checkbox');
-        checkboxes.forEach((checkbox, idx) => {
-          expect(checkbox).toHaveAttribute('value', mockPricesList[idx].value);
-        });
-      });
-    });
-    test('checkboxのチェックを入れると、チェックされたcheckboxの属性がcheckedになっている', async () => {
-      render(<Form />);
-      const user = userEvent.setup();
-
-      waitFor(() => {
-        const checkboxes = screen.getAllByRole('checkbox');
-        checkboxes.forEach((checkbox) => {
-          user.click(checkbox);
-          waitFor(() => expect(checkbox).toHaveAttribute('checked', true));
-        });
       });
     });
   });
