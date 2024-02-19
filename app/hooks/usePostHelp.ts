@@ -1,6 +1,6 @@
 import { supabase } from '../libs/supabase';
 
-type Props = {
+export type Props = {
   person: string;
   comments: string;
   dish: number;
