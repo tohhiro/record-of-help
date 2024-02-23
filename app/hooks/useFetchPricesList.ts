@@ -2,7 +2,7 @@ import { PostgrestError } from '@supabase/supabase-js';
 import { supabase } from '../libs/supabase';
 import useSWR from 'swr';
 
-type ResponseType = {
+export type ResponseType = {
   data: {
     created_at: string;
     help: string;
@@ -22,8 +22,9 @@ type ResponseType = {
 };
 
 const fetcher = async () => {
+  const fetchSupabase = () => supabase.from('helps_list').select('*, prices_list (*)');
   try {
-    const { data, error } = await supabase.from('helps_list').select('*, prices_list (*)');
+    const { data, error } = await fetchSupabase();
     return { data, error };
   } catch (error) {
     throw new Error(String(error));
