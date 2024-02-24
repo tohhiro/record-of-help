@@ -22,8 +22,8 @@ export type ResponseType = {
 };
 
 const fetcher = async () => {
-  const fetchSupabase = () => supabase.from('helps_list').select('*, prices_list (*)');
   try {
+    const fetchSupabase = () => supabase.from('helps_list').select('*, prices_list (*)');
     const { data, error } = await fetchSupabase();
     return { data, error };
   } catch (error) {

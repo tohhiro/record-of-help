@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useFetchPricesList } from './useFetchPricesList'; // あなたのカスタムフックファイルへのパス
+import { useFetchPricesList } from './useFetchPricesList';
 
 jest.mock('@supabase/supabase-js', () => ({
   createClient: jest.fn().mockReturnValue({
@@ -30,16 +30,11 @@ jest.mock('@supabase/supabase-js', () => ({
 }));
 
 describe('useFetchPricesList', () => {
-  it('returns data, error, and isLoading correctly', async () => {
-    // supabase の from 関数をモック化し、適切な戻り値を設定
-
-    // カスタムフックをレンダリング
+  test('returns data, error, and isLoading correctly', async () => {
     const { result } = renderHook(() => useFetchPricesList());
 
-    // フックがロード中であることを確認
     expect(result.current?.isLoading).toBe(true);
 
-    // フックがデータを読み込んだ後、戻り値が期待通りであることを確認
     await waitFor(() => {
       expect(result.current?.isLoading).toBe(false);
       expect(result.current?.error).toBeNull();
