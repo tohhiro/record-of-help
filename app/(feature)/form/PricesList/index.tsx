@@ -4,18 +4,6 @@ import { Checkbox } from '../../../components/Checkbox';
 import { useFetchPricesList } from '../../../hooks/useFetchPricesList';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-export type Helps = {
-  id: string;
-  label: string;
-  column: string;
-  value: number;
-};
-
-export type Props = {
-  person: string;
-  items: { helps: string[]; comments: string };
-};
-
 export const PricesList = forwardRef(
   (
     {

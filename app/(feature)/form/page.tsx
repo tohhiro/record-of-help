@@ -17,13 +17,6 @@ export type Props = {
   items: { helps: string[]; comments: string };
 };
 
-export type Helps = {
-  id: string;
-  label: string;
-  column: string;
-  value: number;
-};
-
 export default function Page() {
   const [isSubmitting, isSetSubmitting] = useState<boolean>(false);
 
