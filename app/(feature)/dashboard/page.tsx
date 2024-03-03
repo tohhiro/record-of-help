@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,23 +26,6 @@ type Props = {
     endDate: string;
   };
 };
-
-type IsDirtyFieldsProps = Partial<
-  Readonly<{
-    person?:
-      | {
-          value?: boolean | undefined;
-          label?: boolean | undefined;
-        }
-      | undefined;
-    selectDate?:
-      | {
-          startDate?: boolean | undefined;
-          endDate?: boolean | undefined;
-        }
-      | undefined;
-  }>
->;
 
 const options: OptionsType[] = [
   { value: 'all', label: 'All' },
@@ -72,20 +55,10 @@ export default function Page() {
   const {
     handleSubmit,
     control,
-    formState: { errors, dirtyFields },
+    formState: { errors },
   } = useForm<Props>({
     resolver: zodResolver(validationSchema),
   });
-
-  const isCheckingDirty = useCallback(
-    (dirtyFieldsObj: IsDirtyFieldsProps) => {
-      const { person, selectDate } = dirtyFieldsObj;
-      if (!person || !selectDate?.startDate || !selectDate?.endDate) return false;
-      return person && selectDate?.startDate && selectDate?.endDate;
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dirtyFields !== undefined],
-  );
 
   const onSubmit: SubmitHandler<Props> = (data) => {
     const sendingData = {
@@ -139,12 +112,7 @@ export default function Page() {
           </div>
         </div>
         <div className={dashboardStyles.sendingButton}>
-          <Button
-            type="submit"
-            style="primary"
-            label="検索"
-            disabled={!isCheckingDirty(dirtyFields)}
-          />
+          <Button type="submit" style="primary" label="検索" />
         </div>
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>

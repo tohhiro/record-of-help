@@ -22,29 +22,22 @@ describe('Dashboard', () => {
         expect(input).toHaveAttribute('type', 'date');
       });
     });
-    test('Buttonがsubmit属性、disabledで1つレンダリングされる', () => {
+    test('Buttonがsubmit属性、Enabledで1つレンダリングされる', () => {
       render(<Dashboard />);
       const button = screen.getByRole('button');
       expect(button).toBeInTheDocument();
       expect(button).toHaveAttribute('type', 'submit');
-      expect(button).toBeDisabled();
-    });
-    test('検索項目を全て入力すると検索ボタンが有効になる', async () => {
-      render(<Dashboard />);
-      const select = screen.getByRole('combobox');
-      const startInput = screen.getByLabelText('開始');
-      const endInput = screen.getByLabelText('終了');
-      const button = screen.getByRole('button');
-      expect(button).toBeDisabled();
-      const user = userEvent.setup();
-
-      await user.click(select);
-      const option = await screen.findByText('Eito');
-      await user.click(option);
-
-      await user.type(startInput, '2022-01-01');
-      await user.type(endInput, '2022-01-02');
       expect(button).toBeEnabled();
+    });
+    test('検索項目を全て入力せず検索ボタンを押すとvalidationエラーになる', async () => {
+      render(<Dashboard />);
+      const assertionsText = ['対象を選択', '開始日を選択', '終了日を選択'];
+      const button = screen.getByRole('button');
+      const user = userEvent.setup();
+      await user.click(button);
+      assertionsText.forEach((text) => {
+        expect(screen.getByText(text)).toBeInTheDocument();
+      });
     });
   });
 });
