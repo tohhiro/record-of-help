@@ -1,6 +1,6 @@
-import type { FetchProps } from './page';
+import type { TdProps } from './DashboardTable';
 
-export const sumObjectArrayData = (data: FetchProps, sumItem: string[]) => {
+export const sumObjectArrayData = (data: TdProps, sumItem: string[]) => {
   if (!data) return 0;
   const sumEachObject = data?.map((item) => {
     return Object.keys(item).reduce((acc, cur) => {
