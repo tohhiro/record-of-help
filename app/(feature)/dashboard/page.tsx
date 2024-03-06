@@ -4,15 +4,12 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFetchRawsData } from '../../hooks/useFetchRawsData';
-import { Table } from '../../components/Table';
 import { SelectBox } from '../../components/SelectBox';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { validationSchema } from './validationSchema';
-import type { Database } from '../../../supabase/schema';
 import { sumObjectArrayData } from './sumObjectArrayData';
-
-export type FetchProps = Database['public']['Tables']['raws_data']['Row'][] | null;
+import { DashboardTable, TdProps } from './DashboardTable';
 
 type OptionsType = {
   value: string;
@@ -42,13 +39,13 @@ const thData = {
   special: 'スペシャル',
   comments: 'コメント',
   created_at: '日付',
-} as const;
+} as Record<string, string>;
 
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 
 export default function Page() {
   const { success, conditionsFetch } = useFetchRawsData();
-  const fetchData: FetchProps = success.rawsData;
+  const fetchData: TdProps = success.rawsData;
 
   const sumFetchData = sumObjectArrayData(fetchData, wageItem);
 
@@ -118,9 +115,12 @@ export default function Page() {
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
       <div className="mt-8">
         <Suspense fallback={<div>Loading...</div>}>
-          <Table thData={thData} tdData={fetchData} />
+          <DashboardTable th={thData} td={fetchData} />
         </Suspense>
       </div>
     </div>
   );
 }
+
+//                     {(key as keyof typeof item) === 'created_at'
+// ? String(new Date(String(item[key as keyof typeof item])).toLocaleString())

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Props } from '.';
+import { Table, PropsTableTd } from '.';
 
 export default {
   title: 'app/components/Table',
@@ -17,7 +17,7 @@ export const Default: React.FC = (): JSX.Element => {
     comments: 'コメント',
     created_at: '日付',
   };
-  const mockTdData: Props = [
+  const mockTdData: PropsTableTd = [
     {
       id: '1',
       person: 'taro',
@@ -28,7 +28,6 @@ export const Default: React.FC = (): JSX.Element => {
       special: 0,
       comments: null,
       created_at: '2024-1-2',
-      del_flag: false,
     },
     {
       id: '2',
@@ -40,7 +39,6 @@ export const Default: React.FC = (): JSX.Element => {
       special: 0,
       comments: null,
       created_at: '2024-1-2',
-      del_flag: true,
     },
     {
       id: '3',
@@ -52,7 +50,6 @@ export const Default: React.FC = (): JSX.Element => {
       special: 40,
       comments: 'テストコメント',
       created_at: '2024-1-2',
-      del_flag: false,
     },
   ];
 
