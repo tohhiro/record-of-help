@@ -121,6 +121,3 @@ export default function Page() {
     </div>
   );
 }
-
-//                     {(key as keyof typeof item) === 'created_at'
-// ? String(new Date(String(item[key as keyof typeof item])).toLocaleString())
