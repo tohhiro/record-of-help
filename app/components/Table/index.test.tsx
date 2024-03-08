@@ -16,7 +16,6 @@ const mockThData = {
 
 const mockTdData = [
   {
-    id: 'mockId1',
     person: 'mockPerson1',
     curtain: 10,
     dish: null,
@@ -27,7 +26,6 @@ const mockTdData = [
     created_at: '2021-10-10',
   },
   {
-    id: 'mockId2',
     person: 'mockPerson2',
     curtain: 10,
     dish: 20,
@@ -39,7 +37,7 @@ const mockTdData = [
   },
 ] as PropsTableTd;
 
-const mockNonTdData = [] as PropsTableTd;
+const mockNonTdData = [{}] as PropsTableTd | null;
 
 describe('Table', () => {
   test('2つのデータが表示される', () => {
@@ -47,9 +45,16 @@ describe('Table', () => {
     expect(screen.getByText('mockPerson1')).toBeInTheDocument();
     expect(screen.getByText('mockPerson2')).toBeInTheDocument();
   });
-  test('データが表示されない', () => {
+  test('thtとtdの要素数か異なるデータを渡すと「要素の数が異なるため表示できません」が表示される', () => {
     render(<Table thData={mockThData} tdData={mockNonTdData} />);
     expect(screen.queryByText('mockPerson1')).not.toBeInTheDocument();
     expect(screen.queryByText('mockPerson2')).not.toBeInTheDocument();
+    expect(screen.getByText('要素の数が異なるため表示できません')).toBeInTheDocument();
+  });
+  test('tdにnullが渡されると「データがありません」と表示される', () => {
+    render(<Table thData={mockThData} tdData={null} />);
+    expect(screen.queryByText('mockPerson1')).not.toBeInTheDocument();
+    expect(screen.queryByText('mockPerson2')).not.toBeInTheDocument();
+    expect(screen.getByText('データがありません')).toBeInTheDocument();
   });
 });
