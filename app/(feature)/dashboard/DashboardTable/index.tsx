@@ -5,7 +5,7 @@ import type { Database } from '../../../../supabase/schema';
 export type TdProps = Database['public']['Tables']['raws_data']['Row'][] | null;
 
 export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: TdProps }) => {
-  if (!th || !td) return null;
+  if (!Object.keys(th).length || !td) return null;
   // del_flagをフィルターする
   const filterData = td.filter((item) => item.del_flag !== true);
 
