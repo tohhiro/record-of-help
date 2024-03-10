@@ -11,7 +11,9 @@
     "Parens",
     "paren",
     "supabase",
-    "PostgrestError"
+    "Supabase",
+    "PostgrestError",
+    "zustand"
   ],
   "flagWords": []
 }

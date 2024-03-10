@@ -29,14 +29,7 @@ export default function Page() {
   const router = useRouter();
   const onSubmit: SubmitHandler<Props> = async (data) => {
     setSubmitButton(true);
-    const res = await login.signIn(data);
-
-    if (res.error?.status === 400) {
-      setSubmitButton(false);
-      // eslint-disable-next-line no-alert
-      return alert('ログインに失敗しました。 \n メールアドレスかパスワードが間違っています。');
-    }
-
+    await login.signIn(data);
     router.replace('/form');
   };
 

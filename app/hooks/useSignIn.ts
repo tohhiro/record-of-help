@@ -7,8 +7,9 @@ export type Props = {
 
 export const useSignIn = () => {
   const signIn = async (args: Props) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ ...args });
-    return { data, error };
+    const { error } = await supabase.auth.signInWithPassword({ ...args });
+    // eslint-disable-next-line no-alert
+    alert(error?.message);
   };
   return { signIn };
 };

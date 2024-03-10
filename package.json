@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/supabase-js": "^2.39.1",
     "@types/node": "20.8.10",
     "@types/react": "18.2.34",
@@ -30,7 +31,8 @@
     "react-select": "^5.8.0",
     "swr": "^2.2.4",
     "typescript": "5.2.2",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.5.3",
