@@ -8,25 +8,25 @@ import mockRouter from 'next-router-mock';
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 describe('NavHeader', () => {
-  let replaceSpy: jest.SpyInstance;
+  let mockReplaceRouter: jest.SpyInstance;
 
   beforeEach(() => {
-    replaceSpy = jest.spyOn(mockRouter, 'replace');
+    mockReplaceRouter = jest.spyOn(mockRouter, 'replace');
   });
 
   afterEach(() => {
-    replaceSpy.mockRestore();
+    mockReplaceRouter.mockRestore();
   });
 
   test('NavHeaderがレンダリングされる', () => {
     render(<NavHeader />);
   });
 
-  test('NavHeaderがレンダリングされる', async () => {
+  test('Logoutをクリックするとrouterがloginの引数とともにが呼び出される', async () => {
     render(<NavHeader />);
     const logout = screen.getByRole('link', { name: 'Logout' });
     const user = userEvent.setup();
     await user.click(logout);
-    expect(replaceSpy).toHaveBeenCalledWith('/login');
+    expect(mockReplaceRouter).toHaveBeenCalledWith('/login');
   });
 });
