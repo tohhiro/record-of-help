@@ -12,5 +12,5 @@ const mockNavItems: NavType = {
 };
 
 export const Default: React.FC = (): JSX.Element => {
-  return <Header links={mockNavItems} />;
+  return <Header links={mockNavItems} onClick={() => {}} />;
 };
