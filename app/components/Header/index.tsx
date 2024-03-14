@@ -11,7 +11,7 @@ export type NavType = {
   Dashboard: string;
 };
 
-export const Header = ({ links, onClick }: { links: NavType; onClick?: () => void }) => {
+export const Header = ({ links, onClick }: { links: NavType; onClick: () => void }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
