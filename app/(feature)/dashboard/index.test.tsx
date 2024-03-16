@@ -29,13 +29,19 @@ describe('Dashboard', () => {
       expect(button).toHaveAttribute('type', 'submit');
       expect(button).toBeEnabled();
     });
-    test('検索項目を全て入力せず検索ボタンを押すとvalidationエラーになる', async () => {
+    test('対象者を未選択、開始終了をクリアし検索ボタンを押すとvalidationエラーになる', async () => {
       render(<Dashboard />);
-      const assertionsText = ['対象を選択', '開始日を選択', '終了日を選択'];
+      const validationsText = ['対象を選択', '開始日を選択', '終了日を選択'];
       const button = screen.getByRole('button');
       const user = userEvent.setup();
+
+      const startInput = screen.getByLabelText('開始');
+      const endInput = screen.getByLabelText('終了');
+
+      await user.clear(startInput);
+      await user.clear(endInput);
       await user.click(button);
-      assertionsText.forEach((text) => {
+      validationsText.forEach((text) => {
         expect(screen.getByText(text)).toBeInTheDocument();
       });
     });
