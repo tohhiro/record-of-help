@@ -43,9 +43,21 @@ const thData = {
 
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 
+const getNowMonthFirstLast = () => {
+  const nowDate = new Date();
+  const nowMonthFirst = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+  const nowMonthLast = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+  return {
+    startDate: nowMonthFirst.toISOString().split('T')[0],
+    endDate: nowMonthLast.toISOString().split('T')[0],
+  };
+};
+
 export default function Page() {
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: TdProps = success.rawsData;
+
+  const { startDate, endDate } = getNowMonthFirstLast();
 
   const sumFetchData = sumObjectArrayData(fetchData, wageItem);
 
@@ -54,6 +66,13 @@ export default function Page() {
     control,
     formState: { errors },
   } = useForm<Props>({
+    defaultValues: {
+      person: { value: '', label: '' },
+      selectDate: {
+        startDate,
+        endDate,
+      },
+    },
     resolver: zodResolver(validationSchema),
   });
 

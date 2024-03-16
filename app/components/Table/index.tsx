@@ -6,7 +6,7 @@ export type PropsTableTd = Record<string, string | number | null>[];
 
 export const Table = forwardRef(
   ({ thData, tdData }: { thData: Record<string, string>; tdData: PropsTableTd | null }, _ref) => {
-    if (!tdData) {
+    if (!tdData || !tdData[0]) {
       return <div>データがありません</div>;
     }
     if (Object.keys(thData).length !== Object.keys(tdData[0]).length) {
