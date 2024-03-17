@@ -13,8 +13,8 @@ export const NavHeader = () => {
   const router = useRouter();
 
   const onSubmit = async () => {
-    await signOut();
-    router.replace('/login');
+    const out = await signOut();
+    if (!out || !out.error) router.replace('/login');
   };
   return <Header links={navItems} onClick={onSubmit} />;
 };
