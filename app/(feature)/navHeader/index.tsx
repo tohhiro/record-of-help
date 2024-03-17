@@ -14,7 +14,11 @@ export const NavHeader = () => {
 
   const onSubmit = async () => {
     const out = await signOut();
-    if (!out || !out.error) router.replace('/login');
+    if (out?.error) {
+      alert('ログアウトに失敗しました。');
+    } else {
+      router.replace('/login');
+    }
   };
   return <Header links={navItems} onClick={onSubmit} />;
 };
