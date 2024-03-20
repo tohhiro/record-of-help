@@ -15,6 +15,7 @@ export const NavHeader = () => {
   const onSubmit = async () => {
     const out = await signOut();
     if (out?.error) {
+      // eslint-disable-next-line no-alert
       alert('ログアウトに失敗しました。');
     } else {
       router.replace('/login');

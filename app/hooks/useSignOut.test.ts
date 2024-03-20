@@ -25,9 +25,9 @@ describe('useSignOut', () => {
         __isAuthError: true,
       } as unknown as AuthError,
     };
-    jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce(error);
+    jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
     const { result } = renderHook(() => useSignOut());
 
-    await expect(result.current.signOut()).rejects.toMatchObject(error);
+    await expect(result.current.signOut()).rejects.toMatchObject({ ...error });
   });
 });

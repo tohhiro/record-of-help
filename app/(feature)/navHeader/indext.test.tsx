@@ -45,7 +45,7 @@ describe('NavHeader', () => {
       } as unknown as AuthError,
     };
 
-    jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce(error);
+    jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
 
     render(<NavHeader />);
     const logout = screen.getByRole('link', { name: 'Logout' });
