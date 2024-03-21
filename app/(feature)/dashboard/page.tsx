@@ -89,7 +89,7 @@ export default function Page() {
   return (
     <div className={dashboardStyles.container}>
       <form onSubmit={handleSubmit(onSubmit)} className={dashboardStyles.formContainer}>
-        <div className="w-100">
+        <div className="w-[10em]">
           <Controller
             name="person"
             control={control}
