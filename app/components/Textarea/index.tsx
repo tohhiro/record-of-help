@@ -11,16 +11,11 @@ export type Props = {
 export const Textarea = forwardRef((props: Props, _ref) => {
   const { label, id, placeholder, ...field } = props;
   return (
-    <div className={textareaStyles.container}>
+    <div>
       <label htmlFor={id} className={textareaStyles.label}>
         {label}
       </label>
-      <textarea
-        id={id}
-        className={textareaStyles.textarea}
-        placeholder={placeholder}
-        {...field}
-      />
+      <textarea id={id} className={textareaStyles.textarea} placeholder={placeholder} {...field} />
     </div>
   );
 });
