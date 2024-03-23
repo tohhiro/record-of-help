@@ -1,7 +1,7 @@
 'use client';
 import React, { forwardRef } from 'react';
-import { Checkbox } from '../../../components/Checkbox';
-import { useFetchPricesList } from '../../../hooks/useFetchPricesList';
+import { Checkbox } from '@/app/components/Checkbox';
+import { useFetchPricesList } from '@/app/hooks/useFetchPricesList';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 export const PricesList = forwardRef(

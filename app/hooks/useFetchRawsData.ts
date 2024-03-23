@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { supabase } from '../libs/supabase';
+import { supabase } from '@/app/libs/supabase';
 import { mutate } from 'swr';
-import type { Database } from '../../supabase/schema';
+import type { Database } from '@/supabase/schema';
 
 type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 

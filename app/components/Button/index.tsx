@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/globals.css';
+import '@/app/styles/globals.css';
 import { buttonStyles } from './index.styles';
 
 export type Props = {

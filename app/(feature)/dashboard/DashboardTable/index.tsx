@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table } from '../../../components/Table';
-import type { Database } from '../../../../supabase/schema';
+import { Table } from '@/app/components/Table';
+import type { Database } from '@/supabase/schema';
 
 export type TdProps = Database['public']['Tables']['raws_data']['Row'][] | null;
 

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import '../../styles/globals.css';
+import '@/app/styles/globals.css';
 import { headerStyles } from './index.styles';
 
 export const headerText = 'Record of help';

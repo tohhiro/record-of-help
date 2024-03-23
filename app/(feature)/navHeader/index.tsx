@@ -1,6 +1,6 @@
 'use client';
-import { Header, NavType } from '../../components/Header';
-import { useSignOut } from '../../hooks/useSignOut';
+import { Header, NavType } from '@/app/components/Header';
+import { useSignOut } from '@/app/hooks/useSignOut';
 import { useRouter } from 'next/navigation';
 
 const navItems: NavType = {

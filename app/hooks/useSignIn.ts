@@ -1,4 +1,4 @@
-import { supabase } from '../libs/supabase';
+import { supabase } from '@/app/libs/supabase';
 
 export type Props = {
   email: string;
