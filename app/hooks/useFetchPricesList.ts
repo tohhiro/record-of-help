@@ -1,6 +1,6 @@
-import { supabase } from '../libs/supabase';
+import { supabase } from '@/app/libs/supabase';
 import useSWR from 'swr';
-import type { PricesHelpsList } from '../types';
+import type { PricesHelpsList } from '@/app/types';
 
 const fetcher = async () => {
   try {

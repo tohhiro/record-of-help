@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { validationSchema } from './validationSchema';
-import { Button } from '../../components/Button';
-import { Radio } from '../../components/Radio';
-import { Textarea } from '../../components/Textarea';
+import { Button } from '@/app/components/Button';
+import { Radio } from '@/app/components/Radio';
+import { Textarea } from '@/app/components/Textarea';
 import { convertHelps } from './convertHelps';
-import { usePostHelp } from '../../hooks/usePostHelp';
+import { usePostHelp } from '@/app/hooks/usePostHelp';
 import { PricesList } from './PricesList';
 
 export type Props = {

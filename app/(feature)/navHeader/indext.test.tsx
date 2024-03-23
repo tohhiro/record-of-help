@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { NavHeader } from '.';
 import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
-import * as Supabase from '../../libs/supabase';
+import * as Supabase from '@/app/libs/supabase';
 import { AuthError } from '@supabase/supabase-js';
 
 jest.mock('../../libs/supabase');

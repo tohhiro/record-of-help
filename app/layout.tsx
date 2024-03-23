@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import './styles/globals.css';
-import { NavHeader } from './(feature)/navHeader';
+import { NavHeader } from '@/app/(feature)/navHeader';
 
 export const metadata = {
   title: 'Record of Help',

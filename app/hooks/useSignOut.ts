@@ -1,4 +1,4 @@
-import { supabase } from '../libs/supabase';
+import { supabase } from '@/app/libs/supabase';
 
 export const useSignOut = () => {
   const signOut = async () => {

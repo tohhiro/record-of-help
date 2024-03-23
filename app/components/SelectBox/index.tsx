@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import Select from 'react-select';
-import '../../styles/globals.css';
+import '@/app/styles/globals.css';
 import { SelectBoxStyles } from './index.styles';
 
 export type Props = {

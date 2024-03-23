@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import '../../styles/globals.css';
+import '@/app/styles/globals.css';
 import { inputStyles } from './index.styles';
 
 type DefaultProps = {
