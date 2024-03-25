@@ -7,9 +7,9 @@ export type Props = {
 
 export const useSignIn = () => {
   const signIn = async (args: Props) => {
-    const { data, error } = (await supabase.auth.signInWithPassword({ ...args })) || {};
+    const { error } = (await supabase.auth.signInWithPassword({ ...args })) || {};
 
-    return { data, error };
+    return { error };
   };
   return { signIn };
 };

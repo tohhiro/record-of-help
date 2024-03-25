@@ -27,28 +27,13 @@ describe('useSignIn', () => {
     });
   });
 
-  test('signOut関数が成功すると、userとsessionが返る', async () => {
-    const data = {
-      data: {
-        user: {
-          id: '1',
-          email: 'test@gmail.com',
-        },
-        session: {
-          access: 'access',
-          refresh: 'refresh',
-          expires_at: 'expires_at',
-        },
-      },
-    };
-    jest.spyOn(Supabase.supabase.auth, 'signInWithPassword').mockResolvedValueOnce({
-      ...data,
-    } as unknown as AuthTokenResponse);
+  test('signOut関数が成功すると、errorにはundefinedが返る', async () => {
+    jest
+      .spyOn(Supabase.supabase.auth, 'signInWithPassword')
+      .mockResolvedValueOnce({ error: undefined } as unknown as AuthTokenResponse);
     const { result } = renderHook(() => useSignIn());
 
-    await expect(result.current.signIn(mockArgs)).resolves.toMatchObject({
-      ...data,
-    });
+    await expect(result.current.signIn(mockArgs)).resolves.toStrictEqual({ error: undefined });
   });
   test('signOut関数失敗するとerrorが返る', async () => {
     const error = {
