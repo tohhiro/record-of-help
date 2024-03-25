@@ -29,16 +29,15 @@ export default function Page() {
   const router = useRouter();
   const onSubmit: SubmitHandler<Props> = async (inputData) => {
     setSubmitButton(true);
-    const { data, error } = await login.signIn(inputData);
+    const { error } = await login.signIn(inputData);
     if (error) {
       // eslint-disable-next-line no-alert
       alert('ログインに失敗しました。');
       setSubmitButton(false);
       return;
     }
-    if (data) {
-      router.replace('/form');
-    }
+
+    router.replace('/form');
   };
 
   return (
