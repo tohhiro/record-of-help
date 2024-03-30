@@ -12,12 +12,12 @@ export type ConditionsArgsType = {
   person?: string;
 };
 
-const commonSupabaseFetcher = supabase
-  .from('raws_data')
-  .select('*')
-  .order('created_at', { ascending: true });
-
 const conditionsFetcher = async (args: ConditionsArgsType) => {
+  const commonSupabaseFetcher = supabase
+    .from('raws_data')
+    .select('*')
+    .order('created_at', { ascending: true });
+
   const fetchPerson = () => {
     if (!args.person) {
       return commonSupabaseFetcher
@@ -38,7 +38,8 @@ export const useFetchRawsData = () => {
   const [rawsData, setRawsData] = useState<Props | null>(null);
 
   const mutateFetch = async (args: ConditionsArgsType) => {
-    const result = await mutate('raws_data_conditions', conditionsFetcher({ ...args }));
+    const swrKey = `raws_data_conditions/${args.startDate}/${args.endDate}/${args.person}`;
+    const result = await mutate(swrKey, conditionsFetcher({ ...args }));
     setRawsData(() => result?.data || null);
   };
 
