@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/app/libs/supabase';
-import { mutate } from 'swr';
+import useSWR, { mutate } from 'swr';
 import type { Database } from '@/supabase/schema';
 
 type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
@@ -10,6 +10,16 @@ export type ConditionsArgsType = {
   startDate: string;
   endDate: string;
   person?: string;
+};
+
+const getNowMonthFirstLast = () => {
+  const nowDate = new Date();
+  const nowMonthFirst = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+  const nowMonthLast = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
+  return {
+    startDate: nowMonthFirst.toISOString().split('T')[0],
+    endDate: nowMonthLast.toISOString().split('T')[0],
+  };
 };
 
 const conditionsFetcher = async (args: ConditionsArgsType) => {
@@ -36,6 +46,18 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
 
 export const useFetchRawsData = () => {
   const [rawsData, setRawsData] = useState<Props | null>(null);
+
+  const { startDate, endDate } = getNowMonthFirstLast();
+  const sendingData: ConditionsArgsType = {
+    person: '',
+    startDate,
+    endDate,
+  };
+
+  const { data } = useSWR('raws_data', () => conditionsFetcher({ ...sendingData }));
+  useEffect(() => {
+    setRawsData(data?.data || null);
+  }, [data]);
 
   const mutateFetch = async (args: ConditionsArgsType) => {
     const swrKey = `raws_data_conditions/${args.startDate}/${args.endDate}/${args.person}`;
