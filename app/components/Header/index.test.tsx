@@ -28,8 +28,9 @@ describe('Header', () => {
 
   test('Logoutをクリックすると、propsで渡したonClick関数が1回実行される', async () => {
     const mockOnClick = jest.fn();
-    render(<Header links={mockNavItems} onClick={mockOnClick} />);
-    const logout = screen.getByText('Logout');
+    const mockLoginUser = 'test@test.com';
+    render(<Header links={mockNavItems} onClick={mockOnClick} loginUser={mockLoginUser} />);
+    const logout = screen.getByText(mockLoginUser);
     const user = userEvent.setup();
     await user.click(logout);
     expect(mockOnClick).toHaveBeenCalledTimes(1);

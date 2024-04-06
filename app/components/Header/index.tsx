@@ -11,7 +11,15 @@ export type NavType = {
   Dashboard: string;
 };
 
-export const Header = ({ links, onClick }: { links: NavType; onClick: () => void }) => {
+export const Header = ({
+  links,
+  loginUser,
+  onClick,
+}: {
+  links: NavType;
+  onClick: () => void;
+  loginUser?: string | null;
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -69,7 +77,7 @@ export const Header = ({ links, onClick }: { links: NavType; onClick: () => void
               ))}
               <li className={headerStyles.menuLiStyle}>
                 <Link href="#" className={headerStyles.menuLink} onClick={onClick}>
-                  Logout
+                  {loginUser || 'Login'}
                 </Link>
               </li>
             </ul>
