@@ -2,6 +2,7 @@
 import { Header, NavType } from '@/app/components/Header';
 import { useSignOut } from '@/app/hooks/useSignOut';
 import { useRouter } from 'next/navigation';
+import { useStore } from '@/app/store';
 
 const navItems: NavType = {
   Form: './form',
@@ -11,6 +12,7 @@ const navItems: NavType = {
 export const NavHeader = () => {
   const { signOut } = useSignOut();
   const router = useRouter();
+  const loginUser = useStore((state) => state.loginUser.email);
 
   const onSubmit = async () => {
     const out = await signOut();
@@ -21,5 +23,5 @@ export const NavHeader = () => {
       router.replace('/login');
     }
   };
-  return <Header links={navItems} onClick={onSubmit} />;
+  return <Header links={navItems} onClick={onSubmit} loginUser={loginUser} />;
 };
