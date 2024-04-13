@@ -7,5 +7,6 @@ export const useSignOut = () => {
       return error;
     }
   };
+
   return { signOut };
 };
