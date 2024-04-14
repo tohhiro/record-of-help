@@ -32,12 +32,11 @@ export default function Page() {
     const { error } = await login.signIn(inputData);
     if (error) {
       // eslint-disable-next-line no-alert
-      alert('ログインに失敗しました。');
+      alert(`ログインに失敗しました。\n ${error.message}`);
       setSubmitButton(false);
-      return;
+    } else {
+      router.replace('/form');
     }
-
-    router.replace('/form');
   };
 
   return (

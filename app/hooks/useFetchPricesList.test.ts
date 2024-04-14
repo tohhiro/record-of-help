@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useFetchPricesList } from './useFetchPricesList';
 
-jest.mock('@supabase/supabase-js', () => ({
-  createClient: jest.fn().mockReturnValue({
+jest.mock('@supabase/ssr', () => ({
+  createBrowserClient: jest.fn().mockReturnValue({
     from: jest.fn().mockReturnValue({
       select: jest.fn().mockReturnValue({
         data: [

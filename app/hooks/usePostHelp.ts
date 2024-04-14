@@ -1,4 +1,4 @@
-import { supabase } from '@/app/libs/supabase';
+import { supabaseAuth } from '@/app/libs/supabaseAuth';
 
 export type Props = {
   person: string;
@@ -12,7 +12,7 @@ export type Props = {
 
 export const usePostHelp = () => {
   const postHelp = async (args: Props) => {
-    const { data, error } = await supabase.from('raws_data').insert([args]);
+    const { data, error } = await supabaseAuth.from('raws_data').insert([args]);
     return { data, error };
   };
   return { postHelp };

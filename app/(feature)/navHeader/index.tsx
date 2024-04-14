@@ -20,7 +20,6 @@ export const NavHeader = () => {
       // eslint-disable-next-line no-alert
       alert('ログアウトに失敗しました。');
     } else {
-      document.cookie = 'key1=supabase-auth-token; max-age=0';
       router.replace('/login');
     }
   };
