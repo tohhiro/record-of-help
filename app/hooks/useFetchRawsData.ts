@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/app/libs/supabase';
+import { supabaseAuth } from '@/app/libs/supabaseAuth';
 import useSWR, { mutate } from 'swr';
 import type { Database } from '@/supabase/schema';
 
@@ -23,7 +23,7 @@ const getNowMonthFirstLast = () => {
 };
 
 const conditionsFetcher = async (args: ConditionsArgsType) => {
-  const commonSupabaseFetcher = supabase
+  const commonSupabaseFetcher = supabaseAuth
     .from('raws_data')
     .select('*')
     .order('created_at', { ascending: true });

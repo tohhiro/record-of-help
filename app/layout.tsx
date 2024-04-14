@@ -1,10 +1,8 @@
 import { PropsWithChildren } from 'react';
 import './styles/globals.css';
 import { NavHeader } from '@/app/(feature)/navHeader';
-import { headers, cookies } from 'next/headers';
-import { createServerComponentSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import type { Database } from '@/supabase/schema';
 import SupabaseListener from '@/app/libs/supabaseListener';
+import { supabaseAuth } from './libs/supabaseAuth';
 
 export const metadata = {
   title: 'Record of Help',
@@ -12,10 +10,9 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: PropsWithChildren) {
-  const supabase = createServerComponentSupabaseClient<Database>({ headers, cookies });
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await supabaseAuth.auth.getSession();
 
   return (
     <html lang="ja">
