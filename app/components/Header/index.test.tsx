@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Header, headerText, NavType } from '.';
+import { Header, headerText, NavAdminType } from '.';
 import userEvent from '@testing-library/user-event';
 
-const mockNavItems: NavType = {
+const mockNavItems: NavAdminType = {
   Form: './form',
   Dashboard: './dashboard',
 };
