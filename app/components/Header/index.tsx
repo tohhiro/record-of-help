@@ -6,8 +6,12 @@ import { headerStyles } from './index.styles';
 
 export const headerText = 'Record of help';
 
-export type NavType = {
+export type NavAdminType = {
   Form: string;
+  Dashboard: string;
+};
+
+export type NavMemberType = {
   Dashboard: string;
 };
 
@@ -16,7 +20,7 @@ export const Header = ({
   loginUser,
   onClick,
 }: {
-  links: NavType;
+  links: NavAdminType | NavMemberType;
   onClick: () => void;
   loginUser?: string | null;
 }) => {

@@ -11,7 +11,7 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
   useEffect(() => {
     const getUserInfo = async () => {
       const { data } = await supabase.auth.getSession();
-      console.log('listenerのdata', data);
+
       if (data.session) {
         updateLoginUser({
           id: data.session?.user.id,
