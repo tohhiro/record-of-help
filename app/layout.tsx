@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import './styles/globals.css';
 import { NavHeader } from '@/app/(feature)/navHeader';
 import SupabaseListener from '@/app/libs/supabaseListener';
-import { supabaseAuth } from './libs/supabaseAuth';
+import { supabase } from './libs/supabase';
 
 export const metadata = {
   title: 'Record of Help',
@@ -12,7 +12,7 @@ export const metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
   const {
     data: { session },
-  } = await supabaseAuth.auth.getSession();
+  } = await supabase.auth.getSession();
 
   return (
     <html lang="ja">

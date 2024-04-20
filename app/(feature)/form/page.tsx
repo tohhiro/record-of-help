@@ -22,18 +22,6 @@ export default function Page() {
 
   const post = usePostHelp();
   const router = useRouter();
-  // const token = useCheckLocalStorageToken();
-
-  // useEffect(() => {
-  //   if (!token) router.replace('/login');
-  // }, [])
-
-  // const pricesList = pricesListRaw?.data?.map((item) => ({
-  //   id: item.id,
-  //   label: item.label,
-  //   column: item.help,
-  //   value: item.prices_list[0].price,
-  // }));
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
     const helpsData = convertHelps(data.items.helps);

@@ -4,11 +4,11 @@ import '@testing-library/jest-dom';
 import { NavHeader } from '.';
 import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
-import * as SupabaseAuth from '@/app/libs/supabaseAuth';
+import * as Supabase from '@/app/libs/supabase';
 import { AuthError } from '@supabase/supabase-js';
 import * as Zustand from '@/app/store';
 
-jest.mock('../../libs/supabaseAuth');
+jest.mock('../../libs/supabase');
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 jest.mock('../../store');
 
@@ -56,9 +56,7 @@ describe('NavHeader', () => {
         message: 'error',
       } as AuthError,
     };
-    jest
-      .spyOn(SupabaseAuth.supabaseAuth.auth, 'signOut')
-      .mockImplementation(() => Promise.resolve(error));
+    jest.spyOn(Supabase.supabase.auth, 'signOut').mockImplementation(() => Promise.resolve(error));
     render(<NavHeader />);
     const logout = screen.getByRole('link', { name: mockedLoginUser });
     const user = userEvent.setup();

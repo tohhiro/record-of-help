@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { useSignIn, Props } from './useSignIn';
-import * as SupabaseAuth from '@/app/libs/supabaseAuth';
+import * as Supabase from '@/app/libs/supabase';
 import { AuthTokenResponse, AuthError } from '@supabase/supabase-js';
 
-jest.mock('../libs/supabaseAuth');
+jest.mock('../libs/supabase');
 
 const mockArgs: Props = {
   email: 'test@gmail.com',
@@ -28,7 +28,7 @@ describe('useSignIn', () => {
 
   test('signOut関数が成功すると、errorにはundefinedが返る', async () => {
     jest
-      .spyOn(SupabaseAuth.supabaseAuth.auth, 'signInWithPassword')
+      .spyOn(Supabase.supabase.auth, 'signInWithPassword')
       .mockResolvedValueOnce({ error: null } as unknown as AuthTokenResponse);
     const { result } = renderHook(() => useSignIn());
 
@@ -43,7 +43,7 @@ describe('useSignIn', () => {
         __isAuthError: true,
       },
     };
-    jest.spyOn(SupabaseAuth.supabaseAuth.auth, 'signInWithPassword').mockRejectedValueOnce({
+    jest.spyOn(Supabase.supabase.auth, 'signInWithPassword').mockRejectedValueOnce({
       ...error,
     } as unknown as AuthError);
     const { result } = renderHook(() => useSignIn());
