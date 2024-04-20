@@ -1,4 +1,4 @@
-import { supabaseAuth } from '@/app/libs/supabaseAuth';
+import { supabase } from '@/app/libs/supabase';
 
 export type Props = {
   email: string;
@@ -7,7 +7,7 @@ export type Props = {
 
 export const useSignIn = () => {
   const signIn = async (args: Props) => {
-    const result = await supabaseAuth.auth.signInWithPassword({ ...args });
+    const result = await supabase.auth.signInWithPassword({ ...args });
 
     const error = result?.error || null;
 

@@ -1,10 +1,10 @@
-import { supabaseAuth } from '@/app/libs/supabaseAuth';
+import { supabase } from '@/app/libs/supabase';
 import useSWR from 'swr';
 import type { PricesHelpsList } from '@/app/types';
 
 const fetcher = async () => {
   try {
-    const fetchSupabase = () => supabaseAuth.from('helps_list').select('*, prices_list (*)');
+    const fetchSupabase = () => supabase.from('helps_list').select('*, prices_list (*)');
     const { data, error } = await fetchSupabase();
     return { data, error };
   } catch (error) {

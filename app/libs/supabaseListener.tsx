@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabaseAuth } from '@/app/libs/supabaseAuth';
+import { supabase } from '@/app/libs/supabase';
 import { useStore } from '@/app/store';
 
 const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) => {
@@ -10,7 +10,8 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const { data } = await supabaseAuth.auth.getSession();
+      const { data } = await supabase.auth.getSession();
+      console.log('listenerのdata', data);
       if (data.session) {
         updateLoginUser({
           id: data.session?.user.id,
@@ -19,7 +20,7 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
       }
     };
     getUserInfo();
-    supabaseAuth.auth.onAuthStateChange((_, session) => {
+    supabase.auth.onAuthStateChange((_, session) => {
       updateLoginUser({ id: session?.user.id!, email: session?.user.email! });
       if (session?.access_token !== accessToken) router.refresh();
     });
