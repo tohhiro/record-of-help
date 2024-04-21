@@ -1,5 +1,19 @@
 import { supabase } from '@/app/libs/supabase';
-import useSWR from 'swr';
+import { mutate } from 'swr';
+import { PostgrestError } from '@supabase/supabase-js';
+
+type ReturnProps = {
+  result:
+    | {
+        data:
+          | {
+              admin: boolean;
+            }[]
+          | null;
+        error: PostgrestError | null;
+      }
+    | undefined;
+};
 
 const fetcher = async ({ email }: { email: string | null }) => {
   try {
@@ -11,15 +25,14 @@ const fetcher = async ({ email }: { email: string | null }) => {
   }
 };
 
-export const useFetchMember = ({ email }: { email: string | null }) => {
-  const { data, error, isLoading } = useSWR('member_list', () => fetcher({ email }), {
-    suspense: true,
-    fallbackData: { data: null, error: null },
-  });
-
+export const useFetchMember = () => {
+  const fetchAuth = async ({ email }: { email: string | null }): Promise<ReturnProps> => {
+    const result = await mutate(`admin_auth_${email}`, fetcher({ email }));
+    return {
+      result,
+    };
+  };
   return {
-    data,
-    error,
-    isLoading,
+    fetchAuth,
   };
 };
