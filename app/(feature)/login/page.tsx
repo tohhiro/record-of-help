@@ -7,6 +7,7 @@ import { validationSchema } from './validationSchema';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { useSignIn } from '@/app/hooks/useSignIn';
+import { useStore } from '@/app/store';
 
 export type Props = {
   email: string;
@@ -27,6 +28,7 @@ export default function Page() {
 
   const login = useSignIn();
   const router = useRouter();
+  const loginAuth = useStore((state) => state.loginUser.auth);
   const onSubmit: SubmitHandler<Props> = async (inputData) => {
     setSubmitButton(true);
     const { error } = await login.signIn(inputData);
@@ -35,7 +37,7 @@ export default function Page() {
       alert(`ログインに失敗しました。\n ${error.message}`);
       setSubmitButton(false);
     } else {
-      router.replace('/form');
+      router.replace(loginAuth ? '/form' : '/dashboard');
     }
   };
 
