@@ -56,10 +56,13 @@ export async function middleware(req: NextRequest) {
 
   const { data } = await supabase.auth.getUser();
 
+  const pathNames = ['/form', '/dashboard'];
+  const accessPath = pathNames.some((path) => req.nextUrl.pathname.startsWith(path));
+
   if (
     // eslint-disable-next-line operator-linebreak
-    (!data.user && req.nextUrl.pathname.startsWith('/form')) ||
-    (!data.user && req.nextUrl.pathname.startsWith('/dashboard'))
+    !data.user &&
+    accessPath
   ) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = '/login';

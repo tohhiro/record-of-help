@@ -13,7 +13,7 @@ describe('useSignOut', () => {
     jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
     const { result } = renderHook(() => useSignOut());
 
-    await expect(result.current.signOut()).resolves.toMatchObject({ error: null });
+    await expect(result.current.signOut()).resolves.toStrictEqual({ error: null });
   });
 
   test('SignOutがエラーの場合、errorのオブジェクトが返る', async () => {
@@ -28,6 +28,6 @@ describe('useSignOut', () => {
     jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
     const { result } = renderHook(() => useSignOut());
 
-    await expect(result.current.signOut()).rejects.toMatchObject({ ...error });
+    await expect(result.current.signOut()).rejects.toStrictEqual({ ...error });
   });
 });
