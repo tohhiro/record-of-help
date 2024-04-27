@@ -16,23 +16,25 @@ const navItemsWithMember = {
 export const NavHeader = () => {
   const { signOut } = useSignOut();
   const router = useRouter();
-  const loginUser = useStore((state) => state.loginUser.email);
-  const loginAuth = useStore((state) => state.loginUser.auth);
+  const { loginUser, updateLoginUser } = useStore((state) => state);
 
   const onSubmit = async () => {
-    const out = await signOut();
-    if (out?.error) {
+    try {
+      // FIXME: 本来は、signOutが成功してからrouter.refresh()を実行するべきだが、帰り値がないため判定ができない
+      router.refresh();
+      updateLoginUser({ id: '', email: '', auth: undefined });
+      await signOut();
+    } catch (e) {
       // eslint-disable-next-line no-alert
       alert('ログアウトに失敗しました。');
-    } else {
-      router.replace('/login');
     }
   };
+
   return (
     <Header
-      links={loginAuth ? navItemsWithAdmin : navItemsWithMember}
+      links={loginUser.auth ? navItemsWithAdmin : navItemsWithMember}
       onClick={onSubmit}
-      loginUser={loginUser}
+      loginUser={loginUser.email}
     />
   );
 };
