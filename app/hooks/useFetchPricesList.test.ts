@@ -30,7 +30,7 @@ jest.mock('@supabase/ssr', () => ({
 }));
 
 describe('useFetchPricesList', () => {
-  test('returns data, error, and isLoading correctly', async () => {
+  test('loadingがfalse、errorはnullの場合データが正常に取得できる', async () => {
     const { result } = renderHook(() => useFetchPricesList());
 
     expect(result.current?.isLoading).toBe(true);
