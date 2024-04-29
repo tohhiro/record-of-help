@@ -38,7 +38,7 @@ describe('useFetchPricesList', () => {
     await waitFor(() => {
       expect(result.current?.isLoading).toBe(false);
       expect(result.current?.error).toBeNull();
-      expect(result.current?.data).toEqual([
+      expect(result.current?.data).toStrictEqual([
         {
           created_at: '2024-02-23T12:00:00.000Z',
           help: 'Some help',

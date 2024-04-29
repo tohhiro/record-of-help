@@ -37,7 +37,7 @@ describe('useFetchMember', () => {
     jest.spyOn(result.current, 'fetchAuth').mockResolvedValueOnce({ ...mockSuccessResponse });
 
     const response = await result.current.fetchAuth({ email: 'test@test.com' });
-    expect(response).toEqual({
+    expect(response).toStrictEqual({
       ...mockSuccessResponse,
     });
   });
@@ -49,7 +49,7 @@ describe('useFetchMember', () => {
     });
 
     const response = await result.current.fetchAuth({ email: 'test@test.com' });
-    expect(response).toEqual({
+    expect(response).toStrictEqual({
       ...mockErrorResponse,
     });
   });

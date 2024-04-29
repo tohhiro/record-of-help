@@ -48,7 +48,7 @@ describe('useSignIn', () => {
     } as unknown as AuthError);
     const { result } = renderHook(() => useSignIn());
 
-    await expect(result.current.signIn(mockArgs)).rejects.toMatchObject({
+    await expect(result.current.signIn(mockArgs)).rejects.toStrictEqual({
       ...error,
     });
   });
