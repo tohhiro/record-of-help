@@ -39,7 +39,7 @@ describe('NavHeader', () => {
     jest.clearAllMocks();
   });
 
-  test('NavHeaderがレンダリングされる', () => {
+  test('NavHeaderがレンダリングされタイトルの文字列が取得できる', () => {
     jest.spyOn(Zustand, 'useStore').mockImplementation(
       (state) =>
         state({
@@ -49,7 +49,7 @@ describe('NavHeader', () => {
         }) || {},
     );
     render(<NavHeader />);
-    expect(screen.getByRole('link', { name: 'Login' })).toBeInTheDocument();
+    expect(screen.getByText('Record of help')).toBeInTheDocument();
   });
 
   test('Logoutをクリックするとloginページのreplaceされる', async () => {

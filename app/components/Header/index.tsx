@@ -67,24 +67,26 @@ export const Header = ({
             className={`${!menuOpen ? 'hidden' : 'block'} ${headerStyles.hamburgerContainer}`}
             id="navbar-default"
           >
-            <ul className={headerStyles.menuUlStyle}>
-              {Object.keys(links).map((link) => (
-                <li key={link} className={headerStyles.menuLiStyle}>
-                  <Link
-                    className={headerStyles.menuLink}
-                    href={links[link as keyof typeof links]}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link}
+            {loginUser && (
+              <ul className={headerStyles.menuUlStyle}>
+                {Object.keys(links).map((link) => (
+                  <li key={link} className={headerStyles.menuLiStyle}>
+                    <Link
+                      className={headerStyles.menuLink}
+                      href={links[link as keyof typeof links]}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link}
+                    </Link>
+                  </li>
+                ))}
+                <li className={headerStyles.menuLiStyle}>
+                  <Link href="#" className={headerStyles.menuLink} onClick={onClick}>
+                    {loginUser}
                   </Link>
                 </li>
-              ))}
-              <li className={headerStyles.menuLiStyle}>
-                <Link href="#" className={headerStyles.menuLink} onClick={onClick}>
-                  {loginUser || 'Login'}
-                </Link>
-              </li>
-            </ul>
+              </ul>
+            )}
           </div>
         </div>
       </nav>
