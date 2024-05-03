@@ -16,9 +16,13 @@ const mockNavMemberItems: NavMemberType = {
 };
 
 export const Admin: React.FC = (): JSX.Element => {
-  return <Header links={mockNavAdminItems} onClick={() => {}} />;
+  return <Header links={mockNavAdminItems} onClick={() => {}} loginUser={'test@test.com'} />;
 };
 
 export const Member: React.FC = (): JSX.Element => {
+  return <Header links={mockNavMemberItems} onClick={() => {}} loginUser={'test@test.com'} />;
+};
+
+export const NotLogin: React.FC = (): JSX.Element => {
   return <Header links={mockNavMemberItems} onClick={() => {}} />;
 };
