@@ -6,20 +6,22 @@ export default {
   component: Button,
 };
 
-const mockData = (opt: { disabled: boolean }): Props => {
-  return {
-    label: 'Buttonラベル',
-    type: 'button',
-    style: 'primary',
-    onClick: () => {},
-    disabled: opt.disabled,
-  };
+const mockData: Props = {
+  label: 'Buttonラベル',
+  type: 'button',
+  style: 'primary',
+  onClick: () => {},
+  disabled: false,
 };
 
 export const Default = (): JSX.Element => {
-  return <Button {...mockData({ disabled: false })} />;
+  return <Button {...mockData} />;
 };
 
 export const Disabled = (): JSX.Element => {
-  return <Button {...mockData({ disabled: true })} />;
+  return <Button {...mockData} disabled={true} />;
+};
+
+export const Secondary = (): JSX.Element => {
+  return <Button {...mockData} style="secondary" />;
 };
