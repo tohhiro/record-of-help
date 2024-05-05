@@ -27,6 +27,15 @@ export const Password: React.FC = (): JSX.Element => {
   return <Input {...mockData} />;
 };
 
+export const Date: React.FC = (): JSX.Element => {
+  const mockData: Props = {
+    ...baseMockData,
+    type: 'date',
+    disabled: false,
+  };
+  return <Input {...mockData} />;
+};
+
 export const Disabled: React.FC = (): JSX.Element => {
   const mockData: Props = { ...baseMockData, disabled: true };
   return <Input {...mockData} />;
