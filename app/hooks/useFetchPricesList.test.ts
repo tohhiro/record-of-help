@@ -33,10 +33,7 @@ describe('useFetchPricesList', () => {
   test('loadingがfalse、errorはnullの場合データが正常に取得できる', async () => {
     const { result } = renderHook(() => useFetchPricesList());
 
-    expect(result.current?.isLoading).toBe(true);
-
     await waitFor(() => {
-      expect(result.current?.isLoading).toBe(false);
       expect(result.current?.error).toBeNull();
       expect(result.current?.data).toStrictEqual([
         {

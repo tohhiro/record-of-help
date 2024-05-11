@@ -16,5 +16,4 @@ export type PricesHelpsList = {
     }[];
   }[];
   error: PostgrestError;
-  isLoading: boolean;
 };

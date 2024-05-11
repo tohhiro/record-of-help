@@ -1,6 +1,6 @@
 import { supabase } from '@/app/libs/supabase';
 import useSWR from 'swr';
-import type { PricesHelpsList } from '@/app/types';
+import { PricesHelpsList } from '@/app/types';
 
 const fetcher = async () => {
   try {
@@ -12,14 +12,12 @@ const fetcher = async () => {
   }
 };
 export const useFetchPricesList = (): PricesHelpsList | undefined => {
-  const { data, error, isLoading } = useSWR('helps_list_and_prices_list', fetcher, {
+  const { data, error } = useSWR('helps_list_and_prices_list', fetcher, {
     suspense: true,
-    fallbackData: { data: null, error: null },
   });
 
   return {
     ...data,
     ...error,
-    isLoading,
   };
 };
