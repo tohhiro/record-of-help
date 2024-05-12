@@ -1,5 +1,6 @@
 import React from 'react';
 import Page from './page';
+import { StoryObj, Meta } from '@storybook/react';
 
 export default {
   title: 'app/feature/Login',
@@ -12,8 +13,10 @@ export default {
       },
     },
   },
-};
+} as Meta<typeof Page>;
 
-export const Default = (): JSX.Element => {
-  return <Page />;
+type Story = StoryObj<typeof Page>;
+
+export const Default: Story = {
+  render: () => <Page />,
 };

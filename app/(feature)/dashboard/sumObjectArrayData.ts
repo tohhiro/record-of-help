@@ -1,6 +1,6 @@
-import type { TdProps } from './DashboardTable';
+import type { Props } from './DashboardTable';
 
-export const sumObjectArrayData = (data: TdProps, sumItem: string[]) => {
+export const sumObjectArrayData = (data: Props, sumItem: string[]) => {
   if (!data) return 0;
   const sumEachObject = data?.map((item) => {
     return Object.keys(item).reduce((acc, cur) => {

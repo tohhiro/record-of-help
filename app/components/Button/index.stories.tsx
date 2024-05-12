@@ -1,12 +1,15 @@
 import React from 'react';
 import { Button, Props } from '.';
+import { StoryObj, Meta } from '@storybook/react';
 
 export default {
   title: 'app/components/Button',
   component: Button,
-};
+} as Meta<typeof Button>;
 
-const mockData: Props = {
+type Story = StoryObj<typeof Button>;
+
+const mockBaseData: Props = {
   label: 'Buttonラベル',
   type: 'button',
   style: 'primary',
@@ -14,14 +17,17 @@ const mockData: Props = {
   disabled: false,
 };
 
-export const Default = (): JSX.Element => {
-  return <Button {...mockData} />;
+export const Default: Story = {
+  args: mockBaseData,
+  render: (args) => <Button {...args} />,
 };
 
-export const Disabled = (): JSX.Element => {
-  return <Button {...mockData} disabled={true} />;
+export const Disabled: Story = {
+  args: { ...mockBaseData, disabled: true },
+  render: (args) => <Button {...args} />,
 };
 
-export const Secondary = (): JSX.Element => {
-  return <Button {...mockData} style="secondary" />;
+export const Secondary: Story = {
+  args: { ...mockBaseData, style: 'secondary' },
+  render: (args) => <Button {...args} />,
 };

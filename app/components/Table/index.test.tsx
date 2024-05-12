@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Table, PropsTableTd } from '.';
+import { Table, Props } from '.';
 
 const mockThData = {
   person: '名前',
@@ -35,9 +35,9 @@ const mockTdData = [
     comments: 'テスト2',
     created_at: '2021-10-10',
   },
-] as PropsTableTd;
+] as Props;
 
-const mockNonTdData = [{}] as PropsTableTd | null;
+const mockNonTdData = [{}] as Props | null;
 
 describe('Table', () => {
   test('2つのデータが表示される', () => {

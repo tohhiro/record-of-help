@@ -2,10 +2,10 @@ import React, { forwardRef } from 'react';
 import '../../styles/globals.css';
 import { tableStyles } from './index.styles';
 
-export type PropsTableTd = Record<string, string | number | null>[];
+export type Props = Record<string, string | number | null>[];
 
 export const Table = forwardRef(
-  ({ thData, tdData }: { thData: Record<string, string>; tdData: PropsTableTd | null }, _ref) => {
+  ({ thData, tdData }: { thData: Record<string, string>; tdData: Props | null }, _ref) => {
     if (!tdData || !tdData[0]) {
       return <div>データがありません</div>;
     }

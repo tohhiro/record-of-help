@@ -1,18 +1,20 @@
 import React from 'react';
-import { Checkbox, Props } from '.';
+import { Checkbox } from '.';
+import { StoryObj, Meta } from '@storybook/react';
 
 export default {
   title: 'app/components/Checkbox',
   component: Checkbox,
-};
+} as Meta<typeof Checkbox>;
 
-export const Default: React.FC = (): JSX.Element => {
-  const mockData: Props = {
+type Story = StoryObj<typeof Checkbox>;
+
+export const Default: Story = {
+  args: {
     id: 'checkbox',
     label: 'Checkboxラベル',
     value: 'checkbox value',
     ref: null,
-  };
-
-  return <Checkbox {...mockData} />;
+  },
+  render: (args) => <Checkbox {...args} />,
 };
