@@ -9,12 +9,18 @@ import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';
 import { validationSchema } from './validationSchema';
 import { sumObjectArrayData } from './sumObjectArrayData';
-import { DashboardTable, TdProps } from './DashboardTable';
+import { DashboardTable, Props as TdProps } from './DashboardTable';
 
 type OptionsType = {
   value: string;
   label: string;
 };
+
+const options: OptionsType[] = [
+  { value: 'all', label: 'All' },
+  { value: 'eito', label: 'Eito' },
+  { value: 'mei', label: 'Mei' },
+];
 
 type Props = {
   person: OptionsType;
@@ -23,12 +29,6 @@ type Props = {
     endDate: string;
   };
 };
-
-const options: OptionsType[] = [
-  { value: 'all', label: 'All' },
-  { value: 'eito', label: 'Eito' },
-  { value: 'mei', label: 'Mei' },
-];
 
 const thData = {
   person: '名前',
@@ -39,7 +39,7 @@ const thData = {
   special: 'スペシャル',
   comments: 'コメント',
   created_at: '日付',
-} as Record<string, string>;
+};
 
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 

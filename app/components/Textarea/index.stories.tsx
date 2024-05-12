@@ -1,10 +1,13 @@
 import React from 'react';
 import { Textarea, Props } from '.';
+import { StoryObj, Meta } from '@storybook/react';
 
 export default {
   title: 'app/components/Textarea',
   component: Textarea,
-};
+} as Meta<typeof Textarea>;
+
+type Story = StoryObj<typeof Textarea>;
 
 const mockData: Props = {
   id: 'textarea',
@@ -12,6 +15,7 @@ const mockData: Props = {
   placeholder: 'Textareaプレースホルダー',
 };
 
-export const Default: React.FC = (): JSX.Element => {
-  return <Textarea {...mockData} />;
+export const Default: Story = {
+  args: mockData,
+  render: (args) => <Textarea {...args} />,
 };
