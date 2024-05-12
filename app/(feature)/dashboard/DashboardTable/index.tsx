@@ -2,9 +2,9 @@ import React from 'react';
 import { Table } from '@/app/components/Table';
 import type { Database } from '@/supabase/schema';
 
-export type TdProps = Database['public']['Tables']['raws_data']['Row'][] | null;
+export type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
-export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: TdProps }) => {
+export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: Props }) => {
   if (!Object.keys(th).length || !td) return null;
   // del_flagをフィルターする
   const filterData = td.filter((item) => item.del_flag !== true);

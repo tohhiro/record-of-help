@@ -1,119 +1,105 @@
 import React from 'react';
-import { Table, PropsTableTd } from '.';
+import { Table, Props } from '.';
+import { StoryObj, Meta } from '@storybook/react';
 
 export default {
   title: 'app/components/Table',
   component: Table,
+} as Meta<typeof Table>;
+
+type Story = StoryObj<typeof Table>;
+
+const mockThData = {
+  person: '名前',
+  dish: '皿洗い',
+  curtain: 'カーテン開閉',
+  prepareEat: '食事準備',
+  landry: '洗濯物片付け',
+  special: 'スペシャル',
+  comments: 'コメント',
+  created_at: '日付',
 };
 
-export const Default: React.FC = (): JSX.Element => {
-  const mockThData = {
-    person: '名前',
-    dish: '皿洗い',
-    curtain: 'カーテン開閉',
-    prepareEat: '食事準備',
-    landry: '洗濯物片付け',
-    special: 'スペシャル',
-    comments: 'コメント',
-    created_at: '日付',
-  };
-  const mockTdData: PropsTableTd = [
-    {
-      person: 'taro',
-      curtain: 100,
-      dish: 0,
-      landry: 0,
-      prepareEat: 20,
-      special: 0,
-      comments: null,
-      created_at: '2024-1-2',
-    },
-    {
-      person: 'hide',
-      curtain: 100,
-      dish: 0,
-      landry: 0,
-      prepareEat: 20,
-      special: 0,
-      comments: null,
-      created_at: '2024-1-2',
-    },
-    {
-      person: 'taro',
-      curtain: 200,
-      dish: 10,
-      landry: 20,
-      prepareEat: 20,
-      special: 40,
-      comments: 'テストコメント',
-      created_at: '2024-1-2',
-    },
-  ];
+const mockTdData: Props = [
+  {
+    person: 'taro',
+    curtain: 100,
+    dish: 0,
+    landry: 0,
+    prepareEat: 20,
+    special: 0,
+    comments: null,
+    created_at: '2024-1-2',
+  },
+  {
+    person: 'hide',
+    curtain: 100,
+    dish: 0,
+    landry: 0,
+    prepareEat: 20,
+    special: 0,
+    comments: null,
+    created_at: '2024-1-2',
+  },
+  {
+    person: 'taro',
+    curtain: 200,
+    dish: 10,
+    landry: 20,
+    prepareEat: 20,
+    special: 40,
+    comments: 'テストコメント',
+    created_at: '2024-1-2',
+  },
+];
 
-  return <Table thData={mockThData} tdData={mockTdData} />;
+const mockTdDataDiff: Props = [
+  {
+    id: 1,
+    person: 'taro',
+    curtain: 100,
+    dish: 0,
+    landry: 0,
+    prepareEat: 20,
+    special: 0,
+    comments: null,
+    created_at: '2024-1-2',
+  },
+  {
+    id: 2,
+    person: 'hide',
+    curtain: 100,
+    dish: 0,
+    landry: 0,
+    prepareEat: 20,
+    special: 0,
+    comments: null,
+    created_at: '2024-1-2',
+  },
+  {
+    id: 3,
+    person: 'taro',
+    curtain: 200,
+    dish: 10,
+    landry: 20,
+    prepareEat: 20,
+    special: 40,
+    comments: 'テストコメント',
+    created_at: '2024-1-2',
+  },
+];
+
+export const Default: Story = {
+  args: { thData: mockThData, tdData: mockTdData },
+  render: (args) => <Table {...args} />,
 };
 
-export const DifferentThAndTdLength: React.FC = (): JSX.Element => {
-  const mockThData = {
-    person: '名前',
-    dish: '皿洗い',
-    curtain: 'カーテン開閉',
-    prepareEat: '食事準備',
-    landry: '洗濯物片付け',
-    special: 'スペシャル',
-    comments: 'コメント',
-    created_at: '日付',
-  };
-  const mockTdData: PropsTableTd = [
-    {
-      id: 1,
-      person: 'taro',
-      curtain: 100,
-      dish: 0,
-      landry: 0,
-      prepareEat: 20,
-      special: 0,
-      comments: null,
-      created_at: '2024-1-2',
-    },
-    {
-      id: 2,
-      person: 'hide',
-      curtain: 100,
-      dish: 0,
-      landry: 0,
-      prepareEat: 20,
-      special: 0,
-      comments: null,
-      created_at: '2024-1-2',
-    },
-    {
-      id: 3,
-      person: 'taro',
-      curtain: 200,
-      dish: 10,
-      landry: 20,
-      prepareEat: 20,
-      special: 40,
-      comments: 'テストコメント',
-      created_at: '2024-1-2',
-    },
-  ];
-
-  return <Table thData={mockThData} tdData={mockTdData} />;
+export const DifferentThAndTdLength: Story = {
+  args: { thData: mockThData, tdData: mockTdDataDiff },
+  render: (args) => <Table {...args} />,
 };
 
-export const Null: React.FC = (): JSX.Element => {
-  const mockThData = {
-    person: '名前',
-    dish: '皿洗い',
-    curtain: 'カーテン開閉',
-    prepareEat: '食事準備',
-    landry: '洗濯物片付け',
-    special: 'スペシャル',
-    comments: 'コメント',
-    created_at: '日付',
-  };
-
-  return <Table thData={mockThData} tdData={null} />;
+export const Null: Story = {
+  args: { thData: mockThData, tdData: null },
+  render: (args) => <Table {...args} />,
 };

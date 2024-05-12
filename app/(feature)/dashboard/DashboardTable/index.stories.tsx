@@ -1,22 +1,25 @@
 import React from 'react';
-import { DashboardTable, TdProps } from '.';
+import { StoryObj, Meta } from '@storybook/react';
+import { DashboardTable, Props } from '.';
 
 export default {
   title: 'app/feature/dashboard/DashboardTable',
   component: DashboardTable,
-};
+} as Meta<typeof DashboardTable>;
+
+type Story = StoryObj<typeof DashboardTable>;
 
 const mockThData = {
-  comments: 'コメント',
-  created_at: '作成日',
-  curtain: 'カーテン',
-  dish: '皿洗い',
-  landry: '洗濯物',
   person: '氏名',
+  dish: '皿洗い',
+  curtain: 'カーテン開閉',
+  landry: '洗濯物',
   prepareEat: '食事準備',
   special: 'スペシャル',
+  comments: 'コメント',
+  created_at: '日付',
 };
-const mockTdData: TdProps = [
+const mockTdData: Props = [
   {
     comments: null,
     created_at: '2024-1-2',
@@ -43,6 +46,7 @@ const mockTdData: TdProps = [
   },
 ];
 
-export const Default: React.FC = (): JSX.Element => {
-  return <DashboardTable th={mockThData} td={mockTdData} />;
+export const Default: Story = {
+  args: { th: mockThData, td: mockTdData },
+  render: (args) => <DashboardTable {...args} />,
 };

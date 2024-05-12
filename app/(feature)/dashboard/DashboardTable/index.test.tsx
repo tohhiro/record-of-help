@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { DashboardTable, TdProps } from '.';
+import { DashboardTable, Props } from '.';
 
 const mockThData = {
   comments: 'コメント',
@@ -13,7 +13,7 @@ const mockThData = {
   prepareEat: '食事準備',
   special: 'スペシャル',
 };
-const mockTdData: TdProps = [
+const mockTdData: Props = [
   {
     comments: null,
     created_at: '2024-1-2',
@@ -40,7 +40,7 @@ const mockTdData: TdProps = [
   },
 ];
 
-const mockTdDataWithDelFlag: TdProps = [
+const mockTdDataWithDelFlag: Props = [
   {
     comments: null,
     created_at: '2024-1-2',
