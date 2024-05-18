@@ -1,6 +1,6 @@
 'use client';
 import { Header } from '@/app/components/Header';
-import { useSignOut } from '@/app/hooks/useSignOut';
+import { useSignOut } from '@/app/(feature)/login/hooks/useSingOut';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/app/store';
 

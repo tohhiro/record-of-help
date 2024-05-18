@@ -3,13 +3,13 @@ import React, { Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFetchRawsData } from '@/app/hooks/useFetchRawsData';
+import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks/useFetchRawsData';
 import { SelectBox } from '@/app/components/SelectBox';
 import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';
-import { validationSchema } from './validationSchema';
-import { sumObjectArrayData } from './sumObjectArrayData';
-import { DashboardTable, Props as TdProps } from './DashboardTable';
+import { validationSchema } from './helper/validationSchema';
+import { sumObjectArrayData } from './helper/subObjectArrayData';
+import { DashboardTable, Props as TdProps } from './components/DashboardTable';
 
 type OptionsType = {
   value: string;

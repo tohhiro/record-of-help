@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useFetchPricesList } from './useFetchPricesList';
+import { useFetchPricesList } from '.';
 
 jest.mock('@supabase/ssr', () => ({
   createBrowserClient: jest.fn().mockReturnValue({

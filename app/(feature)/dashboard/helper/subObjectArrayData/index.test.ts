@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { sumObjectArrayData } from './sumObjectArrayData';
+import { sumObjectArrayData } from '.';
 import { mockRawsData } from '@/mocks/rawsData';
 
 const mockSumItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];

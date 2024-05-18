@@ -4,13 +4,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { validationSchema } from './validationSchema';
+import { validationSchema } from './helper/validationSchema';
 import { Button } from '@/app/components/Button';
 import { Radio } from '@/app/components/Radio';
 import { Textarea } from '@/app/components/Textarea';
-import { convertHelps } from './convertHelps';
-import { usePostHelp } from '@/app/hooks/usePostHelp';
-import { PricesList } from './PricesList';
+import { convertHelps } from './helper/convertHelps';
+import { usePostHelp } from '@/app/(feature)/form/hooks/usePostHelp';
+import { PricesList } from './components/PricesList';
 
 export type Props = {
   person: string;
