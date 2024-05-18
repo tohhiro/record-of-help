@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
-import { useSignOut } from './useSignOut';
+import { useSignOut } from '.';
 import * as Supabase from '@/app/libs/supabase';
 import { AuthError } from '@supabase/supabase-js';
 
-jest.mock('../libs/supabase');
+jest.mock('../../../../libs/supabase');
 
 describe('useSignOut', () => {
   afterEach(() => {

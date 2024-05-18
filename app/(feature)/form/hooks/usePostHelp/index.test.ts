@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { usePostHelp, Props } from './usePostHelp';
+import { usePostHelp, Props } from '.';
 
 const mockArgs: Props = {
   person: 'eito',

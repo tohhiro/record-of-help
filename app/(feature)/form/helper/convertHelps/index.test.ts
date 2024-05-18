@@ -1,4 +1,4 @@
-import { convertHelps } from './convertHelps';
+import { convertHelps } from '.';
 
 describe('convertHelps', () => {
   it('dataとして入った文字列の配列を、カンマ区切りで分解しオブジェクトに変換する', () => {

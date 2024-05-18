@@ -1,4 +1,4 @@
-import type { Props } from './DashboardTable';
+import type { Props } from '../../components/DashboardTable';
 
 export const sumObjectArrayData = (data: Props, sumItem: string[]) => {
   if (!data) return 0;
