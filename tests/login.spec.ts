@@ -2,8 +2,11 @@ import { test, expect } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-const envPath = path.resolve(__dirname, '../.env.local');
-dotenv.config({ path: envPath });
+// ローカル環境では.env.localファイルから読み込む
+if (process.env.NODE_ENV !== 'production') {
+  const envPath = path.resolve(__dirname, '../.env.local');
+  dotenv.config({ path: envPath });
+}
 
 const url = process.env.URL as string;
 const email = process.env.EMAIL as string;

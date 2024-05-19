@@ -9,6 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "test": "jest",
+    "test:e2e": "npx playwright test",
     "sb": "storybook dev -p 6006",
     "sb:build": "storybook build",
     "supabase:login": "npx supabase login",
