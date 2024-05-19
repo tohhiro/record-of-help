@@ -37,3 +37,7 @@ next-env.d.ts
 /storybook-static
 
 /supabase/.temp
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

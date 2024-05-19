@@ -5,14 +5,12 @@ on:
     branches:
       - main
     paths:
-      - '!.vscode/**'
       - 'app/**'
       - '.github/**'
   pull_request_target:
     branches:
       - main
     paths:
-      - '!.vscode/**'
       - 'app/**'
       - '.github/**'
 
@@ -33,4 +31,8 @@ jobs:
         run: npm install
 
       - name: Run Tests
+        env:
+          URL: ${{ secrets.URL }}
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
         run: npm test

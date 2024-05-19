@@ -13,7 +13,9 @@
     "supabase",
     "Supabase",
     "PostgrestError",
-    "zustand"
+    "zustand",
+    "playright",
+    "textbox"
   ],
   "flagWords": []
 }
