@@ -21,6 +21,7 @@
     "@types/node": "20.8.10",
     "@types/react": "18.2.34",
     "@types/react-dom": "18.2.14",
+    "dotenv": "^16.4.5",
     "eslint": "8.53.0",
     "eslint-config-next": "14.0.1",
     "next": "14.0.1",
@@ -35,6 +36,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.44.0",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
