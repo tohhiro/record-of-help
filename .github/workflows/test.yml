@@ -5,16 +5,12 @@ on:
     branches:
       - main
     paths:
-      - '!tests/**'
-      - '!.vscode/**'
       - 'app/**'
       - '.github/**'
   pull_request_target:
     branches:
       - main
     paths:
-      - '!tests/**'
-      - '!.vscode/**'
       - 'app/**'
       - '.github/**'
 
