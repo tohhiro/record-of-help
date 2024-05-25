@@ -32,7 +32,7 @@ test('ログインページへの遷移するとメールアドレスとパス�
 });
 
 test('ログインするとヘッダーのリンクが表示される', async ({ page }) => {
-  await page.goto(`${url}/login`);
+  await page.goto(`${url}login`);
 
   await page.getByRole('textbox', { name: 'メールアドレス' }).fill(email);
   await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
@@ -41,4 +41,5 @@ test('ログインするとヘッダーのリンクが表示される', async ({
   await expect(page.getByRole('link', { name: 'Form' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
   await expect(page.getByText(email)).toBeVisible();
+  await expect(page).toHaveURL(`${url}dashboard`);
 });
