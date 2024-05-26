@@ -15,7 +15,28 @@ on:
       - '.github/**'
 
 jobs:
+  check_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.detect_changes.outputs.changes }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Detect changes
+        id: detect_changes
+        run: |
+          git fetch origin main
+          CHANGES=$(git diff --name-only origin/main...HEAD)
+          echo "Detected changes: $CHANGES"
+          if echo "$CHANGES" | grep -qE '^app/|^\.github/'; then
+            echo "::set-output name=changes::true"
+          else
+            echo "::set-output name=changes::false"
+
   test:
+    needs: check_changes
+    if: needs.check_changes.outputs.changes == 'true'
     runs-on: ubuntu-latest
 
     steps:
