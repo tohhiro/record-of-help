@@ -1,4 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// ローカル環境では.env.localファイルから読み込む
+if (process.env.NODE_ENV !== 'production') {
+  const envPath = path.resolve(__dirname, '.env.local');
+  dotenv.config({ path: envPath });
+}
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -27,6 +36,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    baseURL: process.env.URL!,
   },
 
   /* Configure projects for major browsers */
