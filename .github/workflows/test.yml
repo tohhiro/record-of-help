@@ -7,12 +7,14 @@ on:
     paths:
       - 'app/**'
       - '.github/**'
+      - 'tests/**'
   pull_request_target:
     branches:
       - main
     paths:
       - 'app/**'
       - '.github/**'
+      - 'tests/**'
 
 jobs:
   test:
