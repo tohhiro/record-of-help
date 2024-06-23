@@ -1,4 +1,3 @@
-import React from 'react';
 import { SelectBox, Props } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -21,7 +20,6 @@ export const Default: Story = {
     label: '選択してください',
     options: mockOptions,
   },
-  render: (args) => <SelectBox {...args} />,
 };
 
 export const Disabled: Story = {
@@ -31,5 +29,4 @@ export const Disabled: Story = {
     options: mockOptions,
     isDisabled: true,
   },
-  render: (args) => <SelectBox {...args} />,
 };

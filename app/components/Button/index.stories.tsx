@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Props } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -19,15 +18,12 @@ const mockBaseData: Props = {
 
 export const Default: Story = {
   args: mockBaseData,
-  render: (args) => <Button {...args} />,
 };
 
 export const Disabled: Story = {
   args: { ...mockBaseData, disabled: true },
-  render: (args) => <Button {...args} />,
 };
 
 export const Secondary: Story = {
   args: { ...mockBaseData, style: 'secondary' },
-  render: (args) => <Button {...args} />,
 };

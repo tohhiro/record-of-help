@@ -1,4 +1,3 @@
-import React from 'react';
 import { Header, NavAdminType, NavMemberType } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -24,7 +23,6 @@ export const Admin: Story = {
     onClick: () => {},
     loginUser: 'test@test.com',
   },
-  render: (args) => <Header {...args} />,
 };
 
 export const Member: Story = {
@@ -33,7 +31,6 @@ export const Member: Story = {
     onClick: () => {},
     loginUser: 'test@test.com',
   },
-  render: (args) => <Header {...args} />,
 };
 
 export const NotLogin: Story = {
@@ -41,5 +38,4 @@ export const NotLogin: Story = {
     links: mockNavMemberItems,
     onClick: () => {},
   },
-  render: (args) => <Header {...args} />,
 };

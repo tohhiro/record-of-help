@@ -1,4 +1,3 @@
-import React from 'react';
 import { StoryObj, Meta } from '@storybook/react';
 import { DashboardTable, Props } from '.';
 
@@ -48,5 +47,4 @@ const mockTdData: Props = [
 
 export const Default: Story = {
   args: { th: mockThData, td: mockTdData },
-  render: (args) => <DashboardTable {...args} />,
 };

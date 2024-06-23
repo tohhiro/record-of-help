@@ -1,4 +1,4 @@
-import React from 'react';
+import { StoryObj, Meta } from '@storybook/react';
 import { NavHeader } from '.';
 
 export default {
@@ -9,8 +9,8 @@ export default {
       appDirectory: true,
     },
   },
-};
+} as Meta<typeof NavHeader>;
 
-export const Default = (): JSX.Element => {
-  return <NavHeader />;
-};
+export type Story = StoryObj<typeof NavHeader>;
+
+export const Default: Story = {};
