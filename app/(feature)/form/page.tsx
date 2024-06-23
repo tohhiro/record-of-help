@@ -18,7 +18,7 @@ export type Props = {
 };
 
 export default function Page() {
-  const [isSubmitting, isSetSubmitting] = useState<boolean>(false);
+  const [isSubmitting, isSetSubmitting] = useState<'primary' | 'disabled'>('primary');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -37,12 +37,12 @@ export default function Page() {
       comments: data.items.comments,
     };
 
-    isSetSubmitting(true);
+    isSetSubmitting('disabled');
 
     const res = await post.postHelp(sendingData);
 
     if (Number(res.error?.code) >= 400) {
-      isSetSubmitting(false);
+      isSetSubmitting('primary');
       // eslint-disable-next-line no-alert
       return alert('送信に失敗しました');
     }
@@ -121,7 +121,7 @@ export default function Page() {
           </p>
 
           <div className="w-80 my-4 m-auto">
-            <Button label="Submit" type="submit" style="primary" disabled={isSubmitting} />
+            <Button label="Submit" type="submit" intent={isSubmitting} />
           </div>
         </form>
       </div>

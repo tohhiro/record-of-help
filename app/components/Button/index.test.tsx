@@ -7,7 +7,7 @@ describe('Button', () => {
   const mockValues: Props = {
     label: 'ボタン',
     type: 'button',
-    style: 'primary',
+    intent: 'primary',
     onClick: jest.fn(),
   };
   test('Buttonコンポーネントがレンダリングされる', () => {
@@ -18,7 +18,7 @@ describe('Button', () => {
   test('Buttonコンポーネントがdisabledでレンダリングされる', () => {
     const mockValuesWithDisabledButton: Props = {
       ...mockValues,
-      disabled: true,
+      intent: 'disabled',
     };
     render(<Button {...mockValuesWithDisabledButton} />);
     const buttonComponent = screen.getByRole('button');
@@ -27,7 +27,7 @@ describe('Button', () => {
   test('Buttonコンポーネントのtype属性がsubmitでレンダリングされる', () => {
     const mockValuesWithAttrSubmit: Props = {
       ...mockValues,
-      style: 'primary',
+      intent: 'primary',
     };
     render(<Button {...mockValuesWithAttrSubmit} />);
     const buttonComponent = screen.getByRole('button');
