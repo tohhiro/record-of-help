@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import '@/app/styles/globals.css';
-import { headerStyles } from './index.styles';
+import { headerStyles, hamburgerContainer } from './index.styles';
 
 export const headerText = 'Record of help';
 
@@ -24,7 +24,7 @@ export const Header = ({
   onClick: () => void;
   loginUser?: string | null;
 }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header role="banner">
@@ -43,7 +43,7 @@ export const Header = ({
             className={headerStyles.hamburgerMenu}
             aria-controls="navbar-default"
             aria-expanded="false"
-            onClick={() => setMenuOpen((prev) => !prev)}
+            onClick={() => setIsOpen((prev) => !prev)}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -64,7 +64,7 @@ export const Header = ({
           </button>
 
           <div
-            className={`${!menuOpen ? 'hidden' : 'block'} ${headerStyles.hamburgerContainer}`}
+            className={hamburgerContainer({ hamburger: isOpen ? 'open' : 'hidden' })}
             id="navbar-default"
           >
             {loginUser && (
@@ -74,7 +74,7 @@ export const Header = ({
                     <Link
                       className={headerStyles.menuLink}
                       href={links[link as keyof typeof links]}
-                      onClick={() => setMenuOpen(false)}
+                      onClick={() => setIsOpen(false)}
                     >
                       {link}
                     </Link>
