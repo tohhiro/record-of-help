@@ -8,8 +8,7 @@ export type Props = {
   value: string;
 };
 
-export const Radio = forwardRef((props: Props, _ref) => {
-  const { id, label, value, ...field } = props;
+export const Radio = forwardRef(({ id, label, value, ...field }: Props, _ref) => {
   return (
     <div className={radioStyles.container}>
       <input type="radio" id={id} className={radioStyles.radio} {...field} value={value} />

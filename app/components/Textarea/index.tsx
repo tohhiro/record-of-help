@@ -8,8 +8,7 @@ export type Props = {
   placeholder: string;
 };
 
-export const Textarea = forwardRef((props: Props, _ref) => {
-  const { label, id, placeholder, ...field } = props;
+export const Textarea = forwardRef(({ label, id, placeholder, ...field }: Props, _ref) => {
   return (
     <div>
       <label htmlFor={id} className={textareaStyles.label}>

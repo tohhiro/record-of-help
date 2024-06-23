@@ -10,8 +10,7 @@ export type Props = {
   ref: Ref<HTMLInputElement>;
 };
 
-export const Checkbox = forwardRef((props: Props, ref) => {
-  const { id, label, value, ...rest } = props;
+export const Checkbox = forwardRef(({ id, label, value, ...rest }: Props, ref) => {
   return (
     <div className={checkboxStyles.container}>
       <input
