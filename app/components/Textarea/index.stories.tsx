@@ -1,4 +1,3 @@
-import React from 'react';
 import { Textarea, Props } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -17,5 +16,4 @@ const mockData: Props = {
 
 export const Default: Story = {
   args: mockData,
-  render: (args) => <Textarea {...args} />,
 };

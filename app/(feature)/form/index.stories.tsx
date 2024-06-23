@@ -1,4 +1,3 @@
-import React from 'react';
 import Page from './page';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -17,6 +16,4 @@ export default {
 
 type Story = StoryObj<typeof Page>;
 
-export const Default: Story = {
-  render: () => <Page />,
-};
+export const Default: Story = {};

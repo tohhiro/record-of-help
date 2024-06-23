@@ -1,4 +1,3 @@
-import React from 'react';
 import { Input, Props } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -18,20 +17,16 @@ const baseMockData: Props = {
 
 export const Default: Story = {
   args: { ...baseMockData, disabled: false },
-  render: (args) => <Input {...args} />,
 };
 
 export const Password: Story = {
   args: { ...baseMockData, type: 'password', disabled: false },
-  render: (args) => <Input {...args} />,
 };
 
 export const Date: Story = {
   args: { ...baseMockData, type: 'date', disabled: false },
-  render: (args) => <Input {...args} />,
 };
 
 export const Disabled: Story = {
   args: { ...baseMockData, disabled: true },
-  render: (args) => <Input {...args} />,
 };

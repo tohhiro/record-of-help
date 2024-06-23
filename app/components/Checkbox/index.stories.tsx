@@ -1,4 +1,3 @@
-import React from 'react';
 import { Checkbox } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -16,5 +15,4 @@ export const Default: Story = {
     value: 'checkbox value',
     ref: null,
   },
-  render: (args) => <Checkbox {...args} />,
 };
