@@ -11,9 +11,8 @@ type Story = StoryObj<typeof Button>;
 const mockBaseData: Props = {
   label: 'Buttonラベル',
   type: 'button',
-  style: 'primary',
+  intent: 'primary',
   onClick: () => {},
-  disabled: false,
 };
 
 export const Default: Story = {
@@ -21,9 +20,9 @@ export const Default: Story = {
 };
 
 export const Disabled: Story = {
-  args: { ...mockBaseData, disabled: true },
+  args: { ...mockBaseData, intent: 'disabled' },
 };
 
 export const Secondary: Story = {
-  args: { ...mockBaseData, style: 'secondary' },
+  args: { ...mockBaseData, intent: 'secondary' },
 };

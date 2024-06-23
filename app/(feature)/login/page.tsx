@@ -15,7 +15,7 @@ export type Props = {
 };
 
 export default function Page() {
-  const [submitButton, setSubmitButton] = useState<boolean>(false);
+  const [submitButton, setSubmitButton] = useState<'primary' | 'disabled'>('primary');
 
   const {
     formState: { errors },
@@ -30,12 +30,12 @@ export default function Page() {
   const router = useRouter();
   const loginAuth = useStore((state) => state.loginUser.auth);
   const onSubmit: SubmitHandler<Props> = async (inputData) => {
-    setSubmitButton(true);
+    setSubmitButton('disabled');
     const { error } = await login.signIn(inputData);
     if (error) {
       // eslint-disable-next-line no-alert
       alert(`ログインに失敗しました。\n ${error.message}`);
-      setSubmitButton(false);
+      setSubmitButton('primary');
     } else {
       router.replace(loginAuth ? '/form' : '/dashboard');
     }
@@ -75,7 +75,7 @@ export default function Page() {
           </p>
         </div>
         <div className="w-80 my-8 m-auto">
-          <Button label="ログイン" type="submit" style="primary" disabled={submitButton} />
+          <Button label="ログイン" type="submit" intent={submitButton} />
         </div>
       </form>
     </div>

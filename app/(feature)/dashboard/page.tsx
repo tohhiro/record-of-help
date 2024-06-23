@@ -128,7 +128,7 @@ export default function Page() {
           </div>
         </div>
         <div className={dashboardStyles.sendingButton}>
-          <Button type="submit" style="primary" label="検索" />
+          <Button type="submit" intent="primary" label="検索" />
         </div>
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
