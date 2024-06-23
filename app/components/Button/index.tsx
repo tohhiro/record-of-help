@@ -9,8 +9,7 @@ export type Props = {
   onClick?: () => void;
 };
 
-export const Button = (props: Props) => {
-  const { label, type, intent, onClick } = props;
+export const Button = ({ label, type, intent, onClick }: Props) => {
   return (
     <div>
       <button
