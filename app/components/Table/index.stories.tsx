@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Props } from '.';
 import { StoryObj, Meta } from '@storybook/react';
 
@@ -91,15 +90,12 @@ const mockTdDataDiff: Props = [
 
 export const Default: Story = {
   args: { thData: mockThData, tdData: mockTdData },
-  render: (args) => <Table {...args} />,
 };
 
 export const DifferentThAndTdLength: Story = {
   args: { thData: mockThData, tdData: mockTdDataDiff },
-  render: (args) => <Table {...args} />,
 };
 
 export const Null: Story = {
   args: { thData: mockThData, tdData: null },
-  render: (args) => <Table {...args} />,
 };
