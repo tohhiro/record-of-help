@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -54,6 +54,7 @@ const getNowMonthFirstLast = () => {
 };
 
 export default function Page() {
+  const [isDisplaySearchPanel, setIsDisplaySearchPanel] = useState(false);
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: TdProps = success.rawsData;
 
@@ -76,6 +77,10 @@ export default function Page() {
     resolver: zodResolver(validationSchema),
   });
 
+  const onDisplaySearchPanel = () => {
+    setIsDisplaySearchPanel((prev) => !prev);
+  };
+
   const onSubmit: SubmitHandler<Props> = (data) => {
     const sendingData = {
       person: data.person.value === 'all' ? '' : data.person.value,
@@ -88,7 +93,18 @@ export default function Page() {
 
   return (
     <div className={dashboardStyles.container}>
-      <form onSubmit={handleSubmit(onSubmit)} className={dashboardStyles.formContainer}>
+      <div className="my-10">
+        <Button
+          type="button"
+          intent="secondary"
+          label={isDisplaySearchPanel ? '表示' : '非表示'}
+          onClick={onDisplaySearchPanel}
+        />
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={isDisplaySearchPanel ? dashboardStyles.hidden : dashboardStyles.formContainer}
+      >
         <div className="w-[10em]">
           <Controller
             name="person"
@@ -132,7 +148,11 @@ export default function Page() {
         </div>
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
-      <div className="mt-8 overflow-x-auto h-64 overflow-scroll">
+      <div
+        className={`${dashboardStyles.tableContainer} ${
+          isDisplaySearchPanel ? 'h-[560px]' : 'h-56'
+        }`}
+      >
         <Suspense fallback={<div>Loading...</div>}>
           <DashboardTable th={thData} td={fetchData} />
         </Suspense>
