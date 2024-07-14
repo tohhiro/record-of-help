@@ -13,30 +13,28 @@ export const Table = forwardRef(
       return <div>要素の数が異なるため表示できません</div>;
     }
     return (
-      <div>
-        <table className={tableStyles.table}>
-          <thead className={tableStyles.thead}>
-            <tr>
-              {Object.keys(thData).map((key: string, idx) => (
-                <th key={`${idx}${key}`} className={tableStyles.th}>
-                  {thData[key]}
-                </th>
+      <table className={tableStyles.table}>
+        <thead className={tableStyles.thead}>
+          <tr>
+            {Object.keys(thData).map((key: string, idx) => (
+              <th key={`${idx}${key}`} className={tableStyles.th}>
+                {thData[key]}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tdData.map((item, idxA) => (
+            <tr key={idxA} className={tableStyles.tr}>
+              {Object.keys(item).map((key, idxB) => (
+                <td key={`${idxB}${key}`} className={tableStyles.td}>
+                  {String(item[key])}
+                </td>
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {tdData.map((item, idxA) => (
-              <tr key={idxA} className={tableStyles.tr}>
-                {Object.keys(item).map((key, idxB) => (
-                  <td key={`${idxB}${key}`} className={tableStyles.td}>
-                    {String(item[key])}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     );
   },
 );

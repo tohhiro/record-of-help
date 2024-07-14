@@ -132,7 +132,7 @@ export default function Page() {
         </div>
       </form>
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
-      <div className="mt-8">
+      <div className="mt-8 overflow-x-auto h-64 overflow-scroll">
         <Suspense fallback={<div>Loading...</div>}>
           <DashboardTable th={thData} td={fetchData} />
         </Suspense>
