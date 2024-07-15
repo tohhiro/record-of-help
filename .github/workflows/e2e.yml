@@ -39,6 +39,7 @@ jobs:
 
       - name: Run Tests:E2E
         env:
+          NODE_ENV: development
           URL: ${{ secrets.URL }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
