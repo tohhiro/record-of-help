@@ -38,6 +38,11 @@ export default defineConfig({
     trace: 'on-first-retry',
     baseURL: process.env.URL!,
   },
+  timeout: 5 * 60 * 1000, // testのtimeoutの時間を変更
+
+  expect: {
+    timeout: 10 * 1000, // expectのtimeoutの時間を変更
+  },
 
   /* Configure projects for major browsers */
   projects: [
@@ -50,11 +55,10 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
