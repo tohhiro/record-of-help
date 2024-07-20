@@ -78,7 +78,7 @@ export default function Page() {
               </div>
             )}
           />
-          <div className="my-2 m-auto text-center">
+          <div className="my-2 m-auto">
             <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
           </div>
           <div className="w-80 my-4 m-auto">
