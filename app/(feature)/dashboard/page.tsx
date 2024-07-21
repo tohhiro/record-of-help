@@ -54,7 +54,7 @@ const getNowMonthFirstLast = () => {
 };
 
 export default function Page() {
-  const [isDisplaySearchPanel, setIsDisplaySearchPanel] = useState(false);
+  const [isDisplaySearchPanel, setIsDisplaySearchPanel] = useState(true);
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: TdProps = success.rawsData;
 
