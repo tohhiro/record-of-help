@@ -21,13 +21,15 @@ const mockErrorResponse = {
 };
 
 describe('useFetchMember', () => {
+  let fetchAuth: jest.SpyInstance;
+
   afterEach(() => {
-    jest.restoreAllMocks();
+    fetchAuth.mockRestore();
   });
 
   test('引数にemailを渡すことができる', async () => {
     const { result } = renderHook(() => useFetchMember());
-    const fetchAuth = jest.spyOn(result.current, 'fetchAuth');
+    fetchAuth = jest.spyOn(result.current, 'fetchAuth');
     result.current.fetchAuth({
       email: 'test@test.com',
     });
@@ -38,7 +40,7 @@ describe('useFetchMember', () => {
 
   test('レスポンスが成功の場合、resultのdataにはadminがtrueで取得できる', async () => {
     const { result } = renderHook(() => useFetchMember());
-    const fetchAuth = jest
+    fetchAuth = jest
       .spyOn(result.current, 'fetchAuth')
       .mockResolvedValueOnce({ ...mockSuccessResponse });
 
@@ -51,7 +53,7 @@ describe('useFetchMember', () => {
 
   test('レスポンスが失敗の場合、resultのerrorにオブジェクトが入った状態で取得できる', async () => {
     const { result } = renderHook(() => useFetchMember());
-    const fetchAuth = jest.spyOn(result.current, 'fetchAuth').mockResolvedValueOnce({
+    fetchAuth = jest.spyOn(result.current, 'fetchAuth').mockResolvedValueOnce({
       ...mockErrorResponse,
     });
 

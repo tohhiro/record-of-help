@@ -24,6 +24,10 @@ jest.mock('./hooks/useSignIn', () => {
 });
 
 describe('Login', () => {
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
+
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
     render(<Login />);
 

@@ -19,12 +19,17 @@ const data = {
 };
 
 describe('NavHeader', () => {
+  let useStore: jest.SpyInstance;
+  let signOut: jest.SpyInstance;
+
   afterEach(() => {
     jest.clearAllMocks();
+    useStore.mockRestore();
+    signOut.mockRestore();
   });
 
   test('NavHeaderがレンダリングされタイトルの文字列が取得できる', () => {
-    const useStore = jest.spyOn(Zustand, 'useStore').mockImplementation(
+    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation(
       (state) =>
         state({
           loginUser: { email: '', id: '', auth: false },
@@ -32,16 +37,15 @@ describe('NavHeader', () => {
           resetLoginUser: jest.fn(),
         }) || {},
     );
+    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut');
     render(<NavHeader />);
     expect(screen.getByText('Record of help')).toBeInTheDocument();
     expect(useStore).toHaveBeenCalled();
   });
 
   test('Logoutをクリックするとloginページのreplaceされる', async () => {
-    const useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
-    const signOut = jest
-      .spyOn(Supabase.supabase.auth, 'signOut')
-      .mockResolvedValueOnce({ error: null });
+    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
+    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
 
     render(<NavHeader />);
     const logout = screen.getByRole('link', { name: mockedLoginUser });
@@ -54,7 +58,7 @@ describe('NavHeader', () => {
 
   test('サインアウトが失敗する場合、Logoutをクリックしてもrouterはコールされない', async () => {
     window.alert = jest.fn();
-    const useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
+    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
     const error = {
       error: {
         name: 'AuthError',
@@ -63,9 +67,7 @@ describe('NavHeader', () => {
         __isAuthError: true,
       } as unknown as AuthError,
     };
-    const signOut = jest
-      .spyOn(Supabase.supabase.auth, 'signOut')
-      .mockRejectedValueOnce({ ...error });
+    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
     render(<NavHeader />);
     const logout = screen.getByRole('link', { name: mockedLoginUser });
     const user = userEvent.setup();
