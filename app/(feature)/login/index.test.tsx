@@ -70,6 +70,7 @@ describe('Login', () => {
     await user.type(passwordInputComponent, password);
     expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password);
   });
+
   test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', async () => {
     mockRouter.replace('/from');
     render(<Login />);

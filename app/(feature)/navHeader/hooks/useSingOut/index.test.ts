@@ -10,10 +10,13 @@ describe('useSignOut', () => {
     jest.clearAllMocks();
   });
   test('signOut関数が成功すると、nullが返る', async () => {
-    jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
+    const signOut = jest
+      .spyOn(Supabase.supabase.auth, 'signOut')
+      .mockResolvedValueOnce({ error: null });
     const { result } = renderHook(() => useSignOut());
 
     await expect(result.current.signOut()).resolves.toStrictEqual({ error: null });
+    expect(signOut).toHaveBeenCalled();
   });
 
   test('SignOutがエラーの場合、errorのオブジェクトが返る', async () => {
@@ -25,9 +28,12 @@ describe('useSignOut', () => {
         __isAuthError: true,
       } as unknown as AuthError,
     };
-    jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
+    const signOut = jest
+      .spyOn(Supabase.supabase.auth, 'signOut')
+      .mockRejectedValueOnce({ ...error });
     const { result } = renderHook(() => useSignOut());
 
     await expect(result.current.signOut()).rejects.toStrictEqual({ ...error });
+    expect(signOut).toHaveBeenCalled();
   });
 });
