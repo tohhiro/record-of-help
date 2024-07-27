@@ -8,6 +8,11 @@ jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 describe('Dashboard', () => {
   const user = userEvent.setup();
+
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
+
   describe('検索パネル', () => {
     test('SelectBoxが1つレンダリングされる', () => {
       render(<Dashboard />);

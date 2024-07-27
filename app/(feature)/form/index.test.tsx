@@ -8,9 +8,11 @@ jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 describe('Form', () => {
   const user = userEvent.setup();
+
   afterAll(() => {
     jest.clearAllMocks();
   });
+
   describe('radio', () => {
     test('radioボタンが2つレンダリングされる', async () => {
       render(<Form />);

@@ -3,16 +3,14 @@ import { useSignOut } from '.';
 import * as Supabase from '@/app/libs/supabase';
 import { AuthError } from '@supabase/supabase-js';
 
-jest.mock('../../../../libs/supabase');
-
 describe('useSignOut', () => {
+  let signOut: jest.SpyInstance;
+
   afterEach(() => {
-    jest.clearAllMocks();
+    signOut.mockRestore();
   });
   test('signOut関数が成功すると、nullが返る', async () => {
-    const signOut = jest
-      .spyOn(Supabase.supabase.auth, 'signOut')
-      .mockResolvedValueOnce({ error: null });
+    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
     const { result } = renderHook(() => useSignOut());
 
     await expect(result.current.signOut()).resolves.toStrictEqual({ error: null });
@@ -28,9 +26,7 @@ describe('useSignOut', () => {
         __isAuthError: true,
       } as unknown as AuthError,
     };
-    const signOut = jest
-      .spyOn(Supabase.supabase.auth, 'signOut')
-      .mockRejectedValueOnce({ ...error });
+    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
     const { result } = renderHook(() => useSignOut());
 
     await expect(result.current.signOut()).rejects.toStrictEqual({ ...error });
