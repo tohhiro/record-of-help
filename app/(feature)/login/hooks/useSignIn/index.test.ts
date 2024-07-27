@@ -3,15 +3,16 @@ import { useSignIn, Props } from '.';
 import * as Supabase from '@/app/libs/supabase';
 import { AuthTokenResponse, AuthError } from '@supabase/supabase-js';
 
-jest.mock('../../../../libs/supabase');
-
 const mockArgs: Props = {
   email: 'test@gmail.com',
   password: 'password',
 };
 
 describe('useSignIn', () => {
-  afterEach(() => {
+  beforeAll(() => {
+    jest.mock('../../../../libs/supabase');
+  });
+  afterAll(() => {
     jest.clearAllMocks();
   });
   test('emailとpasswordをセットできる', async () => {

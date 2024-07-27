@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 describe('Dashboard', () => {
+  const user = userEvent.setup();
   describe('検索パネル', () => {
     test('SelectBoxが1つレンダリングされる', () => {
       render(<Dashboard />);
@@ -33,7 +34,6 @@ describe('Dashboard', () => {
       render(<Dashboard />);
       const validationsText = ['対象を選択', '開始日を選択', '終了日を選択'];
       const button = screen.getByRole('button', { name: '検索' });
-      const user = userEvent.setup();
 
       const startInput = screen.getByLabelText('開始');
       const endInput = screen.getByLabelText('終了');
@@ -46,7 +46,6 @@ describe('Dashboard', () => {
       });
     });
     describe('非表示/表示ボタン', () => {
-      const user = userEvent.setup();
       test('非表示のボタンがレンダリングされる', () => {
         render(<Dashboard />);
         const button = screen.getByRole('button', { name: '表示' });

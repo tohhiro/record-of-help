@@ -7,7 +7,8 @@ import { default as Form } from './page';
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 describe('Form', () => {
-  afterEach(() => {
+  const user = userEvent.setup();
+  afterAll(() => {
     jest.clearAllMocks();
   });
   describe('radio', () => {
@@ -35,7 +36,7 @@ describe('Form', () => {
       async ({ checkboxName }) => {
         render(<Form />);
         const radioButton = screen.getByRole('radio', { name: checkboxName });
-        const user = userEvent.setup();
+
         await user.click(radioButton);
         expect(radioButton).toBeChecked();
       },
@@ -51,7 +52,7 @@ describe('Form', () => {
       render(<Form />);
       const textarea = screen.getByRole('textbox');
       const typeText = 'テスト';
-      const user = userEvent.setup();
+
       await user.type(textarea, typeText);
       expect((textarea as HTMLTextAreaElement).value).toBe(typeText);
     });
@@ -67,7 +68,7 @@ describe('Form', () => {
       render(<Form />);
 
       const button = screen.getByRole('button');
-      const user = userEvent.setup();
+
       await user.click(button);
       expect(screen.getAllByText('どちらかを選択してください')).toHaveLength(1);
       expect(screen.getAllByText('1つ以上選択してください')).toHaveLength(1);

@@ -5,6 +5,8 @@ import { Input, Props } from '.';
 import userEvent from '@testing-library/user-event';
 
 describe('Input', () => {
+  const user = userEvent.setup();
+
   const mockValues: Props = {
     id: 'input',
     label: 'Input Label',
@@ -28,8 +30,6 @@ describe('Input', () => {
     expect(inputComponent).toBeEnabled();
 
     const typeText = 'ほげほげ';
-    const user = userEvent.setup();
-
     await user.type(inputComponent, typeText);
     expect((inputComponent as HTMLTextAreaElement).value).toBe(typeText);
   });
@@ -46,7 +46,6 @@ describe('Input', () => {
     expect(inputComponent).toBeDisabled();
 
     const typeText = 'ほげほげ';
-    const user = userEvent.setup();
     await user.type(inputComponent, typeText);
     expect((inputComponent as HTMLTextAreaElement).value).toBe('');
   });
