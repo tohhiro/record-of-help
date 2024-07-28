@@ -34,9 +34,9 @@ export const Header = ({
         )}
 
         <div className={headerStyles.navBaseStyle}>
-          <Link href="/login">
-            <span className={headerStyles.headerTitle}>{headerText}</span>
-          </Link>
+          <span className={headerStyles.headerTitle}>
+            <Link href="/login">{headerText}</Link>
+          </span>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
