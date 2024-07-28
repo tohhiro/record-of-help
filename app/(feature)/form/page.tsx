@@ -11,6 +11,7 @@ import { Textarea } from '@/app/components/Textarea';
 import { convertHelps } from './helper/convertHelps';
 import { usePostHelp } from '@/app/(feature)/form/hooks/usePostHelp';
 import { PricesList } from './components/PricesList';
+import { useLeavingModal } from '@/app/(feature)/form/hooks/useLeavingModal';
 
 export type Props = {
   person: string;
@@ -52,13 +53,15 @@ export default function Page() {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     control,
   } = useForm<Props>({
     mode: 'onChange',
     resolver: zodResolver(validationSchema),
   });
+
+  useLeavingModal(isDirty);
 
   return (
     isClient && (
