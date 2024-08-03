@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { render, screen } from '@testing-library/react';
+import { render, screen, renderHook } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useLeavingModal } from '.';
 
@@ -22,16 +22,30 @@ const RenderForm = () => {
 
 describe('useLeavingModal', () => {
   let windowSpy: jest.SpyInstance;
+  let addEventListenerSpy: jest.SpyInstance;
 
   beforeEach(() => {
     windowSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
+    addEventListenerSpy = jest.spyOn(window, 'addEventListener');
   });
 
   afterEach(() => {
     windowSpy.mockRestore();
+    addEventListenerSpy.mockRestore();
   });
 
   const user = userEvent.setup();
+
+  test('hooksにtrueの引数が渡るとbeforeunload、clickイベントが呼ばれる', () => {
+    renderHook(() => useLeavingModal(true));
+    expect(addEventListenerSpy).toHaveBeenCalledWith('beforeunload', expect.any(Function));
+    expect(addEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function), true);
+  });
+
+  test('hooksにfalseの引数が渡るとaddEventListener自体が呼ばれない', () => {
+    renderHook(() => useLeavingModal(false));
+    expect(addEventListenerSpy).not.toHaveBeenCalled();
+  });
 
   test('フォームが変更され離脱する場合、確認ダイアログが表示される', async () => {
     render(<RenderForm />);
