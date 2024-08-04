@@ -15,5 +15,5 @@ export type PricesHelpsList = {
       update_at: string | null;
     }[];
   }[];
-  error: PostgrestError;
+  error: PostgrestError | null;
 };
