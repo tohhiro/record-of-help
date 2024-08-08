@@ -64,7 +64,7 @@ describe('PricesList', () => {
     expect(checkbox).not.toBeInTheDocument();
   });
 
-  test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックできる', async () => {
+  test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックを入れ外しできる', async () => {
     mockedUseFetchPricesList.mockReturnValue(mockData);
 
     render(<PricesList register={register} />);
@@ -73,5 +73,7 @@ describe('PricesList', () => {
     expect(checkbox).toBeInTheDocument();
     await user.click(checkbox);
     expect(checkbox).toBeChecked();
+    await user.click(checkbox);
+    expect(checkbox).not.toBeChecked();
   });
 });
