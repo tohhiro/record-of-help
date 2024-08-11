@@ -4,26 +4,23 @@ import '@testing-library/jest-dom';
 import { default as Login } from './page';
 import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
+import { useSignIn } from './hooks/useSignIn';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
+jest.mock('./hooks/useSignIn');
 
-jest.mock('./hooks/useSignIn', () => {
-  const originalModule = jest.requireActual('./hooks/useSignIn');
-
-  return {
-    useSignIn: jest.fn(() => {
-      return {
-        ...originalModule,
-        signIn: jest.fn().mockResolvedValueOnce({
-          data: null,
-          error: null,
-        }),
-      };
-    }),
-  };
-});
+const mockedUseSingIn = jest.mocked(useSignIn);
 
 describe('Login', () => {
+  beforeEach(() => {
+    mockedUseSingIn.mockReturnValue({
+      signIn: jest.fn().mockResolvedValueOnce({
+        data: null,
+        error: null,
+      }),
+    });
+  });
+
   afterAll(() => {
     jest.clearAllMocks();
   });
