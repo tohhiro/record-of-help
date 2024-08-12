@@ -27,12 +27,12 @@ export const Input = forwardRef(({ id, label, type, onClick, disabled, ...field 
         {label}
       </label>
       <input
+        {...field}
         id={id}
         className={`${inputStyles[disabled ? 'disabled' : 'input']}`}
         type={type}
         disabled={disabled}
         onClick={onClick}
-        {...field}
       />
     </div>
   );

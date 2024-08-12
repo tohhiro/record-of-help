@@ -11,7 +11,7 @@ export type Props = {
 export const Radio = forwardRef(({ id, label, value, ...field }: Props, _ref) => {
   return (
     <div className={radioStyles.container}>
-      <input type="radio" id={id} className={radioStyles.radio} {...field} value={value} />
+      <input {...field} type="radio" id={id} className={radioStyles.radio} value={value} />
       <label htmlFor={id} className={radioStyles.label}>
         {label}
       </label>

@@ -25,6 +25,7 @@ export const SelectBox = forwardRef(
           {label}
         </label>
         <Select
+          {...field}
           id={id}
           name="selects"
           inputId="selects"
@@ -33,7 +34,6 @@ export const SelectBox = forwardRef(
           className={SelectBoxStyles.container}
           options={options}
           isDisabled={isDisabled}
-          {...field}
         />
       </div>
     );
