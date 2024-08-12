@@ -38,7 +38,7 @@ export const mockPricesListRaw: PricesHelpsList = {
     {
       created_at: '2021-10-01T00:00:00.000000Z',
       help: 'dish',
-      id: '1',
+      id: 'dish',
       label: '皿洗い',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [
@@ -54,7 +54,7 @@ export const mockPricesListRaw: PricesHelpsList = {
     {
       created_at: '2021-10-01T00:00:00.000000Z',
       help: 'curtain',
-      id: '2',
+      id: 'curtain',
       label: 'カーテン',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [
@@ -70,7 +70,7 @@ export const mockPricesListRaw: PricesHelpsList = {
     {
       created_at: '2021-10-01T00:00:00.000000Z',
       help: 'prepareEat',
-      id: '3',
+      id: 'prepareEat',
       label: '食事準備',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [
@@ -86,7 +86,7 @@ export const mockPricesListRaw: PricesHelpsList = {
     {
       created_at: '2021-10-01T00:00:00.000000Z',
       help: 'landry',
-      id: '4',
+      id: 'landry',
       label: '洗濯物片付け',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [
@@ -102,7 +102,7 @@ export const mockPricesListRaw: PricesHelpsList = {
     {
       created_at: '2021-10-01T00:00:00.000000Z',
       help: 'special',
-      id: '5',
+      id: 'special',
       label: 'スペシャル',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [
