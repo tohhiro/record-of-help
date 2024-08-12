@@ -14,7 +14,7 @@ export const Textarea = forwardRef(({ label, id, placeholder, ...field }: Props,
       <label htmlFor={id} className={textareaStyles.label}>
         {label}
       </label>
-      <textarea id={id} className={textareaStyles.textarea} placeholder={placeholder} {...field} />
+      <textarea {...field} id={id} className={textareaStyles.textarea} placeholder={placeholder} />
     </div>
   );
 });

@@ -14,11 +14,11 @@ export const Checkbox = forwardRef(({ id, label, value, ...rest }: Props, ref) =
   return (
     <div className={checkboxStyles.container}>
       <input
+        {...rest}
         type="checkbox"
         id={id}
         className={checkboxStyles.checkbox}
         value={value}
-        {...rest}
         ref={ref as Ref<HTMLInputElement>}
       />
       <label htmlFor={id} className={checkboxStyles.label}>
