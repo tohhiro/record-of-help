@@ -9,15 +9,6 @@ export const PricesList = ({ register }: { register: UseFormRegisterReturn<'item
 
   const pricesList = createPricesList(pricesListRaw);
 
-  // if (pricesListRaw?.error) return null;
-
-  // const pricesList = pricesListRaw?.data?.map((item) => ({
-  //   id: item.id,
-  //   label: item.label,
-  //   column: item.help,
-  //   value: item.prices_list[0].price,
-  // }));
-
   return (
     <>
       {pricesList?.map((item) => (
