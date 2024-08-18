@@ -3,13 +3,25 @@ import { useSignIn, Props } from '.';
 import * as Supabase from '@/app/libs/supabase';
 import { AuthTokenResponse, AuthError } from '@supabase/supabase-js';
 
+jest.mock('../../../../libs/supabase');
+
 const mockArgs: Props = {
   email: 'test@gmail.com',
   password: 'password',
 };
 
 describe('useSignIn', () => {
-  test('emailとpasswordをセットできる', async () => {
+  let signInWithPasswordSpyOn: jest.SpyInstance;
+
+  beforeEach(() => {
+    signInWithPasswordSpyOn = jest.spyOn(Supabase.supabase.auth, 'signInWithPassword');
+  });
+
+  afterEach(() => {
+    signInWithPasswordSpyOn.mockClear();
+  });
+
+  test('emailとpasswordをセットできる', () => {
     const { result } = renderHook(() => useSignIn());
     const signInSpy = jest.spyOn(result.current, 'signIn');
 
@@ -22,14 +34,11 @@ describe('useSignIn', () => {
   });
 
   test('signOut関数が成功すると、errorにはundefinedが返る', async () => {
-    const signInWithPassword = jest
-      .spyOn(Supabase.supabase.auth, 'signInWithPassword')
-      .mockResolvedValueOnce({ error: null } as unknown as AuthTokenResponse);
+    signInWithPasswordSpyOn.mockResolvedValueOnce({ error: null } as unknown as AuthTokenResponse);
     const { result } = renderHook(() => useSignIn());
 
     await expect(result.current.signIn(mockArgs)).resolves.toStrictEqual({ error: null });
-    expect(signInWithPassword).toHaveBeenCalledWith(mockArgs);
-    signInWithPassword.mockClear();
+    expect(signInWithPasswordSpyOn).toHaveBeenCalledWith(mockArgs);
   });
   test('signOut関数失敗するとerrorが返る', async () => {
     const error = {
@@ -40,17 +49,14 @@ describe('useSignIn', () => {
         __isAuthError: true,
       },
     };
-    const signInWithPassword = jest
-      .spyOn(Supabase.supabase.auth, 'signInWithPassword')
-      .mockRejectedValueOnce({
-        ...error,
-      } as unknown as AuthError);
+    signInWithPasswordSpyOn.mockRejectedValueOnce({
+      ...error,
+    } as unknown as AuthError);
     const { result } = renderHook(() => useSignIn());
 
     await expect(result.current.signIn(mockArgs)).rejects.toStrictEqual({
       ...error,
     });
-    expect(signInWithPassword).toHaveBeenCalledWith(mockArgs);
-    signInWithPassword.mockClear();
+    expect(signInWithPasswordSpyOn).toHaveBeenCalledWith(mockArgs);
   });
 });
