@@ -21,6 +21,7 @@ const data = {
 describe('NavHeader', () => {
   let useStore: jest.SpyInstance;
   let signOut: jest.SpyInstance;
+  let alert: jest.SpyInstance;
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -57,7 +58,7 @@ describe('NavHeader', () => {
   });
 
   test('サインアウトが失敗する場合、Logoutをクリックしてもrouterはコールされない', async () => {
-    window.alert = jest.fn();
+    alert = jest.spyOn(window, 'alert');
     useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
     const error = {
       error: {
@@ -73,8 +74,10 @@ describe('NavHeader', () => {
     const user = userEvent.setup();
     await user.click(logout);
 
-    expect(window.alert).toHaveBeenCalledWith('ログアウトに失敗しました。');
     expect(useStore).toHaveBeenCalled();
     expect(signOut).toHaveBeenCalled();
+    expect(alert).toHaveBeenCalledWith('ログアウトに失敗しました。');
+
+    alert.mockRestore();
   });
 });
