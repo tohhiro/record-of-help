@@ -13,7 +13,6 @@ const mockArgs: Props = {
 
 describe('usePostHelp', () => {
   test('引数にperson、comments、dish、curtain、prepareEat、landry、specialを渡すことができる', async () => {
-    expect.assertions(1);
     const { result } = renderHook(() => usePostHelp());
     const postHelpSpy = jest.spyOn(result.current, 'postHelp');
 
