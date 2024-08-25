@@ -23,6 +23,6 @@ describe('usePostHelp', () => {
     expect(postHelpSpy).toHaveBeenCalledWith({
       ...mockArgs,
     });
-    postHelpSpy.mockClear();
+    postHelpSpy.mockRestore();
   });
 });

@@ -22,6 +22,10 @@ const dummyData = {
 };
 
 describe('useFetchPricesList', () => {
+  afterEach(() => {
+    mockedSupabase.mockReset();
+  });
+
   test('dataが存在し、errorはnullの場合、dataが取得できる', async () => {
     // supabaseの返り値をモック化
     mockedSupabase.mockReturnValue({

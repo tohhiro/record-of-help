@@ -46,6 +46,10 @@ describe('PricesList', () => {
     name: 'items.helps',
   } as UseFormRegisterReturn<'items.helps'>;
 
+  afterEach(() => {
+    mockedUseFetchPricesList.mockReset();
+  });
+
   test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', async () => {
     mockedUseFetchPricesList.mockReturnValue(mockData);
 
