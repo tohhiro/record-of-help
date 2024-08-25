@@ -8,8 +8,8 @@ import { AuthError } from '@supabase/supabase-js';
 import * as Zustand from '@/app/store';
 
 jest.mock('../../libs/supabase');
-jest.mock('next/navigation');
 jest.mock('../../store');
+jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 const mockedLoginUser = 'test@test.com';
 const data = {
@@ -25,8 +25,7 @@ describe('NavHeader', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-    useStore.mockRestore();
-    signOut.mockRestore();
+    jest.restoreAllMocks();
   });
 
   test('NavHeaderがレンダリングされタイトルの文字列が取得できる', () => {

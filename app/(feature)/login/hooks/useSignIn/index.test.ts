@@ -18,7 +18,7 @@ describe('useSignIn', () => {
   });
 
   afterEach(() => {
-    signInWithPasswordSpyOn.mockClear();
+    signInWithPasswordSpyOn.mockRestore();
   });
 
   test('emailとpasswordをセットできる', () => {

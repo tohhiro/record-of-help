@@ -22,7 +22,7 @@ describe('Login', () => {
   });
 
   afterAll(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
