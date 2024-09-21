@@ -11,6 +11,7 @@ describe('useSignOut', () => {
   afterEach(() => {
     signOut.mockRestore();
   });
+
   test('signOut関数が成功すると、nullが返る', async () => {
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
     const { result } = renderHook(() => useSignOut());

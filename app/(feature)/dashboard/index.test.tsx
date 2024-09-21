@@ -19,6 +19,7 @@ describe('Dashboard', () => {
       const select = screen.getAllByRole('combobox');
       expect(select).toHaveLength(1);
     });
+
     test('Inputがdate属性で2つレンダリングされる', () => {
       render(<Dashboard />);
       const startInput = screen.getByLabelText('開始');
@@ -28,6 +29,7 @@ describe('Dashboard', () => {
         expect(input).toHaveAttribute('type', 'date');
       });
     });
+
     test('Buttonがsubmit属性、Enabledで1つレンダリングされる', () => {
       render(<Dashboard />);
       const button = screen.getByRole('button', { name: '検索' });
@@ -35,6 +37,7 @@ describe('Dashboard', () => {
       expect(button).toHaveAttribute('type', 'submit');
       expect(button).toBeEnabled();
     });
+
     test('対象者を未選択、開始終了をクリアし検索ボタンを押すとvalidationエラーになる', async () => {
       render(<Dashboard />);
       const validationsText = ['対象を選択', '開始日を選択', '終了日を選択'];
@@ -50,12 +53,14 @@ describe('Dashboard', () => {
         expect(screen.getByText(text)).toBeInTheDocument();
       });
     });
+
     describe('非表示/表示ボタン', () => {
       test('非表示のボタンがレンダリングされる', () => {
         render(<Dashboard />);
         const button = screen.getByRole('button', { name: '表示' });
         expect(button).toBeInTheDocument();
       });
+
       test('非表示のボタンをクリックすると検索パネルが表示される', async () => {
         const labelNames = ['対象者を選択', '開始', '終了', '検索', '表示'];
         render(<Dashboard />);

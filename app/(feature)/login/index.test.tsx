@@ -12,6 +12,8 @@ jest.mock('./hooks/useSignIn');
 const mockedUseSingIn = jest.mocked(useSignIn);
 
 describe('Login', () => {
+  const user = userEvent.setup();
+
   beforeEach(() => {
     mockedUseSingIn.mockReturnValue({
       signIn: jest.fn().mockResolvedValueOnce({
@@ -53,6 +55,7 @@ describe('Login', () => {
       expect(item.component).toBeEnabled();
     });
   });
+
   test('emailとpasswordが入力できる', async () => {
     render(<Login />);
 
@@ -63,7 +66,6 @@ describe('Login', () => {
 
     const email = 'email@test.com';
     const password = 'password';
-    const user = userEvent.setup();
 
     await user.type(emailInputComponent, email);
     expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email);
@@ -86,7 +88,6 @@ describe('Login', () => {
 
     const email = 'email@test.com';
     const password = 'password';
-    const user = userEvent.setup();
 
     await user.type(emailInputComponent, email);
     expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email);

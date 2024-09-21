@@ -30,7 +30,7 @@ describe('useSignIn', () => {
     expect(signInSpy).toHaveBeenCalledWith({
       ...mockArgs,
     });
-    signInSpy.mockClear();
+    signInSpy.mockRestore();
   });
 
   test('signOut関数が成功すると、errorにはundefinedが返る', async () => {
@@ -40,6 +40,7 @@ describe('useSignIn', () => {
     await expect(result.current.signIn(mockArgs)).resolves.toStrictEqual({ error: null });
     expect(signInWithPasswordSpyOn).toHaveBeenCalledWith(mockArgs);
   });
+
   test('signOut関数失敗するとerrorが返る', async () => {
     const error = {
       error: {

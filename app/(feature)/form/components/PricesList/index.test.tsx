@@ -50,7 +50,7 @@ describe('PricesList', () => {
     mockedUseFetchPricesList.mockReset();
   });
 
-  test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', async () => {
+  test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', () => {
     mockedUseFetchPricesList.mockReturnValue(mockData);
 
     render(<PricesList register={register} />);
@@ -60,7 +60,7 @@ describe('PricesList', () => {
     expect(checkbox).toHaveAttribute('type', 'checkbox');
   });
 
-  test('hooksからエラーが返る場合、チェックボックスがレンダリングされない', async () => {
+  test('hooksからエラーが返る場合、チェックボックスがレンダリングされない', () => {
     mockedUseFetchPricesList.mockReturnValue(mockFailedData);
     render(<PricesList register={register} />);
 

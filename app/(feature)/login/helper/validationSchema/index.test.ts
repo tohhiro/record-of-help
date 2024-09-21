@@ -5,6 +5,7 @@ describe('validationSchema', () => {
     const result = validationSchema.safeParse({ email: 'test@test.com', password: 'password' });
     expect(result.success).toBeTruthy();
   });
+
   test('有効なemailでない場合、バリデーションエラーが発生する', () => {
     const result = validationSchema.safeParse({ email: 'test', password: 'password' });
     expect(result.success === false).toBeTruthy();
@@ -15,6 +16,7 @@ describe('validationSchema', () => {
       validation: 'email',
     });
   });
+
   test('8文字未満のpasswordの場合、バリデーションが発生する', () => {
     const result = validationSchema.safeParse({ email: 'test@test.com', password: '' });
     expect(result.success === false).toBeTruthy();
