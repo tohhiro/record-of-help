@@ -12,7 +12,7 @@ const mockArgs: Props = {
 };
 
 describe('usePostHelp', () => {
-  test('引数にperson、comments、dish、curtain、prepareEat、landry、specialを渡すことができる', async () => {
+  test('引数にperson、comments、dish、curtain、prepareEat、landry、specialを渡すことができる', () => {
     const { result } = renderHook(() => usePostHelp());
     const postHelpSpy = jest.spyOn(result.current, 'postHelp');
 
@@ -23,6 +23,7 @@ describe('usePostHelp', () => {
     expect(postHelpSpy).toHaveBeenCalledWith({
       ...mockArgs,
     });
+
     postHelpSpy.mockRestore();
   });
 });

@@ -63,15 +63,18 @@ describe('DashboardTable', () => {
     expect(screen.getByText('mei')).toBeInTheDocument();
     expect(screen.queryByText('taro')).not.toBeInTheDocument();
   });
+
   test('2つのデータのうち、1つにdel_flag=trueのデータが渡された場合、テーブルに1つの氏名が表示される', () => {
     render(<DashboardTable th={mockThData} td={mockTdDataWithDelFlag} />);
     expect(screen.queryByText('eito')).not.toBeInTheDocument();
     expect(screen.getByText('mei')).toBeInTheDocument();
   });
+
   test('tdにnullが渡されるとコンポーネントが表示されない', () => {
     const result = render(<DashboardTable th={mockThData} td={null} />);
     expect(result.container).toBeEmptyDOMElement();
   });
+
   test('tdに正常なデータが渡されても、thに空のオブジェクトが渡されるとコンポーネントは表示されない', () => {
     const result = render(<DashboardTable th={{}} td={mockTdData} />);
     expect(result.container).toBeEmptyDOMElement();

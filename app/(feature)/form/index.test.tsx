@@ -14,11 +14,12 @@ describe('Form', () => {
   });
 
   describe('radio', () => {
-    test('radioボタンが2つレンダリングされる', async () => {
+    test('radioボタンが2つレンダリングされる', () => {
       render(<Form />);
       const radioButtons = screen.getAllByRole('radio');
       expect(radioButtons).toHaveLength(2);
     });
+
     test.each`
       checkboxName | expected
       ${'eito'}    | ${'eito'}
@@ -29,6 +30,7 @@ describe('Form', () => {
       const radioButton = screen.getByRole('radio', { name: checkboxName });
       expect(radioButton).toHaveAttribute('value', expected);
     });
+
     test.each`
       checkboxName | expected
       ${'eito'}    | ${true}
@@ -44,12 +46,14 @@ describe('Form', () => {
       },
     );
   });
+
   describe('textarea', () => {
     test('textareaが1つレンダーされる', () => {
       render(<Form />);
       const textarea = screen.getAllByRole('textbox');
       expect(textarea).toHaveLength(1);
     });
+
     test('textareaに入力ができる', async () => {
       render(<Form />);
       const textarea = screen.getByRole('textbox');
@@ -59,6 +63,7 @@ describe('Form', () => {
       expect((textarea as HTMLTextAreaElement).value).toBe(typeText);
     });
   });
+
   describe('button', () => {
     test('buttonが1つ有効な状態でレンダーされる', () => {
       render(<Form />);
@@ -66,6 +71,7 @@ describe('Form', () => {
       const button = screen.getByRole('button');
       expect(button).toBeEnabled();
     });
+
     test('buttonをそのままクリックすると「どちらかを選択してください」と「1つ以上選択してください」のバリデーションエラーがでる', async () => {
       render(<Form />);
 
