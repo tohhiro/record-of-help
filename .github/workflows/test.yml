@@ -1,14 +1,6 @@
 name: Run Tests
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
   pull_request_target:
     branches:
       - main

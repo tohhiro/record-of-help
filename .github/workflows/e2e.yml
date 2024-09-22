@@ -1,14 +1,6 @@
 name: Run Tests:E2E
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
   pull_request_target:
     branches:
       - main
@@ -36,4 +28,4 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: npm run test:e2e
-         working-directory: ./app
+        working-directory: ./app
