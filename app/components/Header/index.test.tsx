@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Header, headerText, NavAdminType } from '.';
 import userEvent from '@testing-library/user-event';
 
@@ -11,13 +10,17 @@ const mockNavItems: NavAdminType = {
 
 const mockLoginUser = 'test@test.com';
 
-const mockData = {
-  links: mockNavItems,
-  loginUser: mockLoginUser,
-  onClick: jest.fn(),
-};
-
 describe('Header', () => {
+  const mockData = {
+    links: mockNavItems,
+    loginUser: mockLoginUser,
+    onClick: jest.fn(),
+  };
+
+  afterEach(() => {
+    mockData.onClick.mockClear();
+  });
+
   test('Headerのタイトルがレンダーされる', () => {
     render(<Header {...mockData} />);
     const headerComponent = screen.getByText(headerText);
@@ -30,12 +33,14 @@ describe('Header', () => {
     ${'Dashboard'} | ${'./dashboard'} | ${(<a href="./dashboard">Dashboard</a>)}
   `('HeaderのnavとなるLinkがそれぞれ対応するhref属性をもつ', ({ linkName, href }) => {
     render(<Header {...mockData} />);
+
     const link = screen.getByRole('link', { name: linkName });
     expect(link).toHaveAttribute('href', href);
   });
 
   test('Logoutをクリックすると、propsで渡したonClick関数が1回実行される', async () => {
     render(<Header {...mockData} />);
+
     const logout = screen.getByText(mockLoginUser);
     const user = userEvent.setup();
     await user.click(logout);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Table, Props } from '.';
 
 const mockThData = {
@@ -42,17 +41,22 @@ const mockNonTdData = [{}] as Props | null;
 describe('Table', () => {
   test('2つのデータが表示される', () => {
     render(<Table thData={mockThData} tdData={mockTdData} />);
+
     expect(screen.getByText('mockPerson1')).toBeInTheDocument();
     expect(screen.getByText('mockPerson2')).toBeInTheDocument();
   });
+
   test('thtとtdの要素数か異なるデータを渡すと「要素の数が異なるため表示できません」が表示される', () => {
     render(<Table thData={mockThData} tdData={mockNonTdData} />);
+
     expect(screen.queryByText('mockPerson1')).not.toBeInTheDocument();
     expect(screen.queryByText('mockPerson2')).not.toBeInTheDocument();
     expect(screen.getByText('要素の数が異なるため表示できません')).toBeInTheDocument();
   });
+
   test('tdにnullが渡されると「データがありません」と表示される', () => {
     render(<Table thData={mockThData} tdData={null} />);
+
     expect(screen.queryByText('mockPerson1')).not.toBeInTheDocument();
     expect(screen.queryByText('mockPerson2')).not.toBeInTheDocument();
     expect(screen.getByText('データがありません')).toBeInTheDocument();
