@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Checkbox, Props } from '.';
 import userEvent from '@testing-library/user-event';
 
@@ -11,10 +10,13 @@ describe('Checkbox', () => {
     value: 'checkboxValue',
     ref: null,
   };
+
   test('Checkboxがレンダーされる', () => {
     render(<Checkbox {...mockValues} />);
+
     const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfCheckboxComponent).toBeInTheDocument();
+
     const inputOfCheckboxComponent = screen.getByRole('checkbox');
     expect(inputOfCheckboxComponent).toHaveAttribute('type', 'checkbox');
   });
@@ -24,6 +26,7 @@ describe('Checkbox', () => {
     const checkboxComponent = screen.getByRole('checkbox', {
       name: mockValues.label,
     });
+
     expect(checkboxComponent).toBeEnabled();
     expect(checkboxComponent.getAttribute('checked')).toBeNull();
 

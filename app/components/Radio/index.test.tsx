@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { Radio, Props } from '.';
 import userEvent from '@testing-library/user-event';
 
@@ -10,18 +9,23 @@ describe('Radio', () => {
     label: 'Radio Label',
     value: 'radioValue',
   };
+
   test('Radioボタンがレンダーされる', () => {
     render(<Radio {...mockValues} />);
+
     const labelOfRadio = screen.getByLabelText(mockValues.label);
     expect(labelOfRadio).toBeInTheDocument();
+
     const inputOfRadioComponent = screen.getByRole('radio');
     expect(inputOfRadioComponent).toHaveAttribute('type', 'radio');
   });
+
   test('Radioボタンがクリックできる', async () => {
     render(<Radio {...mockValues} />);
     const radioComponent = screen.getByRole('radio', {
       name: mockValues.label,
     });
+
     expect(radioComponent).toBeEnabled();
     expect(radioComponent.getAttribute('checked')).toBeNull();
 
