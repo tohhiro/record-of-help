@@ -1,7 +1,7 @@
 name: Run Tests:E2E
 
 on:
-  pull_request_target:
+  push:
     branches:
       - main
     paths:
