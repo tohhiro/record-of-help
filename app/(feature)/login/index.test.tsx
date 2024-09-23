@@ -61,17 +61,17 @@ describe('Login', () => {
 
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
-    });
-    const passwordInputComponent = screen.getByLabelText('パスワード');
+    }) as HTMLTextAreaElement;
+    const passwordInputComponent = screen.getByLabelText('パスワード') as HTMLTextAreaElement;
 
     const email = 'email@test.com';
     const password = 'password';
 
     await user.type(emailInputComponent, email);
-    expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email);
+    expect(emailInputComponent.value).toBe(email);
 
     await user.type(passwordInputComponent, password);
-    expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password);
+    expect(passwordInputComponent.value).toBe(password);
   });
 
   test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', async () => {
@@ -80,8 +80,8 @@ describe('Login', () => {
 
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
-    });
-    const passwordInputComponent = screen.getByLabelText('パスワード');
+    }) as HTMLTextAreaElement;
+    const passwordInputComponent = screen.getByLabelText('パスワード') as HTMLTextAreaElement;
     const loginButtonComponent = screen.getByRole('button');
 
     expect(loginButtonComponent).toBeEnabled();
@@ -90,10 +90,10 @@ describe('Login', () => {
     const password = 'password';
 
     await user.type(emailInputComponent, email);
-    expect((emailInputComponent as HTMLTextAreaElement).value).toBe(email);
+    expect(emailInputComponent.value).toBe(email);
 
     await user.type(passwordInputComponent, password);
-    expect((passwordInputComponent as HTMLTextAreaElement).value).toBe(password);
+    expect(passwordInputComponent.value).toBe(password);
 
     await user.click(loginButtonComponent);
     expect(loginButtonComponent).toBeDisabled();

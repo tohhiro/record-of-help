@@ -56,11 +56,11 @@ describe('Form', () => {
 
     test('textareaに入力ができる', async () => {
       render(<Form />);
-      const textarea = screen.getByRole('textbox');
+      const textarea = screen.getByRole('textbox') as HTMLTextAreaElement;
       const typeText = 'テスト';
 
       await user.type(textarea, typeText);
-      expect((textarea as HTMLTextAreaElement).value).toBe(typeText);
+      expect(textarea.value).toBe(typeText);
     });
   });
 
