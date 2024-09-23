@@ -20,4 +20,3 @@ jobs:
     steps:
       - name: Run Tests
         run: npm test
-        working-directory: ./app

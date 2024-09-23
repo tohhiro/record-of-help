@@ -20,4 +20,3 @@ jobs:
     steps:
       - name: Run Lint
         run: npm run lint
-        working-directory: ./app
