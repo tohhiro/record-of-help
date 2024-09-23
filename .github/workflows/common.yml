@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  setup-env:
+  checkout-install-dependencies:
     runs-on: ubuntu-latest
 
     steps:
