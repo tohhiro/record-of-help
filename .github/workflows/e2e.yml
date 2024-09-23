@@ -20,9 +20,6 @@ on:
       - 'tests/**'
 
 jobs:
-  checkout-install-dependencies:
-    uses: ./.github/workflows/common.yml
-
   e2e:
     runs-on: ubuntu-latest
     steps:
