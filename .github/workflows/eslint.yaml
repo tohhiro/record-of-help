@@ -1,14 +1,23 @@
 name: Run Eslint
 
 on:
-  pull_request_target:
+  push:
     branches:
       - main
     paths:
       - '!.*'
-      - '!.vscode/**'
       - 'app/**'
       - '.github/**'
+      - 'tests/**'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '!.*'
+      - 'app/**'
+      - '.github/**'
+      - 'tests/**'
 
 jobs:
   eslint:
