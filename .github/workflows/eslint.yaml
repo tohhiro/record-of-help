@@ -33,8 +33,6 @@ jobs:
 
       - name: Install npm
         run: npm install
-        working-directory: ./app
 
       - name: Run Lint
         run: npm run lint
-        working-directory: ./app

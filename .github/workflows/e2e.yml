@@ -35,7 +35,6 @@ jobs:
 
       - name: Install npm
         run: npm install
-        working-directory: ./app
 
       - name: Install Playwright Browsers
         run: npx playwright install
@@ -47,4 +46,3 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: npm run test:e2e
-        working-directory: ./app

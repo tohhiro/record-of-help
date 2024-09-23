@@ -33,8 +33,6 @@ jobs:
 
       - name: Install npm
         run: npm install
-        working-directory: ./app
 
       - name: Run Tests
         run: npm test
-        working-directory: ./app
