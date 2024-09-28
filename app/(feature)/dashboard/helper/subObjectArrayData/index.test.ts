@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { sumObjectArrayData } from '.';
 import { mockRawsData } from '@/mocks/rawsData';
 

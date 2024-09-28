@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { PricesList } from '@/app/(feature)/form/components/PricesList';
 import { useFetchPricesList } from '@/app/(feature)/form/hooks/useFetchPricesList';
 import { UseFormRegisterReturn } from 'react-hook-form';

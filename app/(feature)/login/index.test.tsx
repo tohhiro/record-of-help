@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { default as Login } from './page';
 import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
