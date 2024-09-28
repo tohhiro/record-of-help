@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { default as Login } from './page';
 import userEvent from '@testing-library/user-event';
-import mockRouter from 'next-router-mock';
 import { useSignIn } from './hooks/useSignIn';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
@@ -12,15 +11,6 @@ const mockedUseSingIn = jest.mocked(useSignIn);
 
 describe('Login', () => {
   const user = userEvent.setup();
-
-  beforeEach(() => {
-    mockedUseSingIn.mockReturnValue({
-      signIn: jest.fn().mockResolvedValueOnce({
-        data: null,
-        error: null,
-      }),
-    });
-  });
 
   afterAll(() => {
     jest.resetAllMocks();
@@ -74,7 +64,13 @@ describe('Login', () => {
   });
 
   test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', async () => {
-    mockRouter.replace('/from');
+    mockedUseSingIn.mockReturnValue({
+      signIn: jest.fn().mockResolvedValueOnce({
+        data: null,
+        error: null,
+      }),
+    });
+
     render(<Login />);
 
     const emailInputComponent = screen.getByRole('textbox', {
