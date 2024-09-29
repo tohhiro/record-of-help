@@ -33,7 +33,7 @@ jobs:
           node-version: '18'
 
       - name: Install npm
-        run: npm install
+        run: npm ci
 
       - name: Run Lint
         run: npm run lint
