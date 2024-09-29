@@ -1,6 +1,6 @@
 name: Caching with npm
 
-on: workflow_dispatch
+on: push
 
 jobs:
   build:
