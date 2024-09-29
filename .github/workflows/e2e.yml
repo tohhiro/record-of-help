@@ -1,7 +1,11 @@
 name: Run Tests:E2E
 
 on:
-  push:
+  workflow_run:
+    workflows: ['build'] # 実行後にトリガーするワークフローの名前
+    types:
+      - completed
+
     branches:
       - main
     paths:
@@ -10,18 +14,19 @@ on:
       - '.github/**'
       - 'tests/**'
 
-  pull_request:
-    branches:
-      - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - '!.*'
+  #     - 'app/**'
+  #     - '.github/**'
+  #     - 'tests/**'
 
 jobs:
   e2e:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3

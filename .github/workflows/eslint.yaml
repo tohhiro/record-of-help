@@ -1,23 +1,13 @@
 name: Run Eslint
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
+  workflow_run:
+    workflows: ['build']
+    types:
+      - completed
 
-  pull_request:
     branches:
       - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
 
 jobs:
   eslint:
