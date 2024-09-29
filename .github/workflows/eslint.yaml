@@ -2,12 +2,9 @@ name: Run Eslint
 
 on:
   workflow_run:
-    workflows: ['build']
+    workflows: ['Caching with npm']
     types:
       - completed
-
-    branches:
-      - main
 
 jobs:
   eslint:
