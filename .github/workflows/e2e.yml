@@ -2,7 +2,7 @@ name: Run Tests:E2E
 
 on:
   workflow_run:
-    workflows: ['Caching with npm']
+    workflows: ['build']
     types:
       - completed
 
@@ -21,9 +21,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install npm
-        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install
