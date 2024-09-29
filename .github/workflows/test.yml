@@ -5,9 +5,15 @@ on:
     workflows: ['Caching with npm']
     types:
       - completed
+    branches:
+      - main
 
 jobs:
   test:
+    permissions:
+      contents: write
+      actions: read
+
     runs-on: ubuntu-latest
 
     steps:

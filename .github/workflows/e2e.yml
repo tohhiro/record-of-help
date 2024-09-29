@@ -6,8 +6,15 @@ on:
     types:
       - completed
 
+    branches:
+      - main
+
 jobs:
   e2e:
+    permissions:
+      contents: write
+      actions: read
+
     runs-on: ubuntu-latest
 
     steps:

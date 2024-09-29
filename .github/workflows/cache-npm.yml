@@ -2,6 +2,9 @@ name: Caching with npm
 
 on: push
 
+branches:
+  - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
