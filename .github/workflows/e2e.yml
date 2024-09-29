@@ -2,26 +2,12 @@ name: Run Tests:E2E
 
 on:
   workflow_run:
-    workflows: ['build'] # 実行後にトリガーするワークフローの名前
+    workflows: ['Caching with npm']
     types:
       - completed
 
     branches:
       - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
-
-  # pull_request:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - '!.*'
-  #     - 'app/**'
-  #     - '.github/**'
-  #     - 'tests/**'
 
 jobs:
   e2e:
