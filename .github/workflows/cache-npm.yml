@@ -1,14 +1,6 @@
 name: Caching with npm
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
+on: push
 
 jobs:
   build:
