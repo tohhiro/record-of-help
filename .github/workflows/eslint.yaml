@@ -1,6 +1,10 @@
 name: Run Eslint
 
-on: push
+on:
+  workflow_run:
+    workflows: ['Caching with npm']
+    types:
+      - completed
 
 jobs:
   eslint:

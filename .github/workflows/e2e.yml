@@ -1,6 +1,10 @@
 name: Run Tests:E2E
 
-on: push
+on:
+  workflow_run:
+    workflows: ['Caching with npm']
+    types:
+      - completed
 
 jobs:
   e2e:
