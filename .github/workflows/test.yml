@@ -1,10 +1,9 @@
 name: Run Tests
 
 on:
-  workflow_run:
-    workflows: ['Caching with npm']
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 jobs:
   test:
