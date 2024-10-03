@@ -1,6 +1,6 @@
 name: Run Eslint
 
-on: workflow_dispatch
+on: push
 
 jobs:
   eslint:
