@@ -2,19 +2,27 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { default as Form } from './page';
+import { useFetchPricesList } from './hooks/useFetchPricesList';
+import { mockPricesListRaw } from '@/mocks/pricesList';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
+jest.mock('./hooks/useFetchPricesList');
+
+const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
 
 describe('Form', () => {
   const user = userEvent.setup();
 
+  mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
+
   afterAll(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   describe('radio', () => {
     test('radioボタンが2つレンダリングされる', () => {
       render(<Form />);
+
       const radioButtons = screen.getAllByRole('radio');
       expect(radioButtons).toHaveLength(2);
     });
@@ -44,6 +52,41 @@ describe('Form', () => {
         expect(radioButton).toBeChecked();
       },
     );
+  });
+
+  describe('checkbox', () => {
+    test('checkboxが5つレンダリングされる', () => {
+      render(<Form />);
+      const checkboxes = screen.getAllByRole('checkbox');
+      expect(checkboxes).toHaveLength(mockPricesListRaw.data.length);
+    });
+
+    test.each`
+      checkboxName      | expected
+      ${'皿洗い'}       | ${'dish,30'}
+      ${'カーテン開閉'} | ${'curtain,10'}
+      ${'食事準備'}     | ${'prepareEat,20'}
+      ${'洗濯物片付け'} | ${'landry,20'}
+      ${'スペシャル'}   | ${'special,50'}
+    `('checkboxのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
+      render(<Form />);
+      const checkbox = screen.getByRole('checkbox', { name: checkboxName });
+      expect(checkbox).toHaveAttribute('value', expected);
+    });
+
+    test.each`
+      checkboxName
+      ${'皿洗い'}
+      ${'カーテン開閉'}
+      ${'食事準備'}
+      ${'洗濯物片付け'}
+      ${'スペシャル'}
+    `('checkboxのvalue属性が正しく設定されている', async ({ checkboxName }) => {
+      render(<Form />);
+      const checkbox = screen.getByRole('checkbox', { name: checkboxName });
+      await user.click(checkbox);
+      expect(checkbox).toBeChecked();
+    });
   });
 
   describe('textarea', () => {
