@@ -9,7 +9,7 @@ export const mockPricesList = [
   },
   {
     id: 'curtain',
-    label: 'カーテン',
+    label: 'カーテン開閉',
     column: 'curtain',
     value: 10,
   },
@@ -55,7 +55,7 @@ export const mockPricesListRaw: PricesHelpsList = {
       created_at: '2021-10-01T00:00:00.000000Z',
       help: 'curtain',
       id: 'curtain',
-      label: 'カーテン',
+      label: 'カーテン開閉',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [
         {
