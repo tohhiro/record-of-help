@@ -34,6 +34,9 @@ jobs:
       - name: Install npm
         # ⚠️ See your package manager's documentation for the correct command to install dependencies in a CI environment.
         run: npm ci
+      - name: Build Storybook
+        run: npm run build-storybook
+
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
