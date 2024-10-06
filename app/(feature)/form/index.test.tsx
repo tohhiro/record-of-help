@@ -13,7 +13,9 @@ const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
 describe('Form', () => {
   const user = userEvent.setup();
 
-  mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
+  beforeAll(() => {
+    mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
+  });
 
   afterAll(() => {
     jest.resetAllMocks();
