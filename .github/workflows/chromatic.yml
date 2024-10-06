@@ -1,23 +1,23 @@
 name: 'Chromatic'
 
 on:
-    push:
-      branches:
-        - main
-      paths:
-        - '!.*'
-        - 'app/**'
-        - '.github/**'
-        - 'tests/**'
-  
-    pull_request:
-      branches:
-        - main
-      paths:
-        - '!.*'
-        - 'app/**'
-        - '.github/**'
-        - 'tests/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '!.*'
+      - 'app/**'
+      - '.github/**'
+      - 'tests/**'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '!.*'
+      - 'app/**'
+      - '.github/**'
+      - 'tests/**'
 
 jobs:
   chromatic:
@@ -37,6 +37,5 @@ jobs:
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
-          # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-           storybookBuildDir: './storybook-static'
+          storybookBuildDir: './storybook-static'
