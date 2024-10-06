@@ -11,6 +11,7 @@ const fetcher = async () => {
     throw new Error(String(error));
   }
 };
+
 export const useFetchPricesList = (): PricesHelpsList | undefined => {
   const { data, error } = useSWR('helps_list_and_prices_list', fetcher, {
     suspense: true,
