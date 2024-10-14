@@ -7,17 +7,13 @@ initialize();
 if (typeof window === 'undefined') {
   // Node.js 環境ではサーバーモードを使う
   const { setupServer } = require('msw/node');
-  const { handlers } = require('../src/mocks/handlers');
+  const { handlers } = require('../src/mocks/handler/pricesList');
 
-  const server = setupServer(...handlers);
+  const server = setupServer(handlers);
 
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
-} else {
-  // ブラウザ環境では通常の worker を使う
-  const { worker } = require('../src/mocks/browser');
-  worker.start();
 }
 
 const preview: Preview = {
