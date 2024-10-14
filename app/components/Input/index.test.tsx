@@ -55,4 +55,14 @@ describe('Input', () => {
     await user.type(inputComponent, typeText);
     expect(inputComponent.value).toBe('');
   });
+
+  test('inputのonClickが呼ばれる', async () => {
+    render(<Input {...mockValues} />);
+    const inputComponent = screen.getByRole('textbox', {
+      name: mockValues.label,
+    });
+
+    await user.click(inputComponent);
+    expect(mockValues.onClick).toHaveBeenCalled();
+  });
 });
