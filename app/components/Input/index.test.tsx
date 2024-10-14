@@ -13,6 +13,10 @@ describe('Input', () => {
     onClick: jest.fn(),
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('inputがレンダーされる', () => {
     render(<Input {...mockValues} />);
     const inputComponent = screen.getByRole('textbox', {
@@ -54,5 +58,30 @@ describe('Input', () => {
     const typeText = 'ほげほげ';
     await user.type(inputComponent, typeText);
     expect(inputComponent.value).toBe('');
+  });
+
+  test('inputをクリックするとonClickが呼ばれる', async () => {
+    render(<Input {...mockValues} />);
+    const inputComponent = screen.getByRole('textbox', {
+      name: mockValues.label,
+    });
+
+    await user.click(inputComponent);
+    expect(mockValues.onClick).toHaveBeenCalled();
+  });
+
+  test('disabledの場合、inputをクリックしてもonClickが呼ばれない', async () => {
+    const mockValuesWithDisabledButton: Props = {
+      ...mockValues,
+      disabled: true,
+    };
+
+    render(<Input {...mockValuesWithDisabledButton} />);
+    const inputComponent = screen.getByRole('textbox', {
+      name: mockValues.label,
+    });
+
+    await user.click(inputComponent);
+    expect(mockValues.onClick).not.toHaveBeenCalled();
   });
 });
