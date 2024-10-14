@@ -31,11 +31,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Set up environment variables
-        run: |
-          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
-          echo "PRICES_LIST_ENDPOINT=${{ secrets.PRICES_LIST_ENDPOINT }}" >> $GITHUB_ENV
-          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
       - name: Install npm
         run: npm ci
       - name: Build Storybook
@@ -45,3 +40,8 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           storybookBuildDir: './storybook-static'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          URL: ${{ secrets.URL }}
