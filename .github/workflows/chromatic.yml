@@ -33,13 +33,15 @@ jobs:
           node-version: 20
       - name: Install npm
         run: npm ci
-      - name: Run Chromatic
-        uses: chromaui/action@latest
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: './storybook-static'
+      - name: Build Storybook
+        run: npm run build-storybook
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           URL: ${{ secrets.URL }}
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: './storybook-static'
