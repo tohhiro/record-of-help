@@ -42,7 +42,7 @@ jobs:
           NODE_ENV: development
           SUPABASE_URL: ${{ secrets.URL }}
           PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
-          IS_CI: true
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

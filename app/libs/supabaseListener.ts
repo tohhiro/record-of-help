@@ -11,9 +11,7 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
   const { fetchAuth } = useFetchMember();
 
   useEffect(() => {
-    if (!supabase) return;
     const getUserInfo = async () => {
-      if (!supabase) return;
       const { data } = await supabase.auth.getSession();
       const auth = await fetchAuth({ email: data.session?.user.email || null });
 
