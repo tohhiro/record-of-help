@@ -31,10 +31,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Set up environment variables
-        run: |
-          echo "SUPABASE_URL=${{ secrets.URL }}" >> $GITHUB_ENV
-          echo "PRICES_LIST_ENDPOINT=${{ secrets.PRICES_LIST_ENDPOINT }}" >> $GITHUB_ENV
       - name: Install npm
         # ⚠️ See your package manager's documentation for the correct command to install dependencies in a CI environment.
         run: npm ci
@@ -42,6 +38,10 @@ jobs:
         run: npm run build-storybook
 
       - name: Run Chromatic
+      env:
+        NODE_ENV: development
+        SUPABASE_URL: ${{ secrets.URL }}
+        PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
