@@ -11,6 +11,10 @@ describe('Button', () => {
     onClick: jest.fn(),
   };
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   const user = userEvent.setup();
 
   test('Buttonコンポーネントがレンダリングされる', () => {
@@ -44,12 +48,25 @@ describe('Button', () => {
     expect(buttonComponent).toHaveAttribute('type', mockValues.type);
   });
 
-  test('ButtonコンポーネントのonClickが呼ばれる', async () => {
+  test('ButtonをクリックするとonClickが呼ばれる', async () => {
     render(<Button {...mockValues} />);
 
     const buttonComponent = screen.getByRole('button');
     await user.click(buttonComponent);
 
     expect(mockValues.onClick).toHaveBeenCalled();
+  });
+
+  test('disabledの場合、ButtonをクリックしてもonClickが呼ばれない', async () => {
+    const mockValuesWithAttrSubmit: Props = {
+      ...mockValues,
+      intent: 'disabled',
+    };
+    render(<Button {...mockValuesWithAttrSubmit} />);
+
+    const buttonComponent = screen.getByRole('button');
+    await user.click(buttonComponent);
+
+    expect(mockValues.onClick).not.toHaveBeenCalled();
   });
 });
