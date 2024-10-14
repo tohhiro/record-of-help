@@ -35,6 +35,7 @@ jobs:
         run: |
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> $GITHUB_ENV
           echo "PRICES_LIST_ENDPOINT=${{ secrets.PRICES_LIST_ENDPOINT }}" >> $GITHUB_ENV
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> $GITHUB_ENV
       - name: Install npm
         run: npm ci
       - name: Build Storybook
