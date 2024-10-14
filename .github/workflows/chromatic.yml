@@ -33,8 +33,6 @@ jobs:
           node-version: 20
       - name: Install npm
         run: npm ci
-      - name: Build Storybook
-        run: npm run build-storybook
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
