@@ -15,7 +15,7 @@ runs:
         path: |
           node_modules
           eslint-rules/dist
-        key: node-${{ hashFiles('package.json') }}-${{ hashFiles('.eslintrc.js') }}
+        key: node-${{ hashFiles('package.json') }}-${{ hashFiles('.eslintrc.json') }}
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
