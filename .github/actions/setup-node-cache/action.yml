@@ -11,9 +11,7 @@ runs:
       id: cache
       uses: actions/cache@v3
       with:
-        path: |
-          node_modules
-          eslint-rules/dist
+        path: node_modules
         key: node-${{ hashFiles('package.json') }}-${{ hashFiles('.eslintrc.json') }}
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
