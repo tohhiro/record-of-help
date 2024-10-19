@@ -19,6 +19,15 @@ on:
       - '.github/**'
       - 'tests/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: read
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
