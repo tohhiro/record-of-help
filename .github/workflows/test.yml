@@ -19,6 +19,15 @@ on:
       - '.github/**'
       - 'tests/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -27,13 +36,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install npm
-        run: npm ci
+      - name: node setup composite
+        uses: ./.github/actions/setup-node-cache
 
       - name: Run Tests
         run: npm test
