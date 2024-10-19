@@ -26,13 +26,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install npm
-        run: npm ci
+      - name: node setup composite
+        uses: ./.github/actions/setup-node-cache
 
       - name: Install Playwright Browsers
         run: npx playwright install

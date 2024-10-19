@@ -1,0 +1,23 @@
+name: Setup Node with Cache
+description: 'Setup Node and install dependencies'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: npm/action-setup@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.node-version'
+        cache: 'npm'
+    - name: Configure cache
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          node_modules
+          eslint-rules/dist
+        key: node-${{ hashFiles('package.json') }}-${{ hashFiles('.eslintrc.js') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm install --frozen-lockfile
