@@ -40,6 +40,5 @@ jobs:
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
-          workingDir: ./packages/docs
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitOnceUploaded: true
