@@ -28,16 +28,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
-      - name: Build Storybook
-        run: npm run build-storybook
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          URL: ${{ secrets.URL }}
+      - name: Build addon
+        run: npm install msw-storybook-addon build
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
