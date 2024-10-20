@@ -1,6 +1,6 @@
 import Page from './page';
 import { StoryObj, Meta } from '@storybook/react';
-import { handlers } from '@/mocks/handler/pricesList'; //
+import { handler } from '@/mocks/handlers/pricesList'; //
 
 export default {
   title: 'app/feature/Form',
@@ -21,6 +21,6 @@ export const Default: Story = {};
 
 Default.parameters = {
   msw: {
-    handlers,
+    handler,
   },
 };
