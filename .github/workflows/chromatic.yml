@@ -38,3 +38,8 @@ jobs:
 
       - name: Run Chromatic
         run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interaction
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
+          SUPABASE_URL: ${{ secrets.URL }}
