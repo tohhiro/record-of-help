@@ -46,7 +46,7 @@ jobs:
         run: npm run sb:build
 
       - name: Run Chromatic
-        uses: chromaui/action@v1
+        uses: chromaui/action@v4
         id: chromatic
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
