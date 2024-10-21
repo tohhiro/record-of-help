@@ -36,17 +36,8 @@ jobs:
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
 
-      - name: Build addon
-        run: npm run build
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-
-      - name: Build Storybook
-        run: npm run sb:build
-
       - name: Run Chromatic
-        uses: chromaui/action@v4
+        uses: chromaui/action@latest
         id: chromatic
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
