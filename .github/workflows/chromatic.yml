@@ -37,7 +37,7 @@ jobs:
         uses: ./.github/actions/setup-node-cache
 
       - name: Build addon
-        run: npm run build --workspace=msw-storybook-addon
+        run: npm run build
 
       - name: Build Storybook
         run: npm run sb:build
