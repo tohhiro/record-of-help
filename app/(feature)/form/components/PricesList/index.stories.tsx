@@ -1,6 +1,6 @@
 import { PricesList } from '.';
 import { StoryObj, Meta } from '@storybook/react';
-import { handler } from '@/mocks/handlers/pricesList';
+import { handlers } from '@/mocks/handlers/pricesList';
 
 export default {
   title: 'app/feature/form/components/PricesList',
@@ -12,7 +12,7 @@ type Story = StoryObj<typeof PricesList>;
 export const Default: Story = {
   parameters: {
     msw: {
-      handler,
+      handlers,
     },
   },
 };
