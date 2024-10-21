@@ -36,6 +36,9 @@ jobs:
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
 
+      - name: Build addon
+        run: npm run build --workspace=msw-storybook-addon
+
       - name: Build Storybook
         run: npm run sb:build
 
@@ -47,6 +50,7 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: sb:build
+          workingDir: ../storybook-static
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
