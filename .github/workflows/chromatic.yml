@@ -45,15 +45,11 @@ jobs:
       - name: Build Storybook
         run: npm run sb:build
 
-      - name: Move Storybook static files
-        run: mv storybook-static ../
-
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           buildScriptName: sb:build
-          workingDir: ../storybook-static
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
