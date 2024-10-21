@@ -37,7 +37,7 @@ jobs:
         uses: ./.github/actions/setup-node-cache
 
       - name: Build Storybook
-        run: npx storybook build
+        run: npm run sb:build
 
       - name: Move Storybook static files
         run: mv storybook-static ../
@@ -46,6 +46,7 @@ jobs:
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: sb:build
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
