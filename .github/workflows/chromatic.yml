@@ -21,7 +21,6 @@ on:
 
 jobs:
   chromatic:
-    name: Run Chromatic
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,24 +28,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
 
-      - name: Build addon
-        run: npm install msw-storybook-addon build
-        env:
-          NODE_ENV: development
-
-      - name: Build Storybook
-        run: npm run build-storybook
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
-          URL: ${{ secrets.URL }}
-
       - name: Run Chromatic
-        uses: chromaui/action@latest
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: './storybook-static'
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interaction

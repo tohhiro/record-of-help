@@ -11,7 +11,6 @@
     "test": "jest",
     "test:e2e": "npx playwright test",
     "sb": "storybook dev -p 6006",
-    "sb:build": "storybook build",
     "build-storybook": "storybook build",
     "supabase:login": "npx supabase login",
     "supabase:gen": "npx supabase gen types typescript --linked > supabase/schema.ts && npx prettier --write supabase/schema.ts"
