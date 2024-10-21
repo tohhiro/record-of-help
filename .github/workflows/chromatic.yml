@@ -28,7 +28,7 @@ jobs:
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
       - name: Build Storybook
-        run: npm run sb:build
+        run: npx storybook build
       - name: Move Storybook static files
         run: mv storybook-static ../
       - name: Deploy Chromatic
