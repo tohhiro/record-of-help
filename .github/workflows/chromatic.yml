@@ -37,8 +37,4 @@ jobs:
         uses: ./.github/actions/setup-node-cache
 
       - name: Run Chromatic
-        uses: chromaui/action@latest
-        id: chromatic
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          exitZeroOnChanges: false
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interaction
