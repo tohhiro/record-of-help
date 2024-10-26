@@ -22,11 +22,11 @@ describe('Textarea', () => {
     render(<Textarea {...mockValues} />);
     const textareaComponent = screen.getByRole('textbox', {
       name: mockValues.label,
-    }) as HTMLTextAreaElement;
+    });
 
     const typeText = 'テスト';
     const user = userEvent.setup();
     await user.type(textareaComponent, typeText);
-    expect(textareaComponent.value).toBe(typeText);
+    expect(textareaComponent).toHaveDisplayValue(typeText);
   });
 });
