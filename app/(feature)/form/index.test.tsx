@@ -100,11 +100,11 @@ describe('Form', () => {
 
     test('textareaに入力ができる', async () => {
       render(<Form />);
-      const textarea = screen.getByRole('textbox') as HTMLTextAreaElement;
+      const textarea = screen.getByRole('textbox');
       const typeText = 'テスト';
 
       await user.type(textarea, typeText);
-      expect(textarea.value).toBe(typeText);
+      expect(textarea).toHaveDisplayValue(typeText);
     });
   });
 
