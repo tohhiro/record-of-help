@@ -38,12 +38,12 @@ const mockFailedData = {
 describe('PricesList', () => {
   const user = userEvent.setup();
 
-  const register = {
+  const register: UseFormRegisterReturn<'items.helps'> = {
     onChange: jest.fn(),
     onBlur: jest.fn(),
     ref: jest.fn(),
     name: 'items.helps',
-  } as UseFormRegisterReturn<'items.helps'>;
+  };
 
   afterEach(() => {
     mockedUseFetchPricesList.mockReset();
