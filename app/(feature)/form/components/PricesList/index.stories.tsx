@@ -5,7 +5,7 @@ import { handlers } from '@/mocks/handlers/pricesList';
 export default {
   title: 'app/feature/form/components/PricesList',
   component: PricesList,
-} as Meta<typeof PricesList>;
+} satisfies Meta<typeof PricesList>;
 
 type Story = StoryObj<typeof PricesList>;
 

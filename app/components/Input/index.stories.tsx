@@ -4,7 +4,7 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Input',
   component: Input,
-} as Meta<typeof Input>;
+} satisfies Meta<typeof Input>;
 
 type Story = StoryObj<typeof Input>;
 

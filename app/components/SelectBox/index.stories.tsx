@@ -4,7 +4,7 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/SelectBox',
   component: SelectBox,
-} as Meta<typeof SelectBox>;
+} satisfies Meta<typeof SelectBox>;
 
 type Story = StoryObj<typeof SelectBox>;
 

@@ -4,7 +4,7 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Table',
   component: Table,
-} as Meta<typeof Table>;
+} satisfies Meta<typeof Table>;
 
 type Story = StoryObj<typeof Table>;
 

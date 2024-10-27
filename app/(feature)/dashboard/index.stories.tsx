@@ -4,7 +4,7 @@ import Page from './page';
 export default {
   title: 'app/feature/Dashboard',
   component: Page,
-} as Meta<typeof Page>;
+} satisfies Meta<typeof Page>;
 
 type Story = StoryObj<typeof Page>;
 
