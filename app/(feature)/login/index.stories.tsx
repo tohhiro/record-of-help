@@ -12,7 +12,7 @@ export default {
       },
     },
   },
-} as Meta<typeof Page>;
+} satisfies Meta<typeof Page>;
 
 type Story = StoryObj<typeof Page>;
 

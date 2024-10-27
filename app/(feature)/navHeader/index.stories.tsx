@@ -9,7 +9,7 @@ export default {
       appDirectory: true,
     },
   },
-} as Meta<typeof NavHeader>;
+} satisfies Meta<typeof NavHeader>;
 
 export type Story = StoryObj<typeof NavHeader>;
 

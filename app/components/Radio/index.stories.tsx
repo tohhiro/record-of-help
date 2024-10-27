@@ -4,7 +4,7 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Radio',
   component: Radio,
-} as Meta<typeof Radio>;
+} satisfies Meta<typeof Radio>;
 
 type Story = StoryObj<typeof Radio>;
 

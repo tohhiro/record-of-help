@@ -4,7 +4,7 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Button',
   component: Button,
-} as Meta<typeof Button>;
+} satisfies Meta<typeof Button>;
 
 type Story = StoryObj<typeof Button>;
 

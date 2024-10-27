@@ -4,7 +4,7 @@ import { DashboardTable, Props } from '.';
 export default {
   title: 'app/feature/dashboard/DashboardTable',
   component: DashboardTable,
-} as Meta<typeof DashboardTable>;
+} satisfies Meta<typeof DashboardTable>;
 
 type Story = StoryObj<typeof DashboardTable>;
 
