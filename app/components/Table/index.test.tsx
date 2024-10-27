@@ -11,7 +11,7 @@ const mockThData = {
   special: 'スペシャル',
   comments: 'コメント',
   created_at: '日付',
-} as const;
+};
 
 const mockTdData = [
   {
@@ -34,9 +34,9 @@ const mockTdData = [
     comments: 'テスト2',
     created_at: '2021-10-10',
   },
-] as Props;
+];
 
-const mockNonTdData = [{}] as Props | null;
+const mockNonTdData: Props | null = [{}];
 
 describe('Table', () => {
   test('2つのデータが表示される', () => {
