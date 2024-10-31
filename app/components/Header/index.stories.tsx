@@ -38,5 +38,4 @@ export const NotLogin: Story = {
     links: mockNavMemberItems,
     onClick: () => {},
   },
-  render: (args) => <Header {...args} />,
 };
