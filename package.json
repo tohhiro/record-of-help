@@ -67,6 +67,7 @@
     "storybook": "^8.3.5",
     "tailwindcss": "^3.3.5"
   },
+  "chromatic": "chromatic",
   "engines": {
     "node": "^20.11.0"
   },
