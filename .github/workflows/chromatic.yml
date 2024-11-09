@@ -22,6 +22,11 @@ on:
 jobs:
   chromatic:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
 
     steps:
       - name: Checkout code
