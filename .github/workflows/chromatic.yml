@@ -22,6 +22,10 @@ on:
 jobs:
   chromatic:
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,12 +40,8 @@ jobs:
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
 
-      - name: storybook build
-        run: npm run build-storybook
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-
       - name: Run Chromatic
-        run: |
-          SUPABASE_URL=${{ secrets.SUPABASE_URL }} SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interaction
+        uses: chromaui/action@latest
+        with:
+          buildScriptName: 'build-storybook'
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
