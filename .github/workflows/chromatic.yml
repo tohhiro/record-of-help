@@ -36,5 +36,11 @@ jobs:
       - name: node setup composite
         uses: ./.github/actions/setup-node-cache
 
+      - name: storybook build
+        run: npm run build-storybook
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
       - name: Run Chromatic
         run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interaction
