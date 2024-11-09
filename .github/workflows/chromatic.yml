@@ -43,9 +43,5 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - name: Run Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }} SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }} npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --no-interaction
