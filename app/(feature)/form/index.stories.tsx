@@ -9,6 +9,9 @@ export default {
     chromatic: {
       disableSnapshot: false,
     },
+    msw: {
+      handlers,
+    },
     nextjs: {
       appDirectory: true,
       navigation: {
@@ -20,10 +23,4 @@ export default {
 
 type Story = StoryObj<typeof Page>;
 
-export const Default: Story = {
-  parameters: {
-    msw: {
-      handlers,
-    },
-  },
-};
+export const Default: Story = {};

@@ -9,15 +9,12 @@ export default {
     chromatic: {
       disableSnapshot: false,
     },
+    msw: {
+      handlers,
+    },
   },
 } satisfies Meta<typeof PricesList>;
 
 type Story = StoryObj<typeof PricesList>;
 
-export const Default: Story = {
-  parameters: {
-    msw: {
-      handlers,
-    },
-  },
-};
+export const Default: Story = {};
