@@ -6,6 +6,9 @@ export default {
   title: 'app/feature/Form',
   component: Page,
   parameters: {
+    chromatic: {
+      disableSnapshot: false,
+    },
     nextjs: {
       appDirectory: true,
       navigation: {

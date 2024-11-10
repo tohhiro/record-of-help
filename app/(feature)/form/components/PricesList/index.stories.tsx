@@ -5,6 +5,11 @@ import { handlers } from '@/mocks/handlers/pricesList';
 export default {
   title: 'app/feature/form/components/PricesList',
   component: PricesList,
+  parameters: {
+    chromatic: {
+      disableSnapshot: false,
+    },
+  },
 } satisfies Meta<typeof PricesList>;
 
 type Story = StoryObj<typeof PricesList>;

@@ -4,6 +4,11 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/SelectBox',
   component: SelectBox,
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
 } satisfies Meta<typeof SelectBox>;
 
 type Story = StoryObj<typeof SelectBox>;
