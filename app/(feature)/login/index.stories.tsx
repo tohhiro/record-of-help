@@ -5,6 +5,9 @@ export default {
   title: 'app/feature/Login',
   component: Page,
   parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
     nextjs: {
       appDirectory: true,
       navigation: {

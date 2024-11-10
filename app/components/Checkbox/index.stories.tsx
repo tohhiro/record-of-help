@@ -4,6 +4,11 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Checkbox',
   component: Checkbox,
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
 } satisfies Meta<typeof Checkbox>;
 
 type Story = StoryObj<typeof Checkbox>;

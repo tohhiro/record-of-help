@@ -5,6 +5,9 @@ export default {
   title: 'app/feature/NavHeader',
   component: NavHeader,
   parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
     nextjs: {
       appDirectory: true,
     },

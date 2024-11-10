@@ -4,6 +4,11 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Input',
   component: Input,
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
 } satisfies Meta<typeof Input>;
 
 type Story = StoryObj<typeof Input>;

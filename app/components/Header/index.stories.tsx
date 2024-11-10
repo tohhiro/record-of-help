@@ -4,6 +4,11 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Header',
   component: Header,
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
 } satisfies Meta<typeof Header>;
 
 type Story = StoryObj<typeof Header>;

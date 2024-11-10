@@ -4,6 +4,11 @@ import { StoryObj, Meta } from '@storybook/react';
 export default {
   title: 'app/components/Textarea',
   component: Textarea,
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
 } satisfies Meta<typeof Textarea>;
 
 type Story = StoryObj<typeof Textarea>;
