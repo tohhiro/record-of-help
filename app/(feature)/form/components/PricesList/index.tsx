@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox } from '@/app/components/Checkbox';
 import { useFetchPricesList } from '@/app/(feature)/form/hooks/useFetchPricesList';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { createPricesList } from './helper/createPricesList';
+import { createPricesList } from './helpers';
 
 export const PricesList = ({ register }: { register: UseFormRegisterReturn<'items.helps'> }) => {
   const pricesListRaw = useFetchPricesList();

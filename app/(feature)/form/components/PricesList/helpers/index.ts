@@ -1,0 +1,1 @@
+export { createPricesList } from './createPricesList';
