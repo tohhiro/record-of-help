@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { validationSchema } from './helper/validationSchema';
+import { validationSchema } from './helpers';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { useSignIn } from '@/app/(feature)/login/hooks/useSignIn/';
