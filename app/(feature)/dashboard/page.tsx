@@ -7,8 +7,7 @@ import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks';
 import { SelectBox } from '@/app/components/SelectBox';
 import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';
-import { validationSchema } from './helper/validationSchema';
-import { sumObjectArrayData } from './helper/subObjectArrayData';
+import { sumObjectArrayData, validationSchema } from './helper';
 import { DashboardTable, Props as TdProps } from './components/DashboardTable';
 
 type OptionsType = {
