@@ -3,7 +3,7 @@ import React, { useState, Suspense } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { dashboardStyles } from './index.styles';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks/useFetchRawsData';
+import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks';
 import { SelectBox } from '@/app/components/SelectBox';
 import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';

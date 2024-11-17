@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/libs/supabase';
 import { useStore } from '@/app/store';
-import { useFetchMember } from '@/app/hooks/useFetchMember';
+import { useFetchMember } from '@/app/hooks';
 
 const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) => {
   const router = useRouter();
