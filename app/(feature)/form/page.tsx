@@ -8,9 +8,8 @@ import { convertHelps, validationSchema } from './helpers';
 import { Button } from '@/app/components/Button';
 import { Radio } from '@/app/components/Radio';
 import { Textarea } from '@/app/components/Textarea';
-import { usePostHelp } from '@/app/(feature)/form/hooks/usePostHelp';
 import { PricesList } from './components/PricesList';
-import { useLeavingModal } from '@/app/(feature)/form/hooks/useLeavingModal';
+import { usePostHelp, useLeavingModal } from '@/app/(feature)/form/hooks';
 
 export type Props = {
   person: string;

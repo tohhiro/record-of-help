@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { useFetchMember } from './useFetchMember';
+import { useFetchMember } from '.';
 
 const mockSuccessResponse = {
   result: {
