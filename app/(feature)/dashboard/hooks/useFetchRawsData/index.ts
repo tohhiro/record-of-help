@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/app/libs/supabase';
 import useSWR, { mutate } from 'swr';
 import type { Database } from '@/supabase/schema';
+import { getNowMonthFirstLast } from './helpers';
 
 type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
@@ -10,18 +11,6 @@ export type ConditionsArgsType = {
   startDate: string;
   endDate: string;
   person?: string;
-};
-
-const getNowMonthFirstLast = () => {
-  const nowDate = new Date();
-  const year = nowDate.getFullYear();
-  const month = nowDate.getMonth();
-  const nowMonthFirst = new Date(year, month, 1);
-  const nowMonthLast = new Date(year, month + 1, 0);
-  return {
-    startDate: nowMonthFirst.toISOString().split('T')[0],
-    endDate: nowMonthLast.toISOString().split('T')[0],
-  };
 };
 
 const conditionsFetcher = async (args: ConditionsArgsType) => {
