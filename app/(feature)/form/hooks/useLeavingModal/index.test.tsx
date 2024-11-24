@@ -1,6 +1,6 @@
-import { useForm } from 'react-hook-form';
-import { render, screen, renderHook } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useForm } from 'react-hook-form';
 import { useLeavingModal } from '.';
 
 const renderForm = () => {

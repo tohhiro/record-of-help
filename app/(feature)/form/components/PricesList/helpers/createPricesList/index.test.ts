@@ -1,5 +1,5 @@
+import { mockPricesList, mockPricesListErrorRaw, mockPricesListRaw } from '@/mocks/pricesList';
 import { createPricesList } from '.';
-import { mockPricesList, mockPricesListRaw, mockPricesListErrorRaw } from '@/mocks/pricesList';
 
 describe('createPricesList', () => {
   test('rawデータからpricesListを生成する', () => {

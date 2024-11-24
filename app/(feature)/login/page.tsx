@@ -1,13 +1,13 @@
 'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { validationSchema } from './helpers';
+import { useSignIn } from '@/app/(feature)/login/hooks';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
-import { useSignIn } from '@/app/(feature)/login/hooks';
 import { useStore } from '@/app/store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { validationSchema } from './helpers';
 
 export type Props = {
   email: string;

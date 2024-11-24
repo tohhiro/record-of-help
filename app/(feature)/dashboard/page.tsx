@@ -1,14 +1,14 @@
 'use client';
-import React, { useState, Suspense } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { dashboardStyles } from './index.styles';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks';
-import { SelectBox } from '@/app/components/SelectBox';
-import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';
-import { sumObjectArrayData, validationSchema } from './helper';
+import { Input } from '@/app/components/Input';
+import { SelectBox } from '@/app/components/SelectBox';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Suspense, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { DashboardTable, Props as TdProps } from './components/DashboardTable';
+import { sumObjectArrayData, validationSchema } from './helper';
+import { dashboardStyles } from './index.styles';
 
 type OptionsType = {
   value: string;

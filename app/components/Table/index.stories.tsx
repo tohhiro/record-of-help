@@ -1,5 +1,5 @@
-import { Table, Props } from '.';
-import { StoryObj, Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
+import { Props, Table } from '.';
 
 export default {
   title: 'app/components/Table',

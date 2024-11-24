@@ -1,7 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Radio, Props } from '.';
 import userEvent from '@testing-library/user-event';
+import { Props, Radio } from '.';
 
 describe('Radio', () => {
   const mockValues: Props = {

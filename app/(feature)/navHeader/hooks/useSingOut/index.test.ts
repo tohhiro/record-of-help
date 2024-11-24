@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react';
-import { useSignOut } from '.';
 import * as Supabase from '@/app/libs/supabase';
 import { AuthError } from '@supabase/supabase-js';
+import { renderHook } from '@testing-library/react';
+import { useSignOut } from '.';
 
 jest.mock('../../../../libs/supabase');
 

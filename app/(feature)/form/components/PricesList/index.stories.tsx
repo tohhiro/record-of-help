@@ -1,6 +1,6 @@
-import { PricesList } from '.';
-import { StoryObj, Meta } from '@storybook/react';
 import { handlers } from '@/mocks/handlers/pricesList';
+import { Meta, StoryObj } from '@storybook/react';
+import { PricesList } from '.';
 
 export default {
   title: 'app/feature/form/components/PricesList',

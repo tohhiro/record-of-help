@@ -1,9 +1,9 @@
 'use client';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useFetchMember } from '@/app/hooks';
 import { supabase } from '@/app/libs/supabase';
 import { useStore } from '@/app/store';
-import { useFetchMember } from '@/app/hooks';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) => {
   const router = useRouter();

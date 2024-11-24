@@ -1,5 +1,5 @@
+import { Meta, StoryObj } from '@storybook/react';
 import { NavHeader } from '.';
-import { StoryObj, Meta } from '@storybook/react';
 
 export default {
   title: 'app/feature/NavHeader',

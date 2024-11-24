@@ -1,6 +1,6 @@
+import { supabase } from '@/app/libs/supabase';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useFetchPricesList } from '.';
-import { supabase } from '@/app/libs/supabase';
 
 jest.mock('../../../../libs/supabase');
 const mockedSupabase = jest.mocked(supabase.from);

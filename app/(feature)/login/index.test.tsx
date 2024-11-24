@@ -1,8 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { default as Login } from './page';
 import userEvent from '@testing-library/user-event';
 import { useSignIn } from './hooks/useSignIn';
+import { default as Login } from './page';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 jest.mock('./hooks/useSignIn');

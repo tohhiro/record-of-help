@@ -1,7 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Checkbox, Props } from '.';
 import userEvent from '@testing-library/user-event';
+import { Checkbox, Props } from '.';
 
 describe('Checkbox', () => {
   const mockValues: Props = {

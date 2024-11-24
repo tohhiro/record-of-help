@@ -1,7 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { default as Dashboard } from './page';
 import userEvent from '@testing-library/user-event';
+import { default as Dashboard } from './page';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 

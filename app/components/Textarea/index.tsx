@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
 import '@/app/styles/globals.css';
+import { forwardRef } from 'react';
 import { textareaStyles } from './index.styles';
 
 export type Props = {

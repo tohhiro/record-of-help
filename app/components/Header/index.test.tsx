@@ -1,7 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Header, headerText, NavAdminType } from '.';
 import userEvent from '@testing-library/user-event';
+import { Header, headerText, NavAdminType } from '.';
 
 const mockNavItems: NavAdminType = {
   Form: './form',

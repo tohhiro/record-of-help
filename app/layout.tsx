@@ -1,8 +1,8 @@
-import { PropsWithChildren } from 'react';
-import './styles/globals.css';
 import { NavHeader } from '@/app/(feature)/navHeader';
 import SupabaseListener from '@/app/libs/supabaseListener';
+import { PropsWithChildren } from 'react';
 import { supabase } from './libs/supabase';
+import './styles/globals.css';
 
 export const metadata = {
   title: 'Record of Help',
