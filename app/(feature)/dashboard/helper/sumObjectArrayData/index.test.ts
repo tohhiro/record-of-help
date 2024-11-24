@@ -1,5 +1,5 @@
-import { sumObjectArrayData } from '.';
 import { mockRawsData } from '@/mocks/rawsData';
+import { sumObjectArrayData } from '.';
 
 const mockSumItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 

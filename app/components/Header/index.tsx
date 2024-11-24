@@ -1,8 +1,8 @@
 'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
 import '@/app/styles/globals.css';
-import { headerStyles, hamburgerContainer } from './index.styles';
+import Link from 'next/link';
+import { useState } from 'react';
+import { hamburgerContainer, headerStyles } from './index.styles';
 
 export const headerText = 'Record of help';
 

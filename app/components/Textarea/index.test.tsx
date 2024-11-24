@@ -1,7 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Textarea, Props } from '.';
 import userEvent from '@testing-library/user-event';
+import { Props, Textarea } from '.';
 
 describe('Textarea', () => {
   const mockValues: Props = {

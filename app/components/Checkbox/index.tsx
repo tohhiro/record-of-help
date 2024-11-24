@@ -1,6 +1,6 @@
 'use client';
-import React, { forwardRef, Ref } from 'react';
 import '@/app/styles/globals.css';
+import { forwardRef, Ref } from 'react';
 import { checkboxStyles } from './index.styles';
 
 export type Props = {

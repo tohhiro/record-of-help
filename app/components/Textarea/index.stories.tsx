@@ -1,5 +1,5 @@
-import { Textarea, Props } from '.';
-import { StoryObj, Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
+import { Props, Textarea } from '.';
 
 export default {
   title: 'app/components/Textarea',

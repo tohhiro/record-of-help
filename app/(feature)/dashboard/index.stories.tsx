@@ -1,4 +1,4 @@
-import { StoryObj, Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import Page from './page';
 
 export default {

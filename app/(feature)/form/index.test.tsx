@@ -1,9 +1,8 @@
-import React from 'react';
+import { mockPricesListRaw } from '@/mocks/pricesList';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { default as Form } from './page';
 import { useFetchPricesList } from './hooks/useFetchPricesList';
-import { mockPricesListRaw } from '@/mocks/pricesList';
+import { default as Form } from './page';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 jest.mock('./hooks/useFetchPricesList');

@@ -1,6 +1,5 @@
-import React from 'react';
-import { Checkbox } from '@/app/components/Checkbox';
 import { useFetchPricesList } from '@/app/(feature)/form/hooks';
+import { Checkbox } from '@/app/components/Checkbox';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { createPricesList } from './helpers';
 

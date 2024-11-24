@@ -1,10 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { NavHeader } from '.';
-import userEvent from '@testing-library/user-event';
 import * as Supabase from '@/app/libs/supabase';
-import { AuthError } from '@supabase/supabase-js';
 import * as Zustand from '@/app/store';
+import { AuthError } from '@supabase/supabase-js';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { NavHeader } from '.';
 
 jest.mock('../../libs/supabase');
 jest.mock('../../store');

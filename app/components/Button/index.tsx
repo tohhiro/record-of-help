@@ -1,4 +1,3 @@
-import React from 'react';
 import '@/app/styles/globals.css';
 import { buttonStyles } from './index.styles';
 

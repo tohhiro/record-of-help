@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 const email = process.env.EMAIL as string;
 const password = process.env.PASSWORD as string;

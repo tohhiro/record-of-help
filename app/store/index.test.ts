@@ -1,5 +1,5 @@
+import { act, renderHook } from '@testing-library/react';
 import { useStore } from '.';
-import { renderHook, act } from '@testing-library/react';
 
 describe('useStore', () => {
   test('loginUserのオブジェクトの初期値は、各々空文字かundefinedである', () => {

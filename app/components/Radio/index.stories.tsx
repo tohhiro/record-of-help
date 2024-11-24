@@ -1,5 +1,5 @@
-import { Radio, Props } from '.';
-import { StoryObj, Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
+import { Props, Radio } from '.';
 
 export default {
   title: 'app/components/Radio',
