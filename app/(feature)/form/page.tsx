@@ -17,14 +17,14 @@ export type Props = {
 };
 
 export default function Page() {
-  const [isSubmitting, isSetSubmitting] = useState<'primary' | 'disabled'>('primary');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const post = usePostHelp();
+  const { postHelp, isMutating } = usePostHelp();
+
   const router = useRouter();
 
   const onSubmit: SubmitHandler<Props> = async (data) => {
@@ -36,17 +36,14 @@ export default function Page() {
       comments: data.items.comments,
     };
 
-    isSetSubmitting('disabled');
+    const { status: errorStatus, message: errorMessage } = await postHelp(sendingData);
 
-    const res = await post.postHelp(sendingData);
-
-    if (Number(res.error?.code) >= 400) {
-      isSetSubmitting('primary');
+    if (errorStatus >= 400) {
       // eslint-disable-next-line no-alert
-      return alert('送信に失敗しました');
+      return alert(`エラーが発生しました: ${errorMessage}`);
     }
 
-    router.replace('/dashboard');
+    if (errorStatus < 300 && !isMutating) router.replace('/dashboard');
   };
 
   const {
@@ -122,7 +119,7 @@ export default function Page() {
           </p>
 
           <div className="w-80 my-4 m-auto">
-            <Button label="Submit" type="submit" intent={isSubmitting} />
+            <Button label="Submit" type="submit" intent={isMutating ? 'disabled' : 'primary'} />
           </div>
         </form>
       </div>

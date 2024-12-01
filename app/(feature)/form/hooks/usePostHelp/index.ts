@@ -1,4 +1,5 @@
 import { supabase } from '@/app/libs/supabase';
+import useSWRMutation from 'swr/mutation';
 
 export type Props = {
   person: string;
@@ -10,10 +11,25 @@ export type Props = {
   special: number;
 };
 
+const postHelpToSupabase = async (tableName: string, { arg }: { arg: Props }) => {
+  const result = await supabase.from(tableName).insert([arg]);
+  return result;
+};
+
 export const usePostHelp = () => {
+  const { trigger, isMutating } = useSWRMutation('raws_data', postHelpToSupabase);
+
   const postHelp = async (args: Props) => {
-    const { data, error } = await supabase.from('raws_data').insert([args]);
-    return { data, error };
+    try {
+      const error = await trigger(args);
+      return { status: error.status, message: error.statusText };
+    } catch (e) {
+      throw new Error(JSON.stringify(e));
+    }
   };
-  return { postHelp };
+
+  return {
+    postHelp,
+    isMutating,
+  };
 };
