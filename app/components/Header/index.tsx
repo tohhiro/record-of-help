@@ -28,19 +28,19 @@ export const Header = ({
 
   return (
     <header role="banner">
-      <nav className={headerStyles.navContainer}>
+      <nav className={headerStyles.slots.navContainer}>
         {process.env.NEXT_PUBLIC_ENV !== 'production' && (
-          <span className={headerStyles.ribbonText}>{process.env.NEXT_PUBLIC_ENV}</span>
+          <span className={headerStyles.slots.ribbonText}>{process.env.NEXT_PUBLIC_ENV}</span>
         )}
 
-        <div className={headerStyles.navBaseStyle}>
-          <span className={headerStyles.headerTitle}>
+        <div className={headerStyles.slots.navBaseStyle}>
+          <span className={headerStyles.slots.headerTitle}>
             <Link href="/login">{headerText}</Link>
           </span>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
-            className={headerStyles.hamburgerMenu}
+            className={headerStyles.slots.hamburgerMenu}
             aria-controls="navbar-default"
             aria-expanded="false"
             onClick={() => setIsOpen((prev) => !prev)}
@@ -68,11 +68,11 @@ export const Header = ({
             id="navbar-default"
           >
             {loginUser && (
-              <ul className={headerStyles.menuUlStyle}>
+              <ul className={headerStyles.slots.menuUlStyle}>
                 {Object.keys(links).map((link) => (
-                  <li key={link} className={headerStyles.menuLiStyle}>
+                  <li key={link} className={headerStyles.slots.menuLiStyle}>
                     <Link
-                      className={headerStyles.menuLink}
+                      className={headerStyles.slots.menuLink}
                       href={links[link as keyof typeof links]}
                       onClick={() => setIsOpen(false)}
                     >
@@ -80,8 +80,8 @@ export const Header = ({
                     </Link>
                   </li>
                 ))}
-                <li className={headerStyles.menuLiStyle}>
-                  <Link href="#" className={headerStyles.menuLink} onClick={onClick}>
+                <li className={headerStyles.slots.menuLiStyle}>
+                  <Link href="#" className={headerStyles.slots.menuLink} onClick={onClick}>
                     {loginUser}
                   </Link>
                 </li>
