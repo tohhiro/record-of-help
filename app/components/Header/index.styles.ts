@@ -1,4 +1,4 @@
-import { cva } from 'class-variance-authority';
+import { tv } from 'tailwind-variants';
 
 export const headerStyles = {
   ribbonText:
@@ -14,7 +14,8 @@ export const headerStyles = {
   menuLink: 'block w-full h-full',
 };
 
-export const hamburgerContainer = cva('w-full md:block md:w-auto', {
+export const hamburgerContainer = tv({
+  base: 'w-full md:block md:w-auto',
   variants: {
     hamburger: {
       hidden: 'hidden',
