@@ -38,15 +38,6 @@ export const Header = ({
 
   return (
     <header role="banner">
-<<<<<<< Updated upstream
-      <nav className={headerStyles.navContainer}>
-        {process.env.NEXT_PUBLIC_ENV !== 'production' && (
-          <span className={headerStyles.ribbonText}>{process.env.NEXT_PUBLIC_ENV}</span>
-        )}
-
-        <div className={headerStyles.navBaseStyle}>
-          <span className={headerStyles.headerTitle}>
-=======
       <nav className={navContainer()}>
         {process.env.NEXT_PUBLIC_ENV !== 'production' && (
           <span className={ribbonText()}>{process.env.NEXT_PUBLIC_ENV}</span>
@@ -54,17 +45,12 @@ export const Header = ({
 
         <div className={navBaseStyle()}>
           <span className={headerTitle()}>
->>>>>>> Stashed changes
             <Link href="/login">{headerText}</Link>
           </span>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
-<<<<<<< Updated upstream
-            className={headerStyles.hamburgerMenu}
-=======
             className={hamburgerMenu()}
->>>>>>> Stashed changes
             aria-controls="navbar-default"
             aria-expanded="false"
             onClick={() => setIsOpen((prev) => !prev)}
@@ -92,19 +78,11 @@ export const Header = ({
             id="navbar-default"
           >
             {loginUser && (
-<<<<<<< Updated upstream
-              <ul className={headerStyles.menuUlStyle}>
-                {Object.keys(links).map((link) => (
-                  <li key={link} className={headerStyles.menuLiStyle}>
-                    <Link
-                      className={headerStyles.menuLink}
-=======
               <ul className={menuUlStyle()}>
                 {Object.keys(links).map((link) => (
                   <li key={link} className={menuLiStyle()}>
                     <Link
                       className={menuLink()}
->>>>>>> Stashed changes
                       href={links[link as keyof typeof links]}
                       onClick={() => setIsOpen(false)}
                     >
@@ -112,13 +90,9 @@ export const Header = ({
                     </Link>
                   </li>
                 ))}
-<<<<<<< Updated upstream
-                <li className={headerStyles.menuLiStyle}>
-                  <Link href="#" className={headerStyles.menuLink} onClick={onClick}>
-=======
+
                 <li className={menuLiStyle()}>
                   <Link href="#" className={menuLink()} onClick={onClick}>
->>>>>>> Stashed changes
                     {loginUser}
                   </Link>
                 </li>
