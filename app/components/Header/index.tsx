@@ -25,22 +25,32 @@ export const Header = ({
   loginUser?: string | null;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const {
+    navContainer,
+    ribbonText,
+    navBaseStyle,
+    headerTitle,
+    hamburgerMenu,
+    menuUlStyle,
+    menuLiStyle,
+    menuLink,
+  } = headerStyles();
 
   return (
     <header role="banner">
-      <nav className={headerStyles.navContainer}>
+      <nav className={navContainer()}>
         {process.env.NEXT_PUBLIC_ENV !== 'production' && (
-          <span className={headerStyles.ribbonText}>{process.env.NEXT_PUBLIC_ENV}</span>
+          <span className={ribbonText()}>{process.env.NEXT_PUBLIC_ENV}</span>
         )}
 
-        <div className={headerStyles.navBaseStyle}>
-          <span className={headerStyles.headerTitle}>
+        <div className={navBaseStyle()}>
+          <span className={headerTitle()}>
             <Link href="/login">{headerText}</Link>
           </span>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
-            className={headerStyles.hamburgerMenu}
+            className={hamburgerMenu()}
             aria-controls="navbar-default"
             aria-expanded="false"
             onClick={() => setIsOpen((prev) => !prev)}
@@ -68,11 +78,11 @@ export const Header = ({
             id="navbar-default"
           >
             {loginUser && (
-              <ul className={headerStyles.menuUlStyle}>
+              <ul className={menuUlStyle()}>
                 {Object.keys(links).map((link) => (
-                  <li key={link} className={headerStyles.menuLiStyle}>
+                  <li key={link} className={menuLiStyle()}>
                     <Link
-                      className={headerStyles.menuLink}
+                      className={menuLink()}
                       href={links[link as keyof typeof links]}
                       onClick={() => setIsOpen(false)}
                     >
@@ -80,8 +90,8 @@ export const Header = ({
                     </Link>
                   </li>
                 ))}
-                <li className={headerStyles.menuLiStyle}>
-                  <Link href="#" className={headerStyles.menuLink} onClick={onClick}>
+                <li className={menuLiStyle()}>
+                  <Link href="#" className={menuLink()} onClick={onClick}>
                     {loginUser}
                   </Link>
                 </li>
