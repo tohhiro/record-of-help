@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Checkbox, Props } from '.';
 
@@ -7,22 +7,21 @@ describe('Checkbox', () => {
     label: 'Checkbox Label',
     id: 'checkbox1',
     value: 'checkboxValue',
-    ref: null,
   };
 
   test('Checkboxがレンダーされる', () => {
-    render(<Checkbox {...mockValues} />);
+    const { getByLabelText, getByRole } = render(<Checkbox {...mockValues} />);
 
-    const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
+    const labelOfCheckboxComponent = getByLabelText(mockValues.label);
     expect(labelOfCheckboxComponent).toBeInTheDocument();
 
-    const inputOfCheckboxComponent = screen.getByRole('checkbox');
+    const inputOfCheckboxComponent = getByRole('checkbox');
     expect(inputOfCheckboxComponent).toHaveAttribute('type', 'checkbox');
   });
 
   test('Checkboxがチェックできる', async () => {
-    render(<Checkbox {...mockValues} />);
-    const checkboxComponent = screen.getByRole('checkbox', {
+    const { getByRole } = render(<Checkbox {...mockValues} />);
+    const checkboxComponent = getByRole('checkbox', {
       name: mockValues.label,
     });
 

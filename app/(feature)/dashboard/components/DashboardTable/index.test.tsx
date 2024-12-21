@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { DashboardTable, Props } from '.';
 
 const mockThData = {
@@ -56,16 +56,18 @@ const mockTdDataWithDelFlag: Props = [
 
 describe('DashboardTable', () => {
   test('テーブルに2つの氏名が表示され、データにない氏名は表示されない', () => {
-    render(<DashboardTable th={mockThData} td={mockTdData} />);
-    expect(screen.getByText('eito')).toBeInTheDocument();
-    expect(screen.getByText('mei')).toBeInTheDocument();
-    expect(screen.queryByText('taro')).not.toBeInTheDocument();
+    const { getByText, queryByText } = render(<DashboardTable th={mockThData} td={mockTdData} />);
+    expect(getByText('eito')).toBeInTheDocument();
+    expect(getByText('mei')).toBeInTheDocument();
+    expect(queryByText('taro')).not.toBeInTheDocument();
   });
 
   test('2つのデータのうち、1つにdel_flag=trueのデータが渡された場合、テーブルに1つの氏名が表示される', () => {
-    render(<DashboardTable th={mockThData} td={mockTdDataWithDelFlag} />);
-    expect(screen.queryByText('eito')).not.toBeInTheDocument();
-    expect(screen.getByText('mei')).toBeInTheDocument();
+    const { getByText, queryByText } = render(
+      <DashboardTable th={mockThData} td={mockTdDataWithDelFlag} />,
+    );
+    expect(queryByText('eito')).not.toBeInTheDocument();
+    expect(getByText('mei')).toBeInTheDocument();
   });
 
   test('tdにnullが渡されるとコンポーネントが表示されない', () => {

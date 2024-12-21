@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Input, Props } from '.';
 
@@ -17,8 +17,8 @@ describe('Input', () => {
   });
 
   test('inputがレンダーされる', () => {
-    render(<Input {...mockValues} />);
-    const inputComponent = screen.getByRole('textbox', {
+    const { getByRole } = render(<Input {...mockValues} />);
+    const inputComponent = getByRole('textbox', {
       name: mockValues.label,
     });
     expect(inputComponent).toHaveAttribute('type', mockValues.type);
@@ -26,9 +26,9 @@ describe('Input', () => {
   });
 
   test('inputに「ほげほげ」と入力ができる', async () => {
-    render(<Input {...mockValues} />);
+    const { getByRole } = render(<Input {...mockValues} />);
 
-    const inputComponent = screen.getByRole('textbox', {
+    const inputComponent = getByRole('textbox', {
       name: mockValues.label,
     });
 
@@ -46,8 +46,8 @@ describe('Input', () => {
       disabled: true,
     };
 
-    render(<Input {...mockValuesWithDisabledButton} />);
-    const inputComponent = screen.getByRole('textbox', {
+    const { getByRole } = render(<Input {...mockValuesWithDisabledButton} />);
+    const inputComponent = getByRole('textbox', {
       name: mockValuesWithDisabledButton.label,
     });
 
@@ -60,8 +60,8 @@ describe('Input', () => {
   });
 
   test('inputをクリックするとonClickが呼ばれる', async () => {
-    render(<Input {...mockValues} />);
-    const inputComponent = screen.getByRole('textbox', {
+    const { getByRole } = render(<Input {...mockValues} />);
+    const inputComponent = getByRole('textbox', {
       name: mockValues.label,
     });
 
@@ -75,8 +75,8 @@ describe('Input', () => {
       disabled: true,
     };
 
-    render(<Input {...mockValuesWithDisabledButton} />);
-    const inputComponent = screen.getByRole('textbox', {
+    const { getByRole } = render(<Input {...mockValuesWithDisabledButton} />);
+    const inputComponent = getByRole('textbox', {
       name: mockValues.label,
     });
 

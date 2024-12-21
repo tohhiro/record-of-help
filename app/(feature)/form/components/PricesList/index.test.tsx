@@ -1,6 +1,6 @@
 import { PricesList } from '@/app/(feature)/form/components/PricesList';
 import { useFetchPricesList } from '@/app/(feature)/form/hooks/useFetchPricesList';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
@@ -51,27 +51,27 @@ describe('PricesList', () => {
   test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', () => {
     mockedUseFetchPricesList.mockReturnValue(mockData);
 
-    render(<PricesList register={register} />);
+    const { getByLabelText } = render(<PricesList register={register} />);
 
-    const checkbox = screen.getByLabelText('皿洗い');
+    const checkbox = getByLabelText('皿洗い');
     expect(checkbox).toBeInTheDocument();
     expect(checkbox).toHaveAttribute('type', 'checkbox');
   });
 
   test('hooksからエラーが返る場合、チェックボックスがレンダリングされない', () => {
     mockedUseFetchPricesList.mockReturnValue(mockFailedData);
-    render(<PricesList register={register} />);
+    const { queryByLabelText } = render(<PricesList register={register} />);
 
-    const checkbox = screen.queryByLabelText('皿洗い');
+    const checkbox = queryByLabelText('皿洗い');
     expect(checkbox).not.toBeInTheDocument();
   });
 
   test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックを入れ外しできる', async () => {
     mockedUseFetchPricesList.mockReturnValue(mockData);
 
-    render(<PricesList register={register} />);
+    const { getByLabelText } = render(<PricesList register={register} />);
 
-    const checkbox = screen.getByLabelText('皿洗い');
+    const checkbox = getByLabelText('皿洗い');
     expect(checkbox).toBeInTheDocument();
     await user.click(checkbox);
     expect(checkbox).toBeChecked();

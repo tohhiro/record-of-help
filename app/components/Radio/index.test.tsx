@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Props, Radio } from '.';
 
@@ -10,18 +10,18 @@ describe('Radio', () => {
   };
 
   test('Radioボタンがレンダーされる', () => {
-    render(<Radio {...mockValues} />);
+    const { getByLabelText, getByRole } = render(<Radio {...mockValues} />);
 
-    const labelOfRadio = screen.getByLabelText(mockValues.label);
+    const labelOfRadio = getByLabelText(mockValues.label);
     expect(labelOfRadio).toBeInTheDocument();
 
-    const inputOfRadioComponent = screen.getByRole('radio');
+    const inputOfRadioComponent = getByRole('radio');
     expect(inputOfRadioComponent).toHaveAttribute('type', 'radio');
   });
 
   test('Radioボタンがクリックできる', async () => {
-    render(<Radio {...mockValues} />);
-    const radioComponent = screen.getByRole('radio', {
+    const { getByRole } = render(<Radio {...mockValues} />);
+    const radioComponent = getByRole('radio', {
       name: mockValues.label,
     });
 
