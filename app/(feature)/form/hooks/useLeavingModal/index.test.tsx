@@ -1,4 +1,4 @@
-import { render, renderHook, screen } from '@testing-library/react';
+import { render, renderHook } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
 import { useLeavingModal } from '.';
@@ -20,11 +20,11 @@ const renderForm = () => {
     );
   };
 
-  render(<WrapperComponent />);
+  const { getByRole } = render(<WrapperComponent />);
 
   return {
-    input: screen.getByRole('textbox'),
-    link: screen.getByRole('link'),
+    input: getByRole('textbox'),
+    link: getByRole('link'),
   };
 };
 

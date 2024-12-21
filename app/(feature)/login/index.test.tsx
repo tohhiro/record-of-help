@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useSignIn } from './hooks/useSignIn';
 import { default as Login } from './page';
@@ -16,13 +16,13 @@ describe('Login', () => {
   });
 
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
-    render(<Login />);
+    const { getByRole, getByLabelText } = render(<Login />);
 
-    const emailInputComponent = screen.getByRole('textbox', {
+    const emailInputComponent = getByRole('textbox', {
       name: 'メールアドレス',
     });
-    const passwordInputComponent = screen.getByLabelText('パスワード');
-    const loginButtonComponent = screen.getByRole('button');
+    const passwordInputComponent = getByLabelText('パスワード');
+    const loginButtonComponent = getByRole('button');
 
     const loginComponents = [
       {
@@ -45,12 +45,12 @@ describe('Login', () => {
   });
 
   test('emailとpasswordが入力できる', async () => {
-    render(<Login />);
+    const { getByRole, getByLabelText } = render(<Login />);
 
-    const emailInputComponent = screen.getByRole('textbox', {
+    const emailInputComponent = getByRole('textbox', {
       name: 'メールアドレス',
     });
-    const passwordInputComponent = screen.getByLabelText('パスワード');
+    const passwordInputComponent = getByLabelText('パスワード');
 
     const email = 'email@test.com';
     const password = 'password';
@@ -70,13 +70,13 @@ describe('Login', () => {
       }),
     });
 
-    render(<Login />);
+    const { getByRole, getByLabelText } = render(<Login />);
 
-    const emailInputComponent = screen.getByRole('textbox', {
+    const emailInputComponent = getByRole('textbox', {
       name: 'メールアドレス',
     });
-    const passwordInputComponent = screen.getByLabelText('パスワード');
-    const loginButtonComponent = screen.getByRole('button');
+    const passwordInputComponent = getByLabelText('パスワード');
+    const loginButtonComponent = getByRole('button');
 
     expect(loginButtonComponent).toBeEnabled();
 

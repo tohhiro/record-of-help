@@ -1,5 +1,5 @@
 import { mockPricesListRaw } from '@/mocks/pricesList';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useFetchPricesList } from './hooks/useFetchPricesList';
 import { default as Form } from './page';
@@ -22,9 +22,9 @@ describe('Form', () => {
 
   describe('radio', () => {
     test('radioボタンが2つレンダリングされる', () => {
-      render(<Form />);
+      const { getAllByRole } = render(<Form />);
 
-      const radioButtons = screen.getAllByRole('radio');
+      const radioButtons = getAllByRole('radio');
       expect(radioButtons).toHaveLength(2);
     });
 
@@ -33,9 +33,9 @@ describe('Form', () => {
       ${'eito'}    | ${'eito'}
       ${'mei'}     | ${'mei'}
     `('radioボタンのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
-      render(<Form />);
+      const { getByRole } = render(<Form />);
 
-      const radioButton = screen.getByRole('radio', { name: checkboxName });
+      const radioButton = getByRole('radio', { name: checkboxName });
       expect(radioButton).toHaveAttribute('value', expected);
     });
 
@@ -46,8 +46,8 @@ describe('Form', () => {
     `(
       'radioボタンのチェックを入れると、チェックされたradioボタンの属性がcheckedになっている',
       async ({ checkboxName }) => {
-        render(<Form />);
-        const radioButton = screen.getByRole('radio', { name: checkboxName });
+        const { getByRole } = render(<Form />);
+        const radioButton = getByRole('radio', { name: checkboxName });
 
         await user.click(radioButton);
         expect(radioButton).toBeChecked();
@@ -57,8 +57,8 @@ describe('Form', () => {
 
   describe('checkbox', () => {
     test('checkboxが5つレンダリングされる', () => {
-      render(<Form />);
-      const checkboxes = screen.getAllByRole('checkbox');
+      const { getAllByRole } = render(<Form />);
+      const checkboxes = getAllByRole('checkbox');
       expect(checkboxes).toHaveLength(mockPricesListRaw.data.length);
     });
 
@@ -70,8 +70,8 @@ describe('Form', () => {
       ${'洗濯物片付け'} | ${'landry,20'}
       ${'スペシャル'}   | ${'special,50'}
     `('checkboxのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
-      render(<Form />);
-      const checkbox = screen.getByRole('checkbox', { name: checkboxName });
+      const { getByRole } = render(<Form />);
+      const checkbox = getByRole('checkbox', { name: checkboxName });
       expect(checkbox).toHaveAttribute('value', expected);
     });
 
@@ -83,8 +83,8 @@ describe('Form', () => {
       ${'洗濯物片付け'}
       ${'スペシャル'}
     `('checkboxのvalue属性が正しく設定されている', async ({ checkboxName }) => {
-      render(<Form />);
-      const checkbox = screen.getByRole('checkbox', { name: checkboxName });
+      const { getByRole } = render(<Form />);
+      const checkbox = getByRole('checkbox', { name: checkboxName });
       await user.click(checkbox);
       expect(checkbox).toBeChecked();
     });
@@ -92,14 +92,14 @@ describe('Form', () => {
 
   describe('textarea', () => {
     test('textareaが1つレンダーされる', () => {
-      render(<Form />);
-      const textarea = screen.getAllByRole('textbox');
+      const { getAllByRole } = render(<Form />);
+      const textarea = getAllByRole('textbox');
       expect(textarea).toHaveLength(1);
     });
 
     test('textareaに入力ができる', async () => {
-      render(<Form />);
-      const textarea = screen.getByRole('textbox');
+      const { getByRole } = render(<Form />);
+      const textarea = getByRole('textbox');
       const typeText = 'テスト';
 
       await user.type(textarea, typeText);
@@ -109,20 +109,20 @@ describe('Form', () => {
 
   describe('button', () => {
     test('buttonが1つ有効な状態でレンダーされる', () => {
-      render(<Form />);
+      const { getByRole } = render(<Form />);
 
-      const button = screen.getByRole('button');
+      const button = getByRole('button');
       expect(button).toBeEnabled();
     });
 
     test('buttonをそのままクリックすると「どちらかを選択してください」と「1つ以上選択してください」のバリデーションエラーがでる', async () => {
-      render(<Form />);
+      const { getByRole, getAllByText } = render(<Form />);
 
-      const button = screen.getByRole('button');
+      const button = getByRole('button');
 
       await user.click(button);
-      expect(screen.getAllByText('どちらかを選択してください')).toHaveLength(1);
-      expect(screen.getAllByText('1つ以上選択してください')).toHaveLength(1);
+      expect(getAllByText('どちらかを選択してください')).toHaveLength(1);
+      expect(getAllByText('1つ以上選択してください')).toHaveLength(1);
     });
   });
 });
