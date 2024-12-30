@@ -1,6 +1,6 @@
 import '@/app/styles/globals.css';
 import { forwardRef } from 'react';
-import { inputStyles } from './index.styles';
+import { inputStyles, labelStyles } from './index.styles';
 
 type DefaultProps = {
   id: string;
@@ -23,13 +23,13 @@ export type Props = DefaultProps | HiddenProps;
 export const Input = forwardRef(({ id, label, type, onClick, disabled, ...field }: Props, _ref) => {
   return (
     <div>
-      <label htmlFor={id} className={inputStyles.label}>
+      <label htmlFor={id} className={labelStyles.label}>
         {label}
       </label>
       <input
         {...field}
         id={id}
-        className={`${inputStyles[disabled ? 'disabled' : 'input']}`}
+        className={inputStyles({ intent: disabled ? 'disabled' : 'primary' })}
         type={type}
         disabled={disabled}
         onClick={onClick}
