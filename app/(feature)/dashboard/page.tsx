@@ -8,7 +8,7 @@ import { Suspense, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { DashboardTable, Props as TdProps } from './components/DashboardTable';
 import { sumObjectArrayData, validationSchema } from './helper';
-import { dashboardStyles } from './index.styles';
+import { dashboardFormStyles, dashboardStyles } from './index.styles';
 
 type OptionsType = {
   value: string;
@@ -104,7 +104,7 @@ export default function Page() {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={isDisplaySearchPanel ? dashboardStyles.hidden : dashboardStyles.formContainer}
+        className={dashboardFormStyles({ display: isDisplaySearchPanel ? 'hidden' : 'block' })}
       >
         <div className="w-[10em]">
           <Controller
