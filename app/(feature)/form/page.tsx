@@ -9,12 +9,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { PricesList } from './components/PricesList';
-import { convertHelps, validationSchema } from './helpers';
-
-export type Props = {
-  person: string;
-  items: { helps: string[]; comments: string };
-};
+import { convertHelps, FormProps, validationSchema } from './helpers';
 
 export default function Page() {
   const [isClient, setIsClient] = useState(false);
@@ -27,13 +22,13 @@ export default function Page() {
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<Props> = async (data) => {
+  const onSubmit: SubmitHandler<FormProps> = async (data) => {
     const helpsData = convertHelps(data.items.helps);
 
     const sendingData = {
       ...helpsData,
       person: data.person,
-      comments: data.items.comments,
+      comments: data.items.comments || '',
     };
 
     const { status: errorStatus, message: errorMessage } = await postHelp(sendingData);
@@ -51,7 +46,7 @@ export default function Page() {
     formState: { errors, isDirty },
     handleSubmit,
     control,
-  } = useForm<Props>({
+  } = useForm<FormProps>({
     mode: 'onChange',
     resolver: zodResolver(validationSchema),
   });
