@@ -18,3 +18,5 @@ export const validationSchema = z.object({
       { path: ['comments'], message: 'スペシャルはコメントしてね' },
     ),
 });
+
+export type FormProps = z.infer<typeof validationSchema>;
