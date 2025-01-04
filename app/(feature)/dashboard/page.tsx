@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Suspense, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { DashboardTable, Props as TdProps } from './components/DashboardTable';
-import { sumObjectArrayData, validationSchema } from './helper';
+import { DashboardProps, sumObjectArrayData, validationSchema } from './helper';
 import { dashboardFormStyles, dashboardStyles } from './index.styles';
 
 type OptionsType = {
@@ -20,14 +20,6 @@ const options: OptionsType[] = [
   { value: 'eito', label: 'Eito' },
   { value: 'mei', label: 'Mei' },
 ];
-
-type Props = {
-  person: OptionsType;
-  selectDate: {
-    startDate: string;
-    endDate: string;
-  };
-};
 
 const thData = {
   person: '名前',
@@ -67,7 +59,7 @@ export default function Page() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<Props>({
+  } = useForm<DashboardProps>({
     defaultValues: {
       person: { value: '', label: '' },
       selectDate: {
@@ -82,7 +74,7 @@ export default function Page() {
     setIsDisplaySearchPanel((prev) => !prev);
   };
 
-  const onSubmit: SubmitHandler<Props> = (data) => {
+  const onSubmit: SubmitHandler<DashboardProps> = (data) => {
     const sendingData = {
       person: data.person.value === 'all' ? '' : data.person.value,
       startDate: data.selectDate.startDate,
