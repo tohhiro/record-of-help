@@ -17,3 +17,5 @@ export const validationSchema = z.object({
       message: '開始日より後を選択',
     }),
 });
+
+export type DashboardProps = z.infer<typeof validationSchema>;
