@@ -7,12 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { validationSchema } from './helpers';
-
-export type Props = {
-  email: string;
-  password: string;
-};
+import { LoginProps, validationSchema } from './helpers';
 
 export default function Page() {
   const [submitButton, setSubmitButton] = useState<'primary' | 'disabled'>('primary');
@@ -21,7 +16,7 @@ export default function Page() {
     formState: { errors },
     handleSubmit,
     control,
-  } = useForm<Props>({
+  } = useForm<LoginProps>({
     mode: 'onChange',
     resolver: zodResolver(validationSchema),
   });
@@ -29,7 +24,7 @@ export default function Page() {
   const login = useSignIn();
   const router = useRouter();
   const loginAuth = useStore((state) => state.loginUser.auth);
-  const onSubmit: SubmitHandler<Props> = async (inputData) => {
+  const onSubmit: SubmitHandler<LoginProps> = async (inputData) => {
     setSubmitButton('disabled');
     const { error } = await login.signIn(inputData);
     if (error) {
