@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Header, headerText, NavAdminType } from '.';
 
@@ -21,8 +21,8 @@ describe('Header', () => {
   });
 
   test('Headerのタイトルがレンダーされる', () => {
-    const { getByText } = render(<Header {...mockData} />);
-    const headerComponent = getByText(headerText);
+    render(<Header {...mockData} />);
+    const headerComponent = screen.getByText(headerText);
     expect(headerComponent).toBeInTheDocument();
   });
 
@@ -31,16 +31,16 @@ describe('Header', () => {
     ${'Form'}      | ${'./form'}      | ${(<a href="./form">Form</a>)}
     ${'Dashboard'} | ${'./dashboard'} | ${(<a href="./dashboard">Dashboard</a>)}
   `('HeaderのnavとなるLinkがそれぞれ対応するhref属性をもつ', ({ linkName, href }) => {
-    const { getByRole } = render(<Header {...mockData} />);
+    render(<Header {...mockData} />);
 
-    const link = getByRole('link', { name: linkName });
+    const link = screen.getByRole('link', { name: linkName });
     expect(link).toHaveAttribute('href', href);
   });
 
   test('Logoutをクリックすると、propsで渡したonClick関数が1回実行される', async () => {
-    const { getByText } = render(<Header {...mockData} />);
+    render(<Header {...mockData} />);
 
-    const logout = getByText(mockLoginUser);
+    const logout = screen.getByText(mockLoginUser);
     const user = userEvent.setup();
     await user.click(logout);
     expect(mockData.onClick).toHaveBeenCalledTimes(1);

@@ -1,7 +1,7 @@
 import * as Supabase from '@/app/libs/supabase';
 import * as Zustand from '@/app/store';
 import { AuthError } from '@supabase/supabase-js';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NavHeader } from '.';
 
@@ -38,8 +38,8 @@ describe('NavHeader', () => {
         }) || {},
     );
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut');
-    const { getByText } = render(<NavHeader />);
-    expect(getByText('Record of help')).toBeInTheDocument();
+    render(<NavHeader />);
+    expect(screen.getByText('Record of help')).toBeInTheDocument();
     expect(useStore).toHaveBeenCalled();
   });
 
@@ -47,8 +47,8 @@ describe('NavHeader', () => {
     useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
 
-    const { getByRole } = render(<NavHeader />);
-    const logout = getByRole('link', { name: mockedLoginUser });
+    render(<NavHeader />);
+    const logout = screen.getByRole('link', { name: mockedLoginUser });
     await user.click(logout);
 
     expect(useStore).toHaveBeenCalled();
@@ -68,8 +68,8 @@ describe('NavHeader', () => {
       } as unknown as AuthError,
     };
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
-    const { getByRole } = render(<NavHeader />);
-    const logout = getByRole('link', { name: mockedLoginUser });
+    render(<NavHeader />);
+    const logout = screen.getByRole('link', { name: mockedLoginUser });
     await user.click(logout);
 
     expect(useStore).toHaveBeenCalled();

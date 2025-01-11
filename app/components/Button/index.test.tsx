@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Button, Props } from '.';
 
@@ -17,9 +17,9 @@ describe('Button', () => {
   const user = userEvent.setup();
 
   test('Buttonコンポーネントがレンダリングされる', () => {
-    const { getByRole } = render(<Button {...mockValues} />);
+    render(<Button {...mockValues} />);
 
-    const buttonComponent = getByRole('button');
+    const buttonComponent = screen.getByRole('button');
     expect(buttonComponent).toHaveTextContent(mockValues.label);
   });
 
@@ -29,9 +29,9 @@ describe('Button', () => {
       intent: 'disabled',
     };
 
-    const { getByRole } = render(<Button {...mockValuesWithDisabledButton} />);
+    render(<Button {...mockValuesWithDisabledButton} />);
 
-    const buttonComponent = getByRole('button');
+    const buttonComponent = screen.getByRole('button');
     expect(buttonComponent).toBeDisabled();
   });
 
@@ -41,16 +41,16 @@ describe('Button', () => {
       intent: 'primary',
     };
 
-    const { getByRole } = render(<Button {...mockValuesWithAttrSubmit} />);
+    render(<Button {...mockValuesWithAttrSubmit} />);
 
-    const buttonComponent = getByRole('button');
+    const buttonComponent = screen.getByRole('button');
     expect(buttonComponent).toHaveAttribute('type', mockValues.type);
   });
 
   test('ButtonをクリックするとonClickが呼ばれる', async () => {
-    const { getByRole } = render(<Button {...mockValues} />);
+    render(<Button {...mockValues} />);
 
-    const buttonComponent = getByRole('button');
+    const buttonComponent = screen.getByRole('button');
     await user.click(buttonComponent);
 
     expect(mockValues.onClick).toHaveBeenCalled();
@@ -61,9 +61,9 @@ describe('Button', () => {
       ...mockValues,
       intent: 'disabled',
     };
-    const { getByRole } = render(<Button {...mockValuesWithAttrSubmit} />);
+    render(<Button {...mockValuesWithAttrSubmit} />);
 
-    const buttonComponent = getByRole('button');
+    const buttonComponent = screen.getByRole('button');
     await user.click(buttonComponent);
 
     expect(mockValues.onClick).not.toHaveBeenCalled();

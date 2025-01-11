@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Props, Textarea } from '.';
 
@@ -10,16 +10,16 @@ describe('Textarea', () => {
   };
 
   test('textareaがレンダーされる', () => {
-    const { getByLabelText, queryByPlaceholderText } = render(<Textarea {...mockValues} />);
-    const labelOfTextareaComponent = getByLabelText(mockValues.label);
+    render(<Textarea {...mockValues} />);
+    const labelOfTextareaComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfTextareaComponent).toBeInTheDocument();
-    const textareaComponent = queryByPlaceholderText(mockValues.placeholder);
+    const textareaComponent = screen.queryByPlaceholderText(mockValues.placeholder);
     expect(textareaComponent).toHaveAttribute('placeholder', mockValues.placeholder);
   });
 
   test('textareaに入力ができる', async () => {
-    const { getByRole } = render(<Textarea {...mockValues} />);
-    const textareaComponent = getByRole('textbox', {
+    render(<Textarea {...mockValues} />);
+    const textareaComponent = screen.getByRole('textbox', {
       name: mockValues.label,
     });
 
