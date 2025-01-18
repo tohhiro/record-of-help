@@ -14,8 +14,8 @@ describe('validationSchema', () => {
       person: { label: 'eito', value: 'eito' },
       selectDate: { startDate: '2021-01-02', endDate: '2021-01-01' },
     });
-    expect(result.success === false).toBeTruthy();
-    expect(result.success === false && result.error.issues).toStrictEqual([
+    expect(!result.success).toBeTruthy();
+    expect(!result.success && result.error.issues).toStrictEqual([
       {
         code: 'custom',
         path: ['selectDate', 'startDate'],
@@ -34,8 +34,8 @@ describe('validationSchema', () => {
       person: { label: '', value: '' },
       selectDate: { startDate: '', endDate: '' },
     });
-    expect(result.success === false).toBeTruthy();
-    expect(result.success === false && result.error.issues).toStrictEqual([
+    expect(!result.success).toBeTruthy();
+    expect(!result.success && result.error.issues).toStrictEqual([
       { code: 'custom', message: '対象を選択', path: ['person'] },
       {
         code: 'too_small',

@@ -50,7 +50,7 @@ describe('validationSchema', () => {
     }
   });
 
-  test('スペシャルアイテムが選択されている場合、バリデーションエラーが発生しない', () => {
+  test('スペシャルアイテムが選択されている場合、コメントがあるとバリデーションエラーが発生しない', () => {
     const result = validationSchema.safeParse({
       person: 'eito',
       items: { helps: ['special,50'], comments: '必要なコメント' },

@@ -8,8 +8,8 @@ describe('validationSchema', () => {
 
   test('有効なemailでない場合、バリデーションエラーが発生する', () => {
     const result = validationSchema.safeParse({ email: 'test', password: 'password' });
-    expect(result.success === false).toBeTruthy();
-    expect(result.success === false && result.error.issues).toContainEqual({
+    expect(!result.success).toBeTruthy();
+    expect(!result.success && result.error.issues).toContainEqual({
       code: 'invalid_string',
       message: 'Emailを入力してください。',
       path: ['email'],
@@ -19,8 +19,8 @@ describe('validationSchema', () => {
 
   test('8文字未満のpasswordの場合、バリデーションが発生する', () => {
     const result = validationSchema.safeParse({ email: 'test@test.com', password: '' });
-    expect(result.success === false).toBeTruthy();
-    expect(result.success === false && result.error.issues[0]).toStrictEqual({
+    expect(!result.success).toBeTruthy();
+    expect(!result.success && result.error.issues[0]).toStrictEqual({
       code: 'too_small',
       exact: false,
       inclusive: true,
