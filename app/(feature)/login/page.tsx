@@ -1,7 +1,9 @@
 'use client';
 import { useSignIn } from '@/app/(feature)/login/hooks';
 import { Button } from '@/app/components/Button';
+import { ErrorContainer } from '@/app/components/ErrorContainer';
 import { Input } from '@/app/components/Input';
+import { Section } from '@/app/components/Section';
 import { useStore } from '@/app/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -39,7 +41,7 @@ export default function Page() {
   return (
     <div className={'w-100  h-200 m-10 text-center'}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-80 my-8 m-auto">
+        <Section>
           <Controller
             name="email"
             control={control}
@@ -51,9 +53,9 @@ export default function Page() {
               <Input id="email" label="メールアドレス" type="text" {...field} />
             )}
           />
-          <p className="text-xs text-red-500">{errors.email?.message && errors.email?.message}</p>
-        </div>
-        <div className="w-80 my-8 m-auto">
+          <ErrorContainer>{errors.email?.message && errors.email?.message}</ErrorContainer>
+        </Section>
+        <Section>
           <Controller
             name="password"
             control={control}
@@ -65,13 +67,11 @@ export default function Page() {
               <Input id="password" label="パスワード" type="password" {...field} />
             )}
           />
-          <p className="text-xs text-red-500">
-            {errors.password?.message && errors.password?.message}
-          </p>
-        </div>
-        <div className="w-80 my-8 m-auto">
+          <ErrorContainer>{errors.password?.message && errors.password?.message}</ErrorContainer>
+        </Section>
+        <Section>
           <Button label="ログイン" type="submit" intent={submitButton} />
-        </div>
+        </Section>
       </form>
     </div>
   );
