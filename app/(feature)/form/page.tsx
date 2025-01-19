@@ -1,7 +1,9 @@
 'use client';
 import { useLeavingModal, usePostHelp } from '@/app/(feature)/form/hooks';
 import { Button } from '@/app/components/Button';
+import { ErrorContainer } from '@/app/components/ErrorContainer';
 import { Radio } from '@/app/components/Radio';
+import { Section } from '@/app/components/Section';
 import { Textarea } from '@/app/components/Textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -65,16 +67,16 @@ export default function Page() {
               required: true,
             }}
             render={({ field }) => (
-              <div className="w-80 my-4 m-auto">
+              <Section>
                 <Radio id="eito" label="eito" {...field} value="eito" />
                 <Radio id="mei" label="mei" {...field} value="mei" />
-              </div>
+              </Section>
             )}
           />
           <div className="my-2 m-auto">
-            <p className="text-xs text-red-500">{errors.person && errors.person.message}</p>
+            <ErrorContainer>{errors.person && errors.person.message}</ErrorContainer>
           </div>
-          <div className="w-80 my-4 m-auto">
+          <Section>
             <Controller
               name="items.helps"
               control={control}
@@ -91,10 +93,8 @@ export default function Page() {
               )}
             />
 
-            <p className="text-xs text-red-500">
-              {errors.items?.helps && errors.items.helps.message}
-            </p>
-          </div>
+            <ErrorContainer>{errors.items?.helps && errors.items.helps.message}</ErrorContainer>
+          </Section>
 
           <Controller
             name="items.comments"
@@ -104,18 +104,16 @@ export default function Page() {
               required: true,
             }}
             render={({ field }) => (
-              <div className="w-80 my-4 m-auto">
+              <Section>
                 <Textarea id="textarea" label="備考" placeholder="備考があれば入力" {...field} />
-              </div>
+              </Section>
             )}
           />
-          <p className="text-xs text-red-500">
-            {errors.items?.comments && errors.items.comments.message}
-          </p>
+          <ErrorContainer>{errors.items?.comments && errors.items.comments.message}</ErrorContainer>
 
-          <div className="w-80 my-4 m-auto">
+          <Section>
             <Button label="Submit" type="submit" intent={isMutating ? 'disabled' : 'primary'} />
-          </div>
+          </Section>
         </form>
       </div>
     )
