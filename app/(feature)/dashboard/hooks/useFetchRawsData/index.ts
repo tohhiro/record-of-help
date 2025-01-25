@@ -18,6 +18,7 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
     const commonSupabaseFetcher = supabase
       .from('raws_data')
       .select('*')
+      .eq('del_flag', false)
       .order('created_at', { ascending: true });
 
     const fetchPerson = () => {
