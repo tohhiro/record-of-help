@@ -33,7 +33,7 @@ export const mockRawsData = {
       landry: 0,
       special: 0,
       comments: null,
-      person: 'eito',
+      person: 'tohhiro',
       del_flag: null,
     },
   ],
