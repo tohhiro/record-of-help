@@ -1,6 +1,6 @@
 import { PricesHelpsList } from '@/app/types';
 
-export const mockPricesList = [
+export const mockFormattedPricesList = [
   {
     id: 'dish',
     label: '皿洗い',

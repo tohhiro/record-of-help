@@ -1,16 +1,6 @@
+import { mockThData } from '@/mocks/tableHeader';
 import { render, screen } from '@testing-library/react';
 import { Props, Table } from '.';
-
-const mockThData = {
-  person: '名前',
-  dish: '皿洗い',
-  curtain: 'カーテン開閉',
-  prepareEat: '食事準備',
-  landry: '洗濯物片付け',
-  special: 'スペシャル',
-  comments: 'コメント',
-  created_at: '日付',
-};
 
 const mockTdData = [
   {
