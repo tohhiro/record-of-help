@@ -1,3 +1,4 @@
+import { mockThData } from '@/mocks/tableHeader';
 import { Meta, StoryObj } from '@storybook/react';
 import { Props, Table } from '.';
 
@@ -12,17 +13,6 @@ export default {
 } satisfies Meta<typeof Table>;
 
 type Story = StoryObj<typeof Table>;
-
-const mockThData = {
-  person: '名前',
-  dish: '皿洗い',
-  curtain: 'カーテン開閉',
-  prepareEat: '食事準備',
-  landry: '洗濯物片付け',
-  special: 'スペシャル',
-  comments: 'コメント',
-  created_at: '日付',
-};
 
 const mockTdData: Props = [
   {
@@ -59,7 +49,7 @@ const mockTdData: Props = [
 
 const mockTdDataDiff: Props = [
   {
-    id: 1,
+    diff_id: 1,
     person: 'taro',
     curtain: 100,
     dish: 0,
@@ -70,7 +60,7 @@ const mockTdDataDiff: Props = [
     created_at: '2024-1-2',
   },
   {
-    id: 2,
+    diff_id: 2,
     person: 'hide',
     curtain: 100,
     dish: 0,
@@ -81,7 +71,7 @@ const mockTdDataDiff: Props = [
     created_at: '2024-1-2',
   },
   {
-    id: 3,
+    diff_id: 3,
     person: 'taro',
     curtain: 200,
     dish: 10,
