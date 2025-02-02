@@ -6,6 +6,7 @@ export type Props = {
   id: string;
   label: string;
   value: string;
+  name?: string;
 };
 
 export const Radio = forwardRef(({ id, label, value, ...field }: Props, _ref) => {
