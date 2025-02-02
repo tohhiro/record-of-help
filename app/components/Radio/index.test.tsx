@@ -3,33 +3,54 @@ import userEvent from '@testing-library/user-event';
 import { Props, Radio } from '.';
 
 describe('Radio', () => {
-  const mockValues: Props = {
-    id: 'radio1',
-    label: 'Radio Label',
-    value: 'radioValue',
+  const mockValues: Props[] = [
+    {
+      id: 'radio1',
+      label: 'Radio Label1',
+      value: 'radioValue1',
+      name: 'radioName',
+    },
+    {
+      id: 'radio2',
+      label: 'Radio Label2',
+      value: 'radioValue2',
+      name: 'radioName',
+    },
+  ];
+
+  const renderSuccess = (mocks: Props[] = mockValues) => {
+    render(
+      <div>
+        {mocks.map((value) => (
+          <Radio key={value.id} {...value} />
+        ))}
+      </div>,
+    );
   };
 
-  test('Radioボタンがレンダーされる', () => {
-    render(<Radio {...mockValues} />);
+  test('RadioボタンがPropsに渡された数だけレンダリングされる', () => {
+    renderSuccess();
 
-    const labelOfRadio = screen.getByLabelText(mockValues.label);
-    expect(labelOfRadio).toBeInTheDocument();
+    const radioButtons = screen.getAllByRole('radio');
+    expect(radioButtons.length).toBe(mockValues.length);
 
-    const inputOfRadioComponent = screen.getByRole('radio');
-    expect(inputOfRadioComponent).toHaveAttribute('type', 'radio');
+    radioButtons.forEach((radio) => {
+      expect(radio).toHaveAttribute('type', 'radio');
+    });
   });
 
-  test('Radioボタンがクリックできる', async () => {
-    render(<Radio {...mockValues} />);
-    const radioComponent = screen.getByRole('radio', {
-      name: mockValues.label,
-    });
-
-    expect(radioComponent).toBeEnabled();
-    expect(radioComponent.getAttribute('checked')).toBeNull();
-
+  test('Radioボタンがクリックでチェックでき、別のRadioボタンをクリックすると、もう一方のRadioボタンのチェックが外れる', async () => {
     const user = userEvent.setup();
-    await user.click(radioComponent);
-    expect(radioComponent.getAttribute('checked'));
+    renderSuccess();
+
+    const radioButtons = screen.getAllByRole('radio');
+
+    await user.click(radioButtons[0]);
+    expect(radioButtons[0]).toBeChecked();
+    expect(radioButtons[1]).not.toBeChecked();
+
+    await user.click(radioButtons[1]);
+    expect(radioButtons[1]).toBeChecked();
+    expect(radioButtons[0]).not.toBeChecked();
   });
 });
