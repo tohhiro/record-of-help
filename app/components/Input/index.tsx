@@ -2,38 +2,43 @@ import '@/app/styles/globals.css';
 import { forwardRef } from 'react';
 import { inputStyles, labelStyles } from './index.styles';
 
-type DefaultProps = {
+type CommonProps = {
   id: string;
-  label: string;
-  type: 'text' | 'password' | 'date';
+  placeholder?: string;
   onClick?: () => void;
-  disabled?: boolean;
 };
 
+type DefaultProps = {
+  label: string;
+  type: 'text' | 'password' | 'date';
+  disabled?: boolean;
+} & CommonProps;
+
 type HiddenProps = {
-  id: string;
   label: never;
   type: 'hidden';
-  onClick?: () => void;
   disabled: never;
-};
+} & CommonProps;
 
 export type Props = DefaultProps | HiddenProps;
 
-export const Input = forwardRef(({ id, label, type, onClick, disabled, ...field }: Props, _ref) => {
-  return (
-    <div>
-      <label htmlFor={id} className={labelStyles.label}>
-        {label}
-      </label>
-      <input
-        {...field}
-        id={id}
-        className={inputStyles({ intent: disabled ? 'disabled' : 'primary' })}
-        type={type}
-        disabled={disabled}
-        onClick={onClick}
-      />
-    </div>
-  );
-});
+export const Input = forwardRef(
+  ({ id, label, type, onClick, placeholder, disabled, ...field }: Props, _ref) => {
+    return (
+      <div>
+        <label htmlFor={id} className={labelStyles.label}>
+          {label}
+        </label>
+        <input
+          {...field}
+          id={id}
+          placeholder={placeholder}
+          onClick={onClick}
+          className={inputStyles({ intent: disabled ? 'disabled' : 'primary' })}
+          type={type}
+          disabled={disabled}
+        />
+      </div>
+    );
+  },
+);

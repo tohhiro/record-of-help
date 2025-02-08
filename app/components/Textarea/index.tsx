@@ -5,7 +5,7 @@ import { textareaStyles } from './index.styles';
 export type Props = {
   label: string;
   id: string;
-  placeholder: string;
+  placeholder?: string;
 };
 
 export const Textarea = forwardRef(({ label, id, placeholder, ...field }: Props, _ref) => {
