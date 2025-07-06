@@ -1,4 +1,3 @@
-'use client';
 import '@/app/styles/globals.css';
 import { forwardRef, Ref } from 'react';
 import { checkboxStyles } from './index.styles';
