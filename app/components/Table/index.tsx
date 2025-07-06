@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import '../../styles/globals.css';
 import { tableStyles } from './index.styles';
 
-export type Props = Record<string, string | number | null>[];
+export type Props = Record<string, string | number | null | React.ReactNode>[];
 
 export const Table = forwardRef(
   ({ thData, tdData }: { thData: Record<string, string>; tdData: Props | null }, _ref) => {
@@ -28,7 +28,7 @@ export const Table = forwardRef(
             <tr key={idxA} className={tableStyles.tr}>
               {Object.keys(item).map((key, idxB) => (
                 <td key={`${idxB}${key}`} className={tableStyles.td}>
-                  {String(item[key])}
+                  {item[key]}
                 </td>
               ))}
             </tr>

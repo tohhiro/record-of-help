@@ -30,6 +30,7 @@ const thData = {
   special: 'スペシャル',
   comments: 'コメント',
   created_at: '日付',
+  id: '削除',
 };
 
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];

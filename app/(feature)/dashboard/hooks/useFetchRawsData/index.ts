@@ -1,4 +1,3 @@
-'use client';
 import { supabase } from '@/app/libs/supabase';
 import type { Database } from '@/supabase/schema';
 import { useCallback, useEffect, useState } from 'react';
