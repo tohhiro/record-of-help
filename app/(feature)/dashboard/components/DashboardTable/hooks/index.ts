@@ -1,0 +1,1 @@
+export { useDeleteRecord } from './useDeleteRecord';
