@@ -21,6 +21,7 @@ export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: Pro
   });
 
   const handleClick = async (id: string) => {
+    // eslint-disable-next-line no-alert
     if (window.confirm('このレコードを削除しますか？')) {
       await deleteRecord({ id });
     }
