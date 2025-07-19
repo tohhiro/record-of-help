@@ -4,20 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - '!tests/**'
-
   pull_request:
     branches:
       - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - '!tests/**'
 
 jobs:
   chromatic:

@@ -4,23 +4,12 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
-
   pull_request:
     branches:
       - main
-    paths:
-      - '!.*'
-      - 'app/**'
-      - '.github/**'
-      - 'tests/**'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: e2e-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -31,20 +20,44 @@ permissions:
 jobs:
   e2e:
     runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Tokyo
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: node setup composite
-        uses: ./.github/actions/setup-node-cache
+      - name: Determine base branch
+        run: |
+          echo "BASE_REF=${{ github.event.pull_request.base.ref || 'main' }}" >> $GITHUB_ENV
+
+      - name: Fetch base branch
+        run: git fetch origin $BASE_REF --depth=1
+
+      - name: Check if app/ directory has changes
+        id: changes
+        run: |
+          if git diff --name-only origin/$BASE_REF | grep '^app/'; then
+            echo "shouldRun=true" >> $GITHUB_OUTPUT
+          else
+            echo "shouldRun=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Install Playwright Browsers
+        if: steps.changes.outputs.shouldRun == 'true'
         run: npx playwright install
 
       - name: Run Tests:E2E
+        if: steps.changes.outputs.shouldRun == 'true'
         env:
           NODE_ENV: development
           URL: ${{ secrets.URL }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: npm run test:e2e
+
+      - name: Skip e2e (no app/ changes)
+        if: steps.changes.outputs.shouldRun == 'false'
+        run: echo "No app/ changes detected. Skipping tests."
