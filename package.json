@@ -9,6 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "test": "jest",
+    "typecheck": "tsc --noEmit",
     "test:e2e": "npx playwright test",
     "sb": "storybook dev -p 6006",
     "build-storybook": "storybook build",
