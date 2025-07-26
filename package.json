@@ -10,6 +10,7 @@
     "format": "prettier --write .",
     "test": "jest",
     "test:e2e": "npx playwright test",
+    "typecheck": "tsc --noEmit",
     "sb": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "supabase:login": "npx supabase login",
