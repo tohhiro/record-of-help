@@ -19,7 +19,8 @@ permissions:
 
 jobs:
   e2e:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest # Ubuntu 24.04（現行）環境
+
     env:
       TZ: Asia/Tokyo
 
@@ -45,14 +46,57 @@ jobs:
             echo "shouldRun=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Install dependencies
+      - name: Install Node.js dependencies
         if: steps.changes.outputs.shouldRun == 'true'
         run: npm ci
 
+      # 🔍 デバッグ用ステップ：依存関係や構成ファイルの確認
+      - name: Debug Info
+        if: steps.changes.outputs.shouldRun == 'true'
+        run: |
+          echo "🟡 Node.js version:"
+          node -v
+          echo "🟡 NPM version:"
+          npm -v
+          echo "🟡 Installed NPM packages:"
+          npm list --depth=0 || echo "npm list failed"
+          echo "🟡 Files in root:"
+          ls -la
+          echo "🟡 Check playwright.config.ts:"
+          cat playwright.config.ts || echo "File not found"
+          echo "🟡 Check .env.local:"
+          cat .env.local || echo ".env.local not found"
+
+      # 🧱 Playwright に必要なシステムライブラリをインストール（--with-deps を避ける）
+      - name: Install system libraries for Playwright
+        if: steps.changes.outputs.shouldRun == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libatk-bridge2.0-0 \
+            libgtk-3-0 \
+            libxss1 \
+            libasound2t64 \
+            libnss3 \
+            libxshmfence1 \
+            libgbm1 \
+            libxcomposite1 \
+            libxrandr2 \
+            libxdamage1 \
+            libxfixes3 \
+            libdrm2 \
+            libxinerama1 \
+            libxcb-dri3-0 \
+            libxtst6 \
+            libpci3 \
+            libglu1-mesa
+
+      # 🧪 Playwright のブラウザ（Chromiumなど）をインストール
       - name: Install Playwright Browsers
         if: steps.changes.outputs.shouldRun == 'true'
-        run: npx playwright install --with-deps
+        run: npx playwright install
 
+      # 🚀 E2E テストの実行
       - name: Run Tests:E2E
         if: steps.changes.outputs.shouldRun == 'true'
         env:
@@ -62,6 +106,7 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
         run: npm run test:e2e
 
+      # 💤 app/ に変更がなかった場合はスキップ
       - name: Skip e2e (no app/ changes)
         if: steps.changes.outputs.shouldRun == 'false'
         run: echo "No app/ changes detected. Skipping tests."
