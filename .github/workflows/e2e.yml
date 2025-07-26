@@ -49,22 +49,6 @@ jobs:
       - name: Install Node.js dependencies
         if: steps.changes.outputs.shouldRun == 'true'
         run: npm ci
-
-      # 🔍 デバッグ用：環境確認
-      - name: Debug Info
-        if: steps.changes.outputs.shouldRun == 'true'
-        run: |
-          echo "🟡 Node.js version:"
-          node -v
-          echo "🟡 NPM version:"
-          npm -v
-          echo "🟡 Installed packages:"
-          npm list --depth=0 || echo "npm list failed"
-          echo "🟡 Check playwright.config.ts:"
-          cat playwright.config.ts || echo "File not found"
-          echo "🟡 Check .env.local (if exists):"
-          cat .env.local || echo ".env.local not found"
-
       - name: Install system libraries for Playwright
         if: steps.changes.outputs.shouldRun == 'true'
         run: |
