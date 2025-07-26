@@ -91,7 +91,6 @@ jobs:
       - name: Install Playwright Browsers
         if: steps.changes.outputs.shouldRun == 'true'
         run: npx playwright install
-
       - name: Run Tests:E2E
         if: steps.changes.outputs.shouldRun == 'true'
         env:
@@ -99,8 +98,8 @@ jobs:
           URL: ${{ secrets.URL }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run test:e2e
 
       - name: Skip e2e (no app/ changes)
