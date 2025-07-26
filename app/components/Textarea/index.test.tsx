@@ -13,7 +13,7 @@ describe('Textarea', () => {
     render(<Textarea {...mockValues} />);
     const labelOfTextareaComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfTextareaComponent).toBeInTheDocument();
-    const textareaComponent = screen.queryByPlaceholderText(mockValues.placeholder);
+    const textareaComponent = screen.queryByPlaceholderText(mockValues.placeholder!);
     expect(textareaComponent).toHaveAttribute('placeholder', mockValues.placeholder);
   });
 

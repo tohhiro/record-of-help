@@ -19,7 +19,8 @@ permissions:
 
 jobs:
   e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Ubuntu 24.04相当
+
     env:
       TZ: Asia/Tokyo
 
@@ -45,10 +46,35 @@ jobs:
             echo "shouldRun=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Install Node.js dependencies
+        if: steps.changes.outputs.shouldRun == 'true'
+        run: npm ci
+      - name: Install system libraries for Playwright
+        if: steps.changes.outputs.shouldRun == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libatk-bridge2.0-0 \
+            libgtk-3-0 \
+            libxss1 \
+            libasound2t64 \
+            libnss3 \
+            libxshmfence1 \
+            libgbm1 \
+            libxcomposite1 \
+            libxrandr2 \
+            libxdamage1 \
+            libxfixes3 \
+            libdrm2 \
+            libxinerama1 \
+            libxcb-dri3-0 \
+            libxtst6 \
+            libpci3 \
+            libglu1-mesa
+
       - name: Install Playwright Browsers
         if: steps.changes.outputs.shouldRun == 'true'
         run: npx playwright install
-
       - name: Run Tests:E2E
         if: steps.changes.outputs.shouldRun == 'true'
         env:
@@ -56,6 +82,8 @@ jobs:
           URL: ${{ secrets.URL }}
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run test:e2e
 
       - name: Skip e2e (no app/ changes)
