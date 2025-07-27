@@ -33,14 +33,15 @@ export default function Page() {
       comments: data.items.comments || '',
     };
 
-    const { status: errorStatus, message: errorMessage } = await postHelp(sendingData);
-
-    if (errorStatus >= 400) {
-      // eslint-disable-next-line no-alert
-      return alert(`エラーが発生しました: ${errorMessage}`);
-    }
-
-    if (errorStatus < 300 && !isMutating) router.replace('/dashboard');
+    await postHelp(sendingData, {
+      onSuccess: () => {
+        router.replace('/dashboard');
+      },
+      onError: (_error) => {
+        // eslint-disable-next-line no-alert
+        alert(`エラーが発生しました: ${_error.message}`);
+      },
+    });
   };
 
   const {
