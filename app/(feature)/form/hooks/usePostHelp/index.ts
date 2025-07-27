@@ -19,15 +19,26 @@ const postHelpToSupabase = async (tableName: string, { arg }: { arg: Props }) =>
 export const usePostHelp = () => {
   const { trigger, isMutating } = useSWRMutation('raws_data', postHelpToSupabase);
 
-  const postHelp = async (args: Props) => {
+  const postHelp = async (
+    args: Props,
+    cb: { onSuccess: () => void; onError: (_error: any) => void },
+  ) => {
     try {
-      const error = await trigger(args);
-      return { status: error.status, message: error.statusText };
+      const result = await trigger(args);
+
+      if (result.status >= 200 && result.status < 300) {
+        cb.onSuccess();
+      } else {
+        cb.onError(result);
+        throw new Error(result.statusText);
+      }
+
+      return { status: result.status, message: result.statusText };
     } catch (e) {
-      throw new Error(JSON.stringify(e));
+      cb.onError(e);
+      throw e;
     }
   };
-
   return {
     postHelp,
     isMutating,
