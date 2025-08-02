@@ -3,6 +3,14 @@ import useSWRMutation from 'swr/mutation';
 import { Props, usePostHelp } from '.';
 
 jest.mock('swr/mutation');
+const mockUseSWRMutation = jest.mocked(useSWRMutation);
+
+const mockParams = {
+  isMutating: false,
+  reset: jest.fn(),
+  data: undefined,
+  error: undefined,
+};
 
 const mockArgs: Props = {
   person: 'eito',
@@ -24,9 +32,9 @@ describe('usePostHelp', () => {
 
   test('成功時にonSuccessが呼ばれること', async () => {
     const triggerMock = jest.fn().mockResolvedValue({ status: 200, statusText: 'OK' });
-    (useSWRMutation as jest.Mock).mockReturnValue({
+    mockUseSWRMutation.mockReturnValue({
       trigger: triggerMock,
-      isMutating: false,
+      ...mockParams,
     });
 
     const { result } = renderHook(() => usePostHelp());
@@ -43,9 +51,9 @@ describe('usePostHelp', () => {
 
   test('Supabaseからの応答が失敗時にonErrorが呼ばれること', async () => {
     const triggerMock = jest.fn().mockResolvedValue({ status: 400, statusText: 'Bad Request' });
-    (useSWRMutation as jest.Mock).mockReturnValue({
+    mockUseSWRMutation.mockReturnValue({
+      ...mockParams,
       trigger: triggerMock,
-      isMutating: false,
     });
 
     const { result } = renderHook(() => usePostHelp());
@@ -64,9 +72,9 @@ describe('usePostHelp', () => {
 
   test('triggerが例外をthrowした場合にもonErrorが呼ばれること', async () => {
     const triggerMock = jest.fn().mockRejectedValue(new Error('Network Error'));
-    (useSWRMutation as jest.Mock).mockReturnValue({
+    mockUseSWRMutation.mockReturnValue({
+      ...mockParams,
       trigger: triggerMock,
-      isMutating: false,
     });
 
     const { result } = renderHook(() => usePostHelp());
