@@ -21,10 +21,9 @@ export const NavHeader = () => {
   const onSubmit = async () => {
     try {
       // FIXME: 本来は、signOutが成功してからrouter.refresh()を実行するべきだが、帰り値がないため判定ができない
+      router.replace('/login');
       updateLoginUser({ id: '', email: '', auth: undefined });
       await signOut();
-      router.replace('/login');
-      router.refresh();
     } catch (e) {
       // eslint-disable-next-line no-alert
       alert('ログアウトに失敗しました。');
