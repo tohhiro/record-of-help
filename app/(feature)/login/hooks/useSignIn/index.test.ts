@@ -1,63 +1,80 @@
 import * as Supabase from '@/app/libs/supabase';
-import { AuthError, AuthTokenResponse } from '@supabase/supabase-js';
-import { renderHook } from '@testing-library/react';
+import { AuthTokenResponse } from '@supabase/supabase-js';
+import { act, renderHook } from '@testing-library/react';
 import { Props, useSignIn } from '.';
 
 jest.mock('../../../../libs/supabase');
 
 const mockArgs: Props = {
-  email: 'test@gmail.com',
-  password: 'password',
+  email: 'test@example.com',
+  password: 'password123',
 };
 
 describe('useSignIn', () => {
-  let signInWithPasswordSpyOn: jest.SpyInstance;
-
-  beforeEach(() => {
-    signInWithPasswordSpyOn = jest.spyOn(Supabase.supabase.auth, 'signInWithPassword');
-  });
+  const signInWithPasswordSpy = jest.spyOn(Supabase.supabase.auth, 'signInWithPassword');
 
   afterEach(() => {
-    signInWithPasswordSpyOn.mockRestore();
+    jest.clearAllMocks();
   });
 
-  test('emailとpasswordをセットできる', () => {
+  test('signIn成功時にonSuccessが呼ばれること', async () => {
+    signInWithPasswordSpy.mockResolvedValueOnce({
+      data: { session: {}, user: {} },
+      error: null,
+    } as unknown as AuthTokenResponse);
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
     const { result } = renderHook(() => useSignIn());
-    const signInSpy = jest.spyOn(result.current, 'signIn');
 
-    result.current.signIn({ ...mockArgs });
-
-    expect(signInSpy).toHaveBeenCalledWith({
-      ...mockArgs,
+    await act(async () => {
+      await result.current.signIn(mockArgs, { onSuccess, onError });
     });
-    signInSpy.mockRestore();
+
+    expect(signInWithPasswordSpy).toHaveBeenCalledWith(mockArgs);
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onError).not.toHaveBeenCalled();
   });
 
-  test('signOut関数が成功すると、errorにはundefinedが返る', async () => {
-    signInWithPasswordSpyOn.mockResolvedValueOnce({ error: null } as unknown as AuthTokenResponse);
+  test('signIn失敗時にonErrorが呼ばれ、エラーをthrowすること', async () => {
+    const fakeError = { message: '認証に失敗しました', status: 400 };
+
+    signInWithPasswordSpy.mockResolvedValueOnce({
+      data: { session: null, user: null },
+      error: fakeError,
+    } as unknown as AuthTokenResponse);
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
     const { result } = renderHook(() => useSignIn());
 
-    await expect(result.current.signIn(mockArgs)).resolves.toStrictEqual({ error: null });
-    expect(signInWithPasswordSpyOn).toHaveBeenCalledWith(mockArgs);
+    await expect(result.current.signIn(mockArgs, { onSuccess, onError })).rejects.toThrow(
+      '認証に失敗しました',
+    );
+
+    expect(signInWithPasswordSpy).toHaveBeenCalledWith(mockArgs);
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith(fakeError);
   });
 
-  test('signOut関数失敗するとerrorが返る', async () => {
-    const error = {
-      error: {
-        name: 'AuthError',
-        message: 'Your signOut is encounter the Error.',
-        status: 400,
-        __isAuthError: true,
-      },
-    };
-    signInWithPasswordSpyOn.mockRejectedValueOnce({
-      ...error,
-    } as unknown as AuthError);
+  test('signIn失敗時にerrorがnullでもUnknown error occurredをthrowすること', async () => {
+    signInWithPasswordSpy.mockResolvedValueOnce({
+      data: { session: null, user: null },
+      error: null,
+    } as unknown as AuthTokenResponse);
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
     const { result } = renderHook(() => useSignIn());
 
-    await expect(result.current.signIn(mockArgs)).rejects.toStrictEqual({
-      ...error,
-    });
-    expect(signInWithPasswordSpyOn).toHaveBeenCalledWith(mockArgs);
+    await expect(result.current.signIn(mockArgs, { onSuccess, onError })).rejects.toThrow(
+      'Unknown error occurred',
+    );
+
+    expect(onSuccess).not.toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledWith(null);
   });
 });
