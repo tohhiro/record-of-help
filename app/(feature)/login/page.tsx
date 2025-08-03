@@ -23,19 +23,22 @@ export default function Page() {
     resolver: zodResolver(validationSchema),
   });
 
-  const login = useSignIn();
+  const { signIn } = useSignIn();
   const router = useRouter();
   const loginAuth = useStore((state) => state.loginUser.auth);
+
   const onSubmit: SubmitHandler<LoginProps> = async (inputData) => {
     setSubmitButton('disabled');
-    const { error } = await login.signIn(inputData);
-    if (error) {
-      // eslint-disable-next-line no-alert
-      alert(`ログインに失敗しました。\n ${error.message}`);
-      setSubmitButton('primary');
-    } else {
-      router.replace(loginAuth ? '/form' : '/dashboard');
-    }
+    await signIn(inputData, {
+      onSuccess: () => {
+        router.replace(loginAuth ? '/form' : '/dashboard');
+      },
+      onError: (error) => {
+        // eslint-disable-next-line no-alert
+        alert(`ログインに失敗しました。\n ${error.message}`);
+        setSubmitButton('primary');
+      },
+    });
   };
 
   return (

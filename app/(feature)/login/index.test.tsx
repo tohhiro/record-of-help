@@ -6,13 +6,19 @@ import { default as Login } from './page';
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 jest.mock('./hooks/useSignIn');
 
-const mockedUseSingIn = jest.mocked(useSignIn);
+const mockedUseSignIn = jest.mocked(useSignIn);
 
 describe('Login', () => {
   const user = userEvent.setup();
 
-  afterAll(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    mockedUseSignIn.mockReturnValue({
+      signIn: jest.fn().mockResolvedValue(undefined),
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
@@ -63,11 +69,13 @@ describe('Login', () => {
   });
 
   test('emailとpasswordが入力し、SubmitするとSubmitボタンがdisabledになる', async () => {
-    mockedUseSingIn.mockReturnValue({
-      signIn: jest.fn().mockResolvedValueOnce({
-        data: null,
-        error: null,
-      }),
+    const mockSignIn = jest.fn().mockImplementation((_input, cb) => {
+      cb.onSuccess();
+      return Promise.resolve();
+    });
+
+    mockedUseSignIn.mockReturnValueOnce({
+      signIn: mockSignIn,
     });
 
     render(<Login />);
@@ -91,7 +99,5 @@ describe('Login', () => {
 
     await user.click(loginButtonComponent);
     expect(loginButtonComponent).toBeDisabled();
-
-    mockedUseSingIn.mockReset();
   });
 });

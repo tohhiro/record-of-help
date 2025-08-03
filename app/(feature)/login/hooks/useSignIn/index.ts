@@ -6,12 +6,18 @@ export type Props = {
 };
 
 export const useSignIn = () => {
-  const signIn = async (args: Props) => {
+  const signIn = async (
+    args: Props,
+    cb: { onSuccess: () => void; onError: (_error: any) => void },
+  ) => {
     const result = await supabase.auth.signInWithPassword({ ...args });
 
-    const error = result?.error || null;
-
-    return { error };
+    if (result.data.session && result.data.user) {
+      cb.onSuccess();
+    } else {
+      cb.onError(result.error);
+      throw new Error(result.error?.message || 'Unknown error occurred');
+    }
   };
   return { signIn };
 };
