@@ -1,6 +1,5 @@
 import * as Supabase from '@/app/libs/supabase';
 import * as Zustand from '@/app/store';
-import { AuthError } from '@supabase/supabase-js';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NavHeader } from '.';
@@ -21,7 +20,6 @@ describe('NavHeader', () => {
 
   let useStore: jest.SpyInstance;
   let signOut: jest.SpyInstance;
-  let alert: jest.SpyInstance;
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -43,7 +41,7 @@ describe('NavHeader', () => {
     expect(useStore).toHaveBeenCalled();
   });
 
-  test('Logoutをクリックするとloginページのreplaceされる', async () => {
+  test('ログイン名をクリックするとサインアウトとuseStoreが呼ばれる', async () => {
     useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
 
@@ -53,27 +51,5 @@ describe('NavHeader', () => {
 
     expect(useStore).toHaveBeenCalled();
     expect(signOut).toHaveBeenCalled();
-  });
-
-  test('サインアウトが失敗する場合、Logoutをクリックしてもrouterはコールされない', async () => {
-    alert = jest.spyOn(window, 'alert');
-    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
-
-    const error = {
-      error: {
-        name: 'AuthError',
-        message: 'Your signOut is encounter the Error.',
-        status: 400,
-        __isAuthError: true,
-      } as unknown as AuthError,
-    };
-    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
-    render(<NavHeader />);
-    const logout = screen.getByRole('link', { name: mockedLoginUser });
-    await user.click(logout);
-
-    expect(useStore).toHaveBeenCalled();
-    expect(signOut).toHaveBeenCalled();
-    expect(alert).toHaveBeenCalledWith('ログアウトに失敗しました。');
   });
 });

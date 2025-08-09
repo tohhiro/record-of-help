@@ -1,38 +1,53 @@
 import * as Supabase from '@/app/libs/supabase';
 import { AuthError } from '@supabase/supabase-js';
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { useSignOut } from '.';
 
 jest.mock('../../../../libs/supabase');
 
 describe('useSignOut', () => {
-  let signOut: jest.SpyInstance;
+  let signOutSpy: jest.SpyInstance;
 
   afterEach(() => {
-    signOut.mockRestore();
+    jest.clearAllMocks();
   });
 
-  test('signOut関数が成功すると、nullが返る', async () => {
-    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
+  test('signOutが成功した場合、onErrorは呼ばれない', async () => {
+    signOutSpy = jest
+      .spyOn(Supabase.supabase.auth, 'signOut')
+      .mockResolvedValueOnce({ error: null });
+
     const { result } = renderHook(() => useSignOut());
 
-    await expect(result.current.signOut()).resolves.toStrictEqual({ error: null });
-    expect(signOut).toHaveBeenCalled();
+    const onError = jest.fn();
+
+    await act(async () => {
+      await result.current.signOut({ onError });
+    });
+
+    expect(signOutSpy).toHaveBeenCalled();
+    expect(onError).not.toHaveBeenCalled();
   });
 
-  test('SignOutがエラーの場合、errorのオブジェクトが返る', async () => {
-    const error = {
-      error: {
-        name: 'AuthError',
-        message: 'Your signOut is encounter the Error.',
-        status: 400,
-        __isAuthError: true,
-      } as unknown as AuthError,
-    };
-    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockRejectedValueOnce({ ...error });
-    const { result } = renderHook(() => useSignOut());
+  test('signOutが失敗した場合、onErrorが呼ばれる', async () => {
+    const errorObj = {
+      name: 'AuthError',
+      message: 'Sign out failed',
+    } as unknown as AuthError;
 
-    await expect(result.current.signOut()).rejects.toStrictEqual({ ...error });
-    expect(signOut).toHaveBeenCalled();
+    signOutSpy = jest
+      .spyOn(Supabase.supabase.auth, 'signOut')
+      .mockResolvedValueOnce({ error: errorObj });
+
+    const { result } = renderHook(() => useSignOut());
+    const onError = jest.fn();
+
+    await act(async () => {
+      await result.current.signOut({ onError });
+    });
+
+    expect(signOutSpy).toHaveBeenCalled();
+    expect(onError).toHaveBeenCalledTimes(1);
+    expect(onError).toHaveBeenCalledWith(errorObj);
   });
 });

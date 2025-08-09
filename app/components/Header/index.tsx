@@ -91,7 +91,7 @@ export const Header = ({
                 ))}
 
                 <li className={menuLiStyle()}>
-                  <Link href="#" className={menuLink()} onClick={onClick}>
+                  <Link href="/login" className={menuLink()} onClick={onClick}>
                     {loginUser}
                   </Link>
                 </li>
