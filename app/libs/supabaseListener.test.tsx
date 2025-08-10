@@ -1,3 +1,4 @@
+import { supabase } from '@/app/libs/supabase';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { render, waitFor } from '@testing-library/react';
 
@@ -38,8 +39,7 @@ describe('SupabaseListener', () => {
   });
 
   test('mount時にgetSessionとupdateLoginUserが呼ばれる', async () => {
-    const { supabase } = require('@/app/libs/supabase');
-    supabase.auth.getSession.mockResolvedValue({
+    (supabase.auth.getSession as jest.Mock).mockResolvedValue({
       data: {
         session: {
           user: { id: '123', email: 'test@example.com' },
@@ -50,8 +50,6 @@ describe('SupabaseListener', () => {
     mockFetchAuth.mockResolvedValue({
       result: { data: [{ admin: true }] },
     });
-
-    supabase.auth.onAuthStateChange.mockImplementation(() => {});
 
     render(<SupabaseListener accessToken="token123" />);
 
@@ -66,16 +64,12 @@ describe('SupabaseListener', () => {
   });
 
   test('onAuthStateChange時にもupdateLoginUserとrefreshが呼ばれる', async () => {
-    const { supabase } = require('@/app/libs/supabase');
-    supabase.auth.getSession.mockResolvedValue({ data: { session: null } });
+    (supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
 
     const mockOnAuthHandler = jest.fn();
-    supabase.auth.onAuthStateChange.mockImplementation(
-      (callback: (event: any, session: any) => void) => {
-        mockOnAuthHandler.mockImplementation(callback);
-        return () => {};
-      },
-    );
+    (supabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback: () => void) => {
+      mockOnAuthHandler.mockImplementation(callback);
+    });
 
     mockFetchAuth.mockResolvedValue({
       result: { data: [{ admin: false }] },
