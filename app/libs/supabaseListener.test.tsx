@@ -1,22 +1,15 @@
+import { useFetchMember } from '@/app/hooks';
 import { supabase } from '@/app/libs/supabase';
 import SupabaseListener from '@/app/libs/supabaseListener';
+import { useStore } from '@/app/store';
 import { render, waitFor } from '@testing-library/react';
+import mockRouter from 'next-router-mock';
 
-const mockUpdateLoginUser = jest.fn();
-const mockFetchAuth = jest.fn();
-const mockRouterRefresh = jest.fn();
+jest.mock('@/app/store');
+jest.mock('@/app/hooks');
 
-jest.mock('@/app/store', () => ({
-  useStore: () => ({
-    updateLoginUser: mockUpdateLoginUser,
-  }),
-}));
-
-jest.mock('@/app/hooks', () => ({
-  useFetchMember: () => ({
-    fetchAuth: mockFetchAuth,
-  }),
-}));
+const mockUseStore = jest.mocked(useStore);
+const mockUseFetchMember = jest.mocked(useFetchMember);
 
 jest.mock('@/app/libs/supabase', () => ({
   supabase: {
@@ -27,14 +20,30 @@ jest.mock('@/app/libs/supabase', () => ({
   },
 }));
 
+const mockRouterRefresh = jest.fn();
+
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
+    ...mockRouter,
     refresh: mockRouterRefresh,
   }),
 }));
 
 describe('SupabaseListener', () => {
+  const mockUpdateLoginUser = jest.fn();
+  const mockFetchAuth = jest.fn();
+
   beforeEach(() => {
+    mockUseStore.mockReturnValue({
+      updateLoginUser: mockUpdateLoginUser,
+    });
+
+    mockUseFetchMember.mockReturnValue({
+      fetchAuth: mockFetchAuth,
+    });
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
