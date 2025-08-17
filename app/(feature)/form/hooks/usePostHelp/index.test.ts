@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import useSWRMutation from 'swr/mutation';
-import { Props, usePostHelp } from '.';
+import { usePostHelp, type Props } from '.';
 
 jest.mock('swr/mutation');
 const mockUseSWRMutation = jest.mocked(useSWRMutation);

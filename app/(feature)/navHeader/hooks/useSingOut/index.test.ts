@@ -1,5 +1,5 @@
 import * as Supabase from '@/app/libs/supabase';
-import { AuthError } from '@supabase/supabase-js';
+import { type AuthError } from '@supabase/supabase-js';
 import { act, renderHook } from '@testing-library/react';
 import { useSignOut } from '.';
 

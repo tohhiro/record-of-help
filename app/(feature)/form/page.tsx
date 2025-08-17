@@ -9,9 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { PricesList } from './components/PricesList';
-import { convertHelps, FormProps, validationSchema } from './helpers';
+import { convertHelps, validationSchema, type FormProps } from './helpers';
 
 export default function Page() {
   const [isClient, setIsClient] = useState(false);

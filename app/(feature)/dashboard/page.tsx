@@ -6,7 +6,7 @@ import { SelectBox } from '@/app/components/SelectBox';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Suspense, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { DashboardTable, Props as TdProps } from './components/DashboardTable';
+import { DashboardTable, type Props as TdProps } from './components/DashboardTable';
 import { DashboardProps, sumObjectArrayData, validationSchema } from './helper';
 import { dashboardFormStyles, dashboardStyles } from './index.styles';
 
