@@ -1,4 +1,4 @@
-import { PricesHelpsList } from '@/app/types';
+import { type PricesHelpsList } from '@/app/types';
 
 export const createPricesList = (pricesListRaw: PricesHelpsList | undefined) => {
   if (pricesListRaw?.error) return null;

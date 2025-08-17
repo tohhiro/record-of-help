@@ -1,7 +1,7 @@
 import * as Supabase from '@/app/libs/supabase';
-import { AuthTokenResponse } from '@supabase/supabase-js';
+import { type AuthTokenResponse } from '@supabase/supabase-js';
 import { act, renderHook } from '@testing-library/react';
-import { Props, useSignIn } from '.';
+import { useSignIn, type Props } from '.';
 
 jest.mock('../../../../libs/supabase');
 

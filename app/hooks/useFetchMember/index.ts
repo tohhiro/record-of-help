@@ -1,5 +1,5 @@
 import { supabase } from '@/app/libs/supabase';
-import { PostgrestError } from '@supabase/supabase-js';
+import { type PostgrestError } from '@supabase/supabase-js';
 import { mutate } from 'swr';
 
 type ReturnProps = {

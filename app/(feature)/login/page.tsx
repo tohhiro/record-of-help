@@ -8,8 +8,8 @@ import { useStore } from '@/app/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { LoginProps, validationSchema } from './helpers';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
+import { validationSchema, type LoginProps } from './helpers';
 
 export default function Page() {
   const [submitButton, setSubmitButton] = useState<'primary' | 'disabled'>('primary');

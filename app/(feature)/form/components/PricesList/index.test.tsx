@@ -3,7 +3,7 @@ import { useFetchPricesList } from '@/app/(feature)/form/hooks/useFetchPricesLis
 import { mockPricesListRaw } from '@/mocks/pricesList';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { type UseFormRegisterReturn } from 'react-hook-form';
 
 jest.mock('../../hooks/useFetchPricesList');
 const mockedUseFetchPricesList = jest.mocked(useFetchPricesList);

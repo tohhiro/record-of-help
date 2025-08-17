@@ -1,7 +1,7 @@
 import { mockRawsData } from '@/mocks/rawsData';
 import { mockThData } from '@/mocks/tableHeader';
 import { render, screen } from '@testing-library/react';
-import { DashboardTable, Props } from '.';
+import { DashboardTable, type Props } from '.';
 
 const mockTdDataWithDelFlag: Props = [
   {
