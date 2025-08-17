@@ -1,14 +1,10 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { Button, Props } from '.';
+import { type Meta, type StoryObj } from '@storybook/react';
+import { Button, type Props } from '.';
 
 export default {
   title: 'app/components/Button',
   component: Button,
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
+  parameters: { chromatic: { disableSnapshot: true } },
 } satisfies Meta<typeof Button>;
 
 type Story = StoryObj<typeof Button>;
@@ -20,14 +16,8 @@ const mockBaseData: Props = {
   onClick: () => {},
 };
 
-export const Default: Story = {
-  args: mockBaseData,
-};
+export const Default: Story = { args: mockBaseData };
 
-export const Disabled: Story = {
-  args: { ...mockBaseData, intent: 'disabled' },
-};
+export const Disabled: Story = { args: { ...mockBaseData, intent: 'disabled' } };
 
-export const Secondary: Story = {
-  args: { ...mockBaseData, intent: 'secondary' },
-};
+export const Secondary: Story = { args: { ...mockBaseData, intent: 'secondary' } };

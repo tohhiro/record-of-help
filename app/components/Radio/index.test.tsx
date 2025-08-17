@@ -1,21 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Props, Radio } from '.';
+import { Radio, type Props } from '.';
 
 describe('Radio', () => {
   const mockValues: Props[] = [
-    {
-      id: 'radio1',
-      label: 'Radio Label1',
-      value: 'radioValue1',
-      name: 'radioName',
-    },
-    {
-      id: 'radio2',
-      label: 'Radio Label2',
-      value: 'radioValue2',
-      name: 'radioName',
-    },
+    { id: 'radio1', label: 'Radio Label1', value: 'radioValue1', name: 'radioName' },
+    { id: 'radio2', label: 'Radio Label2', value: 'radioValue2', name: 'radioName' },
   ];
 
   const renderSuccess = (mocks: Props[] = mockValues) => {

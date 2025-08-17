@@ -1,7 +1,8 @@
 {
   "ignorePatterns": ["/eslint/**/.js", "/storybook-static/", "/.next/", "/src/**/*.generated.ts"],
   "extends": ["next/core-web-vitals", "plugin:storybook/recommended", "airbnb-base"],
-
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "react/display-name": 0,
     "linebreak-style": "off",
@@ -27,6 +28,11 @@
       }
     ],
     "no-void": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { "prefer": "type-imports", "disallowTypeAnnotations": false }
+    ]
   }
 }

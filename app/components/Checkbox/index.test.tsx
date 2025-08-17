@@ -1,13 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Checkbox, Props } from '.';
+import { Checkbox, type Props } from '.';
 
 describe('Checkbox', () => {
-  const mockValues: Props = {
-    label: 'Checkbox Label',
-    id: 'checkbox1',
-    value: 'checkboxValue',
-  };
+  const mockValues: Props = { label: 'Checkbox Label', id: 'checkbox1', value: 'checkboxValue' };
 
   test('Checkboxがレンダーされる', () => {
     render(<Checkbox {...mockValues} />);
@@ -21,9 +17,7 @@ describe('Checkbox', () => {
 
   test('Checkboxがチェックできる', async () => {
     render(<Checkbox {...mockValues} />);
-    const checkboxComponent = screen.getByRole('checkbox', {
-      name: mockValues.label,
-    });
+    const checkboxComponent = screen.getByRole('checkbox', { name: mockValues.label });
 
     expect(checkboxComponent).toBeEnabled();
     expect(checkboxComponent.getAttribute('checked')).toBeNull();

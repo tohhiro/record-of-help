@@ -1,12 +1,9 @@
 import '@/app/styles/globals.css';
-import { forwardRef, Ref } from 'react';
+import type { Ref } from 'react';
+import { forwardRef } from 'react';
 import { checkboxStyles } from './index.styles';
 
-export type Props = {
-  id: string;
-  label: string;
-  value: string;
-};
+export type Props = { id: string; label: string; value: string };
 
 export const Checkbox = forwardRef(
   ({ id, label, value, ...rest }: Props, ref: Ref<HTMLInputElement>) => {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Props, SelectBox } from '.';
+import { SelectBox, type Props } from '.';
 
 const mockOptions: Props[] = [
   { value: 'all', label: 'All' },
@@ -8,11 +8,7 @@ const mockOptions: Props[] = [
   { value: 'mei', label: 'Mei' },
 ];
 
-const mockValues = {
-  options: mockOptions,
-  id: 'select',
-  label: '選択してください',
-};
+const mockValues = { options: mockOptions, id: 'select', label: '選択してください' };
 
 describe('SelectBox', () => {
   test('SelectBoxがレンダーされる', () => {
