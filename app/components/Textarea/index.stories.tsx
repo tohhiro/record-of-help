@@ -1,14 +1,10 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { Props, Textarea } from '.';
+import { type Meta, type StoryObj } from '@storybook/react';
+import { Textarea, type Props } from '.';
 
 export default {
   title: 'app/components/Textarea',
   component: Textarea,
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
+  parameters: { chromatic: { disableSnapshot: true } },
 } satisfies Meta<typeof Textarea>;
 
 type Story = StoryObj<typeof Textarea>;
@@ -19,6 +15,4 @@ const mockData: Props = {
   placeholder: 'Textareaプレースホルダー',
 };
 
-export const Default: Story = {
-  args: mockData,
-};
+export const Default: Story = { args: mockData };

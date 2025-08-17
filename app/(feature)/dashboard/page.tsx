@@ -5,15 +5,12 @@ import { Input } from '@/app/components/Input';
 import { SelectBox } from '@/app/components/SelectBox';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Suspense, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { DashboardTable, type Props as TdProps } from './components/DashboardTable';
-import { DashboardProps, sumObjectArrayData, validationSchema } from './helper';
+import { sumObjectArrayData, validationSchema, type DashboardProps } from './helper';
 import { dashboardFormStyles, dashboardStyles } from './index.styles';
 
-type OptionsType = {
-  value: string;
-  label: string;
-};
+type OptionsType = { value: string; label: string };
 
 const options: OptionsType[] = [
   { value: 'all', label: 'All' },
@@ -61,13 +58,7 @@ export default function Page() {
     control,
     formState: { errors },
   } = useForm<DashboardProps>({
-    defaultValues: {
-      person: { value: '', label: '' },
-      selectDate: {
-        startDate,
-        endDate,
-      },
-    },
+    defaultValues: { person: { value: '', label: '' }, selectDate: { startDate, endDate } },
     resolver: zodResolver(validationSchema),
   });
 

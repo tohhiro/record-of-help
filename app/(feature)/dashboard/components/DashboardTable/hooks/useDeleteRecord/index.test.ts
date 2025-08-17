@@ -1,22 +1,16 @@
 import { renderHook } from '@testing-library/react';
-import { Props, useDeleteRecord } from '.';
+import { useDeleteRecord, type Props } from '.';
 
-const mockArgs: Props = {
-  id: '1',
-};
+const mockArgs: Props = { id: '1' };
 
 describe('useDeleteRecord', () => {
   test('引数にidを渡すことができる', () => {
     const { result } = renderHook(() => useDeleteRecord());
     const deleteRecordSpy = jest.spyOn(result.current, 'deleteRecord');
 
-    result.current.deleteRecord({
-      ...mockArgs,
-    });
+    result.current.deleteRecord({ ...mockArgs });
 
-    expect(deleteRecordSpy).toHaveBeenCalledWith({
-      ...mockArgs,
-    });
+    expect(deleteRecordSpy).toHaveBeenCalledWith({ ...mockArgs });
 
     deleteRecordSpy.mockRestore();
   });

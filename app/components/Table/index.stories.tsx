@@ -1,15 +1,11 @@
 import { mockThData } from '@/mocks/tableHeader';
-import { Meta, StoryObj } from '@storybook/react';
-import { Props, Table } from '.';
+import { type Meta, type StoryObj } from '@storybook/react';
+import { Table, type Props } from '.';
 
 export default {
   title: 'app/components/Table',
   component: Table,
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
+  parameters: { chromatic: { disableSnapshot: true } },
 } satisfies Meta<typeof Table>;
 
 type Story = StoryObj<typeof Table>;
@@ -83,14 +79,10 @@ const mockTdDataDiff: Props = [
   },
 ];
 
-export const Default: Story = {
-  args: { thData: mockThData, tdData: mockTdData },
-};
+export const Default: Story = { args: { thData: mockThData, tdData: mockTdData } };
 
 export const DifferentThAndTdLength: Story = {
   args: { thData: mockThData, tdData: mockTdDataDiff },
 };
 
-export const Null: Story = {
-  args: { thData: mockThData, tdData: null },
-};
+export const Null: Story = { args: { thData: mockThData, tdData: null } };

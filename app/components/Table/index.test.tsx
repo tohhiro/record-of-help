@@ -1,6 +1,6 @@
 import { mockThData } from '@/mocks/tableHeader';
 import { render, screen } from '@testing-library/react';
-import { Props, Table } from '.';
+import { Table, type Props } from '.';
 
 const mockTdData = [
   {

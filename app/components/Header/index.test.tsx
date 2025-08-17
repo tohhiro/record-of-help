@@ -1,20 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Header, headerText, NavAdminType } from '.';
+import { Header, headerText, type NavAdminType } from '.';
 
-const mockNavItems: NavAdminType = {
-  Form: './form',
-  Dashboard: './dashboard',
-};
+const mockNavItems: NavAdminType = { Form: './form', Dashboard: './dashboard' };
 
 const mockLoginUser = 'test@test.com';
 
 describe('Header', () => {
-  const mockData = {
-    links: mockNavItems,
-    loginUser: mockLoginUser,
-    onClick: jest.fn(),
-  };
+  const mockData = { links: mockNavItems, loginUser: mockLoginUser, onClick: jest.fn() };
 
   afterEach(() => {
     mockData.onClick.mockClear();

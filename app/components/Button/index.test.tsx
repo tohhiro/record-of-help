@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Button, Props } from '.';
+import { Button, type Props } from '.';
 
 describe('Button', () => {
   const mockValues: Props = {
@@ -24,10 +24,7 @@ describe('Button', () => {
   });
 
   test('Buttonコンポーネントがdisabledでレンダリングされる', () => {
-    const mockValuesWithDisabledButton: Props = {
-      ...mockValues,
-      intent: 'disabled',
-    };
+    const mockValuesWithDisabledButton: Props = { ...mockValues, intent: 'disabled' };
 
     render(<Button {...mockValuesWithDisabledButton} />);
 
@@ -36,10 +33,7 @@ describe('Button', () => {
   });
 
   test('Buttonコンポーネントのtype属性がsubmitでレンダリングされる', () => {
-    const mockValuesWithAttrSubmit: Props = {
-      ...mockValues,
-      intent: 'primary',
-    };
+    const mockValuesWithAttrSubmit: Props = { ...mockValues, intent: 'primary' };
 
     render(<Button {...mockValuesWithAttrSubmit} />);
 
@@ -57,10 +51,7 @@ describe('Button', () => {
   });
 
   test('disabledの場合、ButtonをクリックしてもonClickが呼ばれない', async () => {
-    const mockValuesWithAttrSubmit: Props = {
-      ...mockValues,
-      intent: 'disabled',
-    };
+    const mockValuesWithAttrSubmit: Props = { ...mockValues, intent: 'disabled' };
     render(<Button {...mockValuesWithAttrSubmit} />);
 
     const buttonComponent = screen.getByRole('button');

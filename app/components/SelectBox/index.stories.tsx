@@ -1,14 +1,10 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { Props, SelectBox } from '.';
+import { type Meta, type StoryObj } from '@storybook/react';
+import { SelectBox, type Props } from '.';
 
 export default {
   title: 'app/components/SelectBox',
   component: SelectBox,
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
-    },
-  },
+  parameters: { chromatic: { disableSnapshot: true } },
 } satisfies Meta<typeof SelectBox>;
 
 type Story = StoryObj<typeof SelectBox>;
@@ -20,18 +16,9 @@ const mockOptions: Props[] = [
 ];
 
 export const Default: Story = {
-  args: {
-    id: 'select',
-    label: '選択してください',
-    options: mockOptions,
-  },
+  args: { id: 'select', label: '選択してください', options: mockOptions },
 };
 
 export const Disabled: Story = {
-  args: {
-    id: 'select',
-    label: '選択してください',
-    options: mockOptions,
-    isDisabled: true,
-  },
+  args: { id: 'select', label: '選択してください', options: mockOptions, isDisabled: true },
 };

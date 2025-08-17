@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Props, Textarea } from '.';
+import { Textarea, type Props } from '.';
 
 describe('Textarea', () => {
   const mockValues: Props = {
@@ -19,9 +19,7 @@ describe('Textarea', () => {
 
   test('textareaに入力ができる', async () => {
     render(<Textarea {...mockValues} />);
-    const textareaComponent = screen.getByRole('textbox', {
-      name: mockValues.label,
-    });
+    const textareaComponent = screen.getByRole('textbox', { name: mockValues.label });
 
     const typeText = 'テスト';
     const user = userEvent.setup();
