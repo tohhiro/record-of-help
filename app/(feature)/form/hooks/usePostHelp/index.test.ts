@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import useSWRMutation from 'swr/mutation';
-import { usePostHelp, type Props } from '.';
+import { usePostHelp } from '.';
 
 jest.mock('swr/mutation');
 const mockUseSWRMutation = jest.mocked(useSWRMutation);
@@ -12,7 +12,7 @@ const mockParams = {
   error: undefined,
 };
 
-const mockArgs: Props = {
+const mockArgs = {
   person: 'eito',
   comments: 'コメント',
   dish: 10,
