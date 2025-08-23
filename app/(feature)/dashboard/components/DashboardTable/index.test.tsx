@@ -1,9 +1,9 @@
 import { mockRawsData } from '@/mocks/rawsData';
 import { mockThData } from '@/mocks/tableHeader';
 import { render, screen } from '@testing-library/react';
-import { DashboardTable, type Props } from '.';
+import { DashboardTable } from '.';
 
-const mockTdDataWithDelFlag: Props = [
+const mockTdDataWithDelFlag = [
   {
     comments: null,
     created_at: '2024-1-2',

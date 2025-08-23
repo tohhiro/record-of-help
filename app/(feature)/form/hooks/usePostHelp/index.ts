@@ -1,7 +1,7 @@
 import { supabase } from '@/app/libs/supabase';
 import useSWRMutation from 'swr/mutation';
 
-export type Props = {
+type Props = {
   person: string;
   comments: string;
   dish: number;
