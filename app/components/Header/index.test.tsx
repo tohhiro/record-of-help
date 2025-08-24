@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Header, headerText, type NavAdminType } from '.';
+import { Header, headerText } from '.';
 
-const mockNavItems: NavAdminType = { Form: './form', Dashboard: './dashboard' };
+const mockNavItems = { Form: './form', Dashboard: './dashboard' };
 
 const mockLoginUser = 'test@test.com';
 

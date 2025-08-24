@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Checkbox, type Props } from '.';
+import { Checkbox } from '.';
 
 describe('Checkbox', () => {
-  const mockValues: Props = { label: 'Checkbox Label', id: 'checkbox1', value: 'checkboxValue' };
+  const mockValues = { label: 'Checkbox Label', id: 'checkbox1', value: 'checkboxValue' };
 
   test('Checkboxがレンダーされる', () => {
     render(<Checkbox {...mockValues} />);

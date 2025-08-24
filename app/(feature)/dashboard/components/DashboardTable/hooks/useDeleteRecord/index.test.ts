@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useDeleteRecord, type Props } from '.';
+import { useDeleteRecord } from '.';
 
-const mockArgs: Props = { id: '1' };
+const mockArgs = { id: '1' };
 
 describe('useDeleteRecord', () => {
   test('引数にidを渡すことができる', () => {
