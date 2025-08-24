@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { Radio, type Props } from '.';
 
 describe('Radio', () => {
-  const mockValues: Props[] = [
+  const mockValues = [
     { id: 'radio1', label: 'Radio Label1', value: 'radioValue1', name: 'radioName' },
     { id: 'radio2', label: 'Radio Label2', value: 'radioValue2', name: 'radioName' },
   ];

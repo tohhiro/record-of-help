@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Textarea, type Props } from '.';
+import { Textarea } from '.';
 
 describe('Textarea', () => {
-  const mockValues: Props = {
+  const mockValues = {
     id: 'textarea',
     label: 'Textarea Label',
     placeholder: 'テキストを入力してください',

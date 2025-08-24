@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SelectBox, type Props } from '.';
+import { SelectBox } from '.';
 
-const mockOptions: Props[] = [
+const mockOptions = [
   { value: 'all', label: 'All' },
   { value: 'eito', label: 'Eito' },
   { value: 'mei', label: 'Mei' },
