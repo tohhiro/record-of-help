@@ -23,25 +23,15 @@ const config: StorybookConfig = {
   env: (config) => ({
     ...config,
     // 環境変数をStorybookに明示的に渡す
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-    SUPABASE_URL: process.env.SUPABASE_URL || '',
-    PRICES_LIST_ENDPOINT: process.env.PRICES_LIST_ENDPOINT || '',
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key',
+    SUPABASE_URL: process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
+    PRICES_LIST_ENDPOINT: process.env.PRICES_LIST_ENDPOINT || '/rest/v1/prices',
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV || 'development',
   }),
   webpackFinal: async (config: any) => {
     // Add path aliases
     config.resolve.alias['@'] = path.resolve(__dirname, '../');
-    
-    // 環境変数のデバッグ出力（CI環境でのみ）
-    if (process.env.CI) {
-      console.log('Environment variables in Storybook:');
-      console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? '✓ Set' : '✗ Missing');
-      console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? '✓ Set' : '✗ Missing');
-      console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? '✓ Set' : '✗ Missing');
-      console.log('PRICES_LIST_ENDPOINT:', process.env.PRICES_LIST_ENDPOINT ? '✓ Set' : '✗ Missing');
-    }
-    
     return config;
   },
 };

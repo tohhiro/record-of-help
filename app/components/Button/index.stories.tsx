@@ -4,7 +4,7 @@ import { Button, type Props } from '.';
 export default {
   title: 'app/components/Button',
   component: Button,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Button>;
 
 type Story = StoryObj<typeof Button>;

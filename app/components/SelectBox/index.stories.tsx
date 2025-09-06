@@ -4,7 +4,7 @@ import { SelectBox, type Props } from '.';
 export default {
   title: 'app/components/SelectBox',
   component: SelectBox,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof SelectBox>;
 
 type Story = StoryObj<typeof SelectBox>;

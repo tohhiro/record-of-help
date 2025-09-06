@@ -4,7 +4,7 @@ import { Input, type Props } from '.';
 export default {
   title: 'app/components/Input',
   component: Input,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Input>;
 
 type Story = StoryObj<typeof Input>;

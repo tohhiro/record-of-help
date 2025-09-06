@@ -4,7 +4,7 @@ import { Radio, type Props } from '.';
 export default {
   title: 'app/components/Radio',
   component: Radio,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Radio>;
 
 type Story = StoryObj<typeof Radio>;

@@ -5,7 +5,7 @@ import { Table, type Props } from '.';
 export default {
   title: 'app/components/Table',
   component: Table,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Table>;
 
 type Story = StoryObj<typeof Table>;

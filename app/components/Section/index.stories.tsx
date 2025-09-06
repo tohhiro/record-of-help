@@ -4,7 +4,7 @@ import { Section } from '.';
 export default {
   title: 'app/components/Section',
   component: Section,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Section>;
 
 type Story = StoryObj<typeof Section>;

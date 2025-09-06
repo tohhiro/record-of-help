@@ -6,7 +6,7 @@ export default {
   component: Page,
   parameters: {
     chromatic: {
-      disableSnapshot: true,
+      disableSnapshot: false,
     },
     nextjs: {
       appDirectory: true,

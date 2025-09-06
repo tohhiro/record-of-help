@@ -4,7 +4,7 @@ import { Checkbox } from '.';
 export default {
   title: 'app/components/Checkbox',
   component: Checkbox,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Checkbox>;
 
 type Story = StoryObj<typeof Checkbox>;
