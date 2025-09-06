@@ -4,7 +4,7 @@ import { Header, type NavAdminType, type NavMemberType } from '.';
 export default {
   title: 'app/components/Header',
   component: Header,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Header>;
 
 type Story = StoryObj<typeof Header>;

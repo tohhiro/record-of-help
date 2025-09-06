@@ -37,3 +37,5 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           PRICES_LIST_ENDPOINT: ${{ secrets.PRICES_LIST_ENDPOINT }}
+          # MSW用の環境変数も追加
+          NEXT_PUBLIC_ENV: development

@@ -4,7 +4,7 @@ import { Textarea, type Props } from '.';
 export default {
   title: 'app/components/Textarea',
   component: Textarea,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof Textarea>;
 
 type Story = StoryObj<typeof Textarea>;

@@ -4,7 +4,7 @@ import { ErrorContainer } from '.';
 export default {
   title: 'app/components/ErrorContainer',
   component: ErrorContainer,
-  parameters: { chromatic: { disableSnapshot: true } },
+  parameters: { chromatic: { disableSnapshot: false } },
 } satisfies Meta<typeof ErrorContainer>;
 
 type Story = StoryObj<typeof ErrorContainer>;
