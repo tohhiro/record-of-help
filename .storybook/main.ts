@@ -23,7 +23,8 @@ const config: StorybookConfig = {
   env: (config) => ({
     ...config,
     // 環境変数をStorybookに明示的に渡す
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+    NEXT_PUBLIC_SUPABASE_URL:
+      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key',
     SUPABASE_URL: process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
     PRICES_LIST_ENDPOINT: process.env.PRICES_LIST_ENDPOINT || '/rest/v1/prices',

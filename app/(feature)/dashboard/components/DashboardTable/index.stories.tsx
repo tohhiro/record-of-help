@@ -7,7 +7,6 @@ export default {
   title: 'app/feature/dashboard/DashboardTable',
   component: DashboardTable,
   parameters: {
-    // Chromaticでスナップショットを有効にする
     chromatic: { disableSnapshot: false },
   },
 } satisfies Meta<typeof DashboardTable>;
