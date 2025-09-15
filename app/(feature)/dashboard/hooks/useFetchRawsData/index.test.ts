@@ -2,19 +2,14 @@ import { supabase } from '@/app/libs/supabase';
 import { mockRawsData } from '@/mocks/rawsData';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import useSWR, { mutate } from 'swr';
-import { getNowMonthFirstLast } from './helpers';
 import { useFetchRawsData, type ConditionsArgsType } from './index';
 
 jest.mock('@/app/libs/supabase');
 jest.mock('swr');
-jest.mock('./helpers');
 
 const mockedSupabase = supabase as jest.Mocked<typeof supabase>;
 const mockedUseSWR = useSWR as jest.MockedFunction<typeof useSWR>;
 const mockedMutate = mutate as jest.MockedFunction<typeof mutate>;
-const mockedGetNowMonthFirstLast = getNowMonthFirstLast as jest.MockedFunction<
-  typeof getNowMonthFirstLast
->;
 
 // Supabaseチェーンのモック
 const createMockSupabaseChain = () => {
@@ -51,15 +46,14 @@ describe('useFetchRawsData', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
+    // 固定日時を設定（2023年1月15日）
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2023-01-15T12:00:00Z'));
+
     // Supabaseチェーンモックを初期化
     mockSupabaseChain = createMockSupabaseChain();
+    // 型エラー回避のため any キャスト
     mockedSupabase.from.mockReturnValue(mockSupabaseChain as any);
-
-    // デフォルトのモック設定
-    mockedGetNowMonthFirstLast.mockReturnValue({
-      startDate: '2023-01-01',
-      endDate: '2023-01-31',
-    });
 
     mockedUseSWR.mockReturnValue({
       data: { data: mockRawsData.data, error: null },
@@ -67,7 +61,11 @@ describe('useFetchRawsData', () => {
       isLoading: false,
       isValidating: false,
       mutate: jest.fn(),
-    } as any);
+    });
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   describe('初期化テスト', () => {
@@ -77,9 +75,6 @@ describe('useFetchRawsData', () => {
       await waitFor(() => {
         expect(result.current.success.rawsData).toEqual(mockRawsData.data);
       });
-
-      // getNowMonthFirstLastが呼ばれることを確認
-      expect(mockedGetNowMonthFirstLast).toHaveBeenCalled();
 
       // useSWRが正しいキーで呼ばれることを確認
       expect(mockedUseSWR).toHaveBeenCalledWith('raws_data', expect.any(Function));
@@ -92,7 +87,7 @@ describe('useFetchRawsData', () => {
         isLoading: false,
         isValidating: false,
         mutate: jest.fn(),
-      } as any);
+      });
 
       const { result } = renderHook(() => useFetchRawsData());
 
@@ -108,7 +103,7 @@ describe('useFetchRawsData', () => {
         isLoading: false,
         isValidating: false,
         mutate: jest.fn(),
-      } as any);
+      });
 
       const { result } = renderHook(() => useFetchRawsData());
 
@@ -224,8 +219,31 @@ describe('useFetchRawsData', () => {
         });
 
         await waitFor(() => {
+          // 2023年1月の範囲でフィルタリングされることを確認
           expect(mockSupabaseChain.gte).toHaveBeenCalledWith('created_at', '2023-01-01 00:00:00');
           expect(mockSupabaseChain.lte).toHaveBeenCalledWith('created_at', '2023-01-31 23:59:59');
+        });
+      }
+    });
+
+    test('異なる月に設定した場合の日付範囲フィルタリング', async () => {
+      // 2023年2月15日に設定
+      jest.setSystemTime(new Date('2023-02-15T12:00:00Z'));
+
+      renderHook(() => useFetchRawsData());
+
+      const swrCall = mockedUseSWR.mock.calls[0];
+      const fetcherFunction = swrCall[1];
+
+      if (fetcherFunction) {
+        await act(async () => {
+          await fetcherFunction();
+        });
+
+        await waitFor(() => {
+          // 2023年2月の範囲でフィルタリングされることを確認
+          expect(mockSupabaseChain.gte).toHaveBeenCalledWith('created_at', '2023-02-01 00:00:00');
+          expect(mockSupabaseChain.lte).toHaveBeenCalledWith('created_at', '2023-02-28 23:59:59');
         });
       }
     });
