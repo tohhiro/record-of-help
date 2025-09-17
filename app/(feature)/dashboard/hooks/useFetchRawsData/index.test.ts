@@ -41,6 +41,14 @@ const createMockSupabaseChain = () => {
 };
 
 describe('useFetchRawsData', () => {
+  const commonMockData = {
+    data: null,
+    error: null,
+    isLoading: false,
+    isValidating: false,
+    mutate: jest.fn(),
+  };
+
   let mockSupabaseChain: ReturnType<typeof createMockSupabaseChain>;
 
   beforeEach(() => {
@@ -56,11 +64,8 @@ describe('useFetchRawsData', () => {
     mockedSupabase.from.mockReturnValue(mockSupabaseChain as any);
 
     mockedUseSWR.mockReturnValue({
+      ...commonMockData,
       data: { data: mockRawsData.data, error: null },
-      error: null,
-      isLoading: false,
-      isValidating: false,
-      mutate: jest.fn(),
     });
   });
 
@@ -82,11 +87,7 @@ describe('useFetchRawsData', () => {
 
     test('データがnullの場合、rawsDataがnullになる', async () => {
       mockedUseSWR.mockReturnValue({
-        data: null,
-        error: null,
-        isLoading: false,
-        isValidating: false,
-        mutate: jest.fn(),
+        ...commonMockData,
       });
 
       const { result } = renderHook(() => useFetchRawsData());
@@ -98,11 +99,8 @@ describe('useFetchRawsData', () => {
 
     test('データのdataプロパティがnullの場合、rawsDataがnullになる', async () => {
       mockedUseSWR.mockReturnValue({
+        ...commonMockData,
         data: { data: null, error: null },
-        error: null,
-        isLoading: false,
-        isValidating: false,
-        mutate: jest.fn(),
       });
 
       const { result } = renderHook(() => useFetchRawsData());
