@@ -3,7 +3,7 @@ import { type AuthTokenResponse } from '@supabase/supabase-js';
 import { act, renderHook } from '@testing-library/react';
 import { useSignIn } from '.';
 
-jest.mock('../../../../libs/supabase');
+jest.mock('@/app/libs/supabase');
 
 const mockArgs = {
   email: 'test@example.com',

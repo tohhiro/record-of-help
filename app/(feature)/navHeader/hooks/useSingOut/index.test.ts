@@ -3,7 +3,7 @@ import { type AuthError } from '@supabase/supabase-js';
 import { act, renderHook } from '@testing-library/react';
 import { useSignOut } from '.';
 
-jest.mock('../../../../libs/supabase');
+jest.mock('@/app/libs/supabase');
 
 describe('useSignOut', () => {
   let signOutSpy: jest.SpyInstance;

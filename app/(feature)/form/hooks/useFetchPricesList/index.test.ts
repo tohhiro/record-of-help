@@ -2,7 +2,7 @@ import { supabase } from '@/app/libs/supabase';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useFetchPricesList } from '.';
 
-jest.mock('../../../../libs/supabase');
+jest.mock('@/app/libs/supabase');
 const mockedSupabase = jest.mocked(supabase.from);
 const dummyData = {
   created_at: '2024-02-23T12:00:00.000Z',

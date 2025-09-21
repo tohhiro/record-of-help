@@ -7,9 +7,9 @@ import { useFetchRawsData, type ConditionsArgsType } from './index';
 jest.mock('@/app/libs/supabase');
 jest.mock('swr');
 
-const mockedSupabase = supabase as jest.Mocked<typeof supabase>;
-const mockedUseSWR = useSWR as jest.MockedFunction<typeof useSWR>;
-const mockedMutate = mutate as jest.MockedFunction<typeof mutate>;
+const mockedSupabase = jest.mocked(supabase);
+const mockedUseSWR = jest.mocked(useSWR);
+const mockedMutate = jest.mocked(mutate);
 
 // Supabaseチェーンのモック
 const createMockSupabaseChain = () => {
