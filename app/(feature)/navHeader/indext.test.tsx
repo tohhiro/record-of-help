@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NavHeader } from '.';
 
-jest.mock('../../libs/supabase');
-jest.mock('../../store');
+jest.mock('@/app/libs/supabase');
+jest.mock('@/app/store');
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 
 const mockedLoginUser = 'test@test.com';

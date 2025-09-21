@@ -5,8 +5,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 
-jest.mock('../../hooks/useFetchPricesList');
-const mockedUseFetchPricesList = jest.mocked(useFetchPricesList);
+// カスタムフックをモック化
+jest.mock('@/app/(feature)/form/hooks/useFetchPricesList');
+const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
 
 const mockFailedData = {
   data: [],
@@ -24,11 +25,11 @@ describe('PricesList', () => {
   };
 
   afterEach(() => {
-    mockedUseFetchPricesList.mockReset();
+    mockUseFetchPricesList.mockReset();
   });
 
   test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', () => {
-    mockedUseFetchPricesList.mockReturnValue(mockPricesListRaw);
+    mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
 
     render(<PricesList register={register} />);
 
@@ -38,7 +39,7 @@ describe('PricesList', () => {
   });
 
   test('hooksからエラーが返る場合、チェックボックスがレンダリングされない', () => {
-    mockedUseFetchPricesList.mockReturnValue(mockFailedData);
+    mockUseFetchPricesList.mockReturnValue(mockFailedData);
     render(<PricesList register={register} />);
 
     const checkbox = screen.queryByLabelText('皿洗い');
@@ -46,7 +47,7 @@ describe('PricesList', () => {
   });
 
   test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックを入れ外しできる', async () => {
-    mockedUseFetchPricesList.mockReturnValue(mockPricesListRaw);
+    mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
 
     render(<PricesList register={register} />);
 
