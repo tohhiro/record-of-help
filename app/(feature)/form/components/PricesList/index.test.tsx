@@ -5,7 +5,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 
-// カスタムフックをモック化
 jest.mock('@/app/(feature)/form/hooks/useFetchPricesList');
 const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
 
