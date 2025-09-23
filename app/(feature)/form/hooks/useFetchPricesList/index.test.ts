@@ -3,7 +3,8 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { useFetchPricesList } from '.';
 
 jest.mock('@/app/libs/supabase');
-const mockedSupabase = jest.mocked(supabase.from);
+const mockedSupabase = jest.mocked(supabase);
+
 const dummyData = {
   created_at: '2024-02-23T12:00:00.000Z',
   help: 'Something help',
@@ -23,17 +24,21 @@ const dummyData = {
 
 describe('useFetchPricesList', () => {
   afterEach(() => {
-    mockedSupabase.mockReset();
+    jest.clearAllMocks();
   });
 
   test('dataが存在し、errorはnullの場合、dataが取得できる', async () => {
-    // supabaseの返り値をモック化
-    mockedSupabase.mockReturnValue({
-      select: jest.fn().mockResolvedValue({
-        data: [dummyData],
-        error: null,
-      }),
-    } as unknown as ReturnType<typeof supabase.from>);
+    // supabaseのメソッドチェーンをモック化
+    const mockSelect = jest.fn().mockResolvedValue({
+      data: [dummyData],
+      error: null,
+    });
+
+    const mockFrom = jest.fn().mockReturnValue({
+      select: mockSelect,
+    });
+
+    mockedSupabase.from = mockFrom;
 
     const { result } = renderHook(() => useFetchPricesList());
 
