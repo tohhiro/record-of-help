@@ -17,7 +17,7 @@
     "supabase:gen": "npx supabase gen types typescript --linked > supabase/schema.ts && npx prettier --write supabase/schema.ts"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.2",
+    "@hookform/resolvers": "^3.10.0",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.39.1",
     "@types/node": "20.8.10",
