@@ -12,6 +12,10 @@ updates:
     labels:
       - 'dependencies'
       - 'npm'
+    ignore:
+      # メジャーアップデートは手動で対応
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
 
   # GitHub Actions
   - package-ecosystem: 'github-actions'
@@ -24,3 +28,7 @@ updates:
     labels:
       - 'dependencies'
       - 'github-actions'
+    ignore:
+      # メジャーアップデートは手動で対応
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
