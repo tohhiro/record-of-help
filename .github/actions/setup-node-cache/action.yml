@@ -4,12 +4,12 @@ description: 'Setup Node and install dependencies'
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
       with:
         node-version-file: '.node-version'
     - name: Configure cache
       id: cache
-      uses: actions/cache@v3
+      uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
       with:
         path: node_modules
         key: node-${{ hashFiles('package.json') }}-${{ hashFiles('.eslintrc.json') }}
