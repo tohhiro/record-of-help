@@ -56,6 +56,11 @@ describe('SupabaseListener', () => {
       },
     });
 
+    const mockUnsubscribe = jest.fn();
+    (supabase.auth.onAuthStateChange as jest.Mock).mockReturnValue({
+      data: { subscription: { unsubscribe: mockUnsubscribe } },
+    });
+
     mockFetchAuth.mockResolvedValue({
       result: { data: [{ admin: true }] },
     });
@@ -76,8 +81,10 @@ describe('SupabaseListener', () => {
     (supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
 
     const mockOnAuthHandler = jest.fn();
+    const mockUnsubscribe = jest.fn();
     (supabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback: () => void) => {
       mockOnAuthHandler.mockImplementation(callback);
+      return { data: { subscription: { unsubscribe: mockUnsubscribe } } };
     });
 
     mockFetchAuth.mockResolvedValue({
