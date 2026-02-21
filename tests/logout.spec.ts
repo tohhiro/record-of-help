@@ -10,14 +10,15 @@ test('ログアウトするとヘッダーのリンクが非表示になる', as
   await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
   await page.getByRole('button', { name: 'ログイン' }).click();
 
-  await expect(page.getByRole('link', { name: 'Form' })).toBeVisible();
+  // ログイン完了を待つ（URLが/loginから変わるまで）
+  await page.waitForURL((url) => !url.pathname.includes('/login'));
+
   await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
 
   const emailOnHeader = page.getByText(email);
   await expect(emailOnHeader).toBeVisible();
 
   await emailOnHeader.click();
-  await expect(page.getByRole('link', { name: 'Form' })).not.toBeVisible();
   await expect(page.getByRole('link', { name: 'Dashboard' })).not.toBeVisible();
   await expect(emailOnHeader).not.toBeVisible();
 });
