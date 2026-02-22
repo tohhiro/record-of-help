@@ -19,7 +19,7 @@ export const useSignIn = () => {
         const { data } = await supabase
           .from('members_list')
           .select('admin')
-          .eq('email', result.data.user.email || '')
+          .eq('email', result.data.user.email || null)
           .single();
         isAdmin = data?.admin === true;
       } catch {

@@ -75,14 +75,6 @@ jobs:
       - name: Install Playwright Browsers
         if: steps.changes.outputs.shouldRun == 'true'
         run: npx playwright install
-      - name: Debug environment variables
-        if: steps.changes.outputs.shouldRun == 'true'
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        run: |
-          echo "Checking environment variables..."
-          echo "SUPABASE_URL host: $(echo $SUPABASE_URL | sed 's|https://||' | cut -d'.' -f1)"
-          echo "SUPABASE_URL length: ${#SUPABASE_URL}"
       - name: Run Tests:E2E
         if: steps.changes.outputs.shouldRun == 'true'
         env:

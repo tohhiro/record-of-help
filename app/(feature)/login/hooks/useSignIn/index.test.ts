@@ -69,6 +69,48 @@ describe('useSignIn', () => {
     expect(onError).not.toHaveBeenCalled();
   });
 
+  test('signIn成功でadmin=falseの場合にonSuccessがfalseで呼ばれること', async () => {
+    signInWithPasswordSpy.mockResolvedValueOnce({
+      data: { session: {}, user: { email: 'test@example.com' } },
+      error: null,
+    } as unknown as AuthTokenResponse);
+
+    mockSingle.mockResolvedValueOnce({ data: { admin: false }, error: null });
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const { result } = renderHook(() => useSignIn());
+
+    await act(async () => {
+      await result.current.signIn(mockArgs, { onSuccess, onError });
+    });
+
+    expect(onSuccess).toHaveBeenCalledWith(false);
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  test('signIn成功でadminデータがnullの場合にonSuccessがfalseで呼ばれること', async () => {
+    signInWithPasswordSpy.mockResolvedValueOnce({
+      data: { session: {}, user: { email: 'test@example.com' } },
+      error: null,
+    } as unknown as AuthTokenResponse);
+
+    mockSingle.mockResolvedValueOnce({ data: null, error: null });
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const { result } = renderHook(() => useSignIn());
+
+    await act(async () => {
+      await result.current.signIn(mockArgs, { onSuccess, onError });
+    });
+
+    expect(onSuccess).toHaveBeenCalledWith(false);
+    expect(onError).not.toHaveBeenCalled();
+  });
+
   test('signIn失敗時にonErrorが呼ばれ、エラーをthrowすること', async () => {
     const fakeError = { message: '認証に失敗しました', status: 400 };
 

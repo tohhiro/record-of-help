@@ -45,10 +45,9 @@ export default function Page() {
     e.preventDefault();
     e.stopPropagation();
     const isValid = await trigger();
-    if (!isValid) return false;
+    if (!isValid) return;
     const values = getValues();
     await onSubmit(values);
-    return false;
   };
 
   return (
