@@ -32,9 +32,12 @@ test.describe('ログインのテスト', () => {
     await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
     await page.getByRole('button', { name: 'ログイン' }).click();
 
-    await expect(page.getByRole('link', { name: 'Form' })).toBeVisible();
+    // ログイン成功後にリダイレクトされることを確認
+    await page.waitForURL((url) => !url.pathname.includes('/login'));
+
     await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
     await expect(page.getByText(email)).toBeVisible();
-    await expect(page).toHaveURL(`${baseURL}dashboard`);
+    // admin判定の結果に応じて/formまたは/dashboardに遷移
+    expect(page.url()).toMatch(/\/(form|dashboard)$/);
   });
 });

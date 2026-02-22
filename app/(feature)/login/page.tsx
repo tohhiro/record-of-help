@@ -4,7 +4,6 @@ import { Button } from '@/app/components/Button';
 import { ErrorContainer } from '@/app/components/ErrorContainer';
 import { Input } from '@/app/components/Input';
 import { Section } from '@/app/components/Section';
-import { useStore } from '@/app/store';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -16,8 +15,9 @@ export default function Page() {
 
   const {
     formState: { errors },
-    handleSubmit,
     control,
+    getValues,
+    trigger,
   } = useForm<LoginProps>({
     mode: 'onChange',
     resolver: zodResolver(validationSchema),
@@ -25,13 +25,13 @@ export default function Page() {
 
   const { signIn } = useSignIn();
   const router = useRouter();
-  const loginAuth = useStore((state) => state.loginUser.auth);
 
   const onSubmit: SubmitHandler<LoginProps> = async (inputData) => {
     setSubmitButton('disabled');
     await signIn(inputData, {
-      onSuccess: () => {
-        router.replace(loginAuth ? '/form' : '/dashboard');
+      onSuccess: (isAdmin) => {
+        // signIn内で取得した最新のisAdmin値を使用
+        router.replace(isAdmin ? '/form' : '/dashboard');
       },
       onError: (error) => {
         // eslint-disable-next-line no-alert
@@ -41,9 +41,20 @@ export default function Page() {
     });
   };
 
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const isValid = await trigger();
+    if (!isValid) return;
+    const values = getValues();
+    await onSubmit(values);
+  };
+
   return (
     <div className={'w-100  h-200 m-10 text-center'}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleFormSubmit}
+      >
         <Section>
           <Controller
             name="email"

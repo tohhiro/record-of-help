@@ -56,6 +56,11 @@ describe('SupabaseListener', () => {
       },
     });
 
+    const mockUnsubscribe = jest.fn();
+    (supabase.auth.onAuthStateChange as jest.Mock).mockReturnValue({
+      data: { subscription: { unsubscribe: mockUnsubscribe } },
+    });
+
     mockFetchAuth.mockResolvedValue({
       result: { data: [{ admin: true }] },
     });
@@ -76,8 +81,10 @@ describe('SupabaseListener', () => {
     (supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
 
     const mockOnAuthHandler = jest.fn();
+    const mockUnsubscribe = jest.fn();
     (supabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback: () => void) => {
       mockOnAuthHandler.mockImplementation(callback);
+      return { data: { subscription: { unsubscribe: mockUnsubscribe } } };
     });
 
     mockFetchAuth.mockResolvedValue({
@@ -99,5 +106,29 @@ describe('SupabaseListener', () => {
       auth: false,
     });
     expect(mockRouterRefresh).toHaveBeenCalled();
+  });
+
+  test('onAuthStateChange時にsessionがnullの場合はloginUserをリセットする', async () => {
+    (supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
+
+    const mockOnAuthHandler = jest.fn();
+    const mockUnsubscribe = jest.fn();
+    (supabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback: () => void) => {
+      mockOnAuthHandler.mockImplementation(callback);
+      return { data: { subscription: { unsubscribe: mockUnsubscribe } } };
+    });
+
+    render(<SupabaseListener accessToken="oldToken" />);
+
+    await waitFor(() => {
+      mockOnAuthHandler(null, null);
+    });
+
+    expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+      id: null,
+      email: null,
+      auth: undefined,
+    });
+    expect(mockFetchAuth).not.toHaveBeenCalledWith({ email: expect.any(String) });
   });
 });

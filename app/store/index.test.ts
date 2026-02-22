@@ -2,12 +2,12 @@ import { act, renderHook } from '@testing-library/react';
 import { useStore } from '.';
 
 describe('useStore', () => {
-  test('loginUserのオブジェクトの初期値は、各々空文字かundefinedである', () => {
+  test('loginUserのオブジェクトの初期値は、各々nullかundefinedである', () => {
     const { result } = renderHook(() => useStore());
 
     expect(result.current.loginUser).toStrictEqual({
-      id: '',
-      email: '',
+      id: null,
+      email: null,
       auth: undefined,
     });
   });
@@ -36,8 +36,8 @@ describe('useStore', () => {
     });
 
     expect(result.current.loginUser).toEqual({
-      id: '',
-      email: '',
+      id: null,
+      email: null,
       auth: undefined,
     });
   });

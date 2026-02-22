@@ -24,16 +24,27 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
       }
     };
     getUserInfo();
-    supabase.auth.onAuthStateChange(async (_, session) => {
-      const auth = await fetchAuth({ email: session?.user.email || null });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_, session) => {
+      if (!session) {
+        updateLoginUser({ id: null, email: null, auth: undefined });
+        return;
+      }
+      const auth = await fetchAuth({ email: session.user.email || null });
 
       updateLoginUser({
-        id: session?.user.id!,
-        email: session?.user.email!,
+        id: session.user.id,
+        email: session.user.email!,
         auth: auth.result?.data?.[0]?.admin!,
       });
-      if (session?.access_token !== accessToken) router.refresh();
+      if (session.access_token !== accessToken) router.refresh();
     });
+
+    return () => {
+      subscription.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken, router, updateLoginUser]);
 

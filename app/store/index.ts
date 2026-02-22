@@ -14,10 +14,10 @@ type State = {
 
 export const useStore = create<State>((set) => ({
   loginUser: {
-    id: '',
-    email: '',
+    id: null,
+    email: null,
     auth: undefined,
   },
   updateLoginUser: (payload) => set({ loginUser: payload }),
-  resetLoginUser: () => set({ loginUser: { id: '', email: '', auth: undefined } }),
+  resetLoginUser: () => set({ loginUser: { id: null, email: null, auth: undefined } }),
 }));

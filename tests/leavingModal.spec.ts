@@ -9,7 +9,9 @@ test.describe('離脱する場合のテスト', () => {
     await page.getByRole('textbox', { name: 'メールアドレス' }).fill(email);
     await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
     await page.getByRole('button', { name: 'ログイン' }).click();
-    await page.getByRole('link', { name: 'Form' }).click();
+    // ログイン完了を待ち、直接/formに遷移
+    await page.waitForURL((url) => !url.pathname.includes('/login'));
+    await page.goto(`${baseURL}form`);
   });
   test('フォームを入力し、離脱しようとするとconfirmが表示される', async ({ page }) => {
     await page.getByLabel('eito').check();
