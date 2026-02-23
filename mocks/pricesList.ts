@@ -122,6 +122,7 @@ export const mockPricesListRaw: PricesHelpsList = {
 export const mockPricesListErrorRaw: PricesHelpsList = {
   data: [],
   error: {
+    name: 'PostgrestError',
     message: 'error',
     details: 'error',
     hint: 'This is a hint',
