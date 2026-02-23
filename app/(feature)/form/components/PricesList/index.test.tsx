@@ -10,7 +10,7 @@ const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
 
 const mockFailedData = {
   data: [],
-  error: { message: 'string', details: 'string', hint: 'string', code: 'string' },
+  error: { name: 'PostgrestError', message: 'string', details: 'string', hint: 'string', code: 'string' },
 };
 
 describe('PricesList', () => {
