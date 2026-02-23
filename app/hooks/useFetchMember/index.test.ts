@@ -12,6 +12,7 @@ const mockErrorResponse = {
   result: {
     data: null,
     error: {
+      name: 'PostgrestError',
       message: '失敗',
       details: '失敗',
       hint: '失敗',
