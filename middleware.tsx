@@ -68,7 +68,6 @@ export async function middleware(req: NextRequest) {
     redirectUrl.pathname = '/login';
     return NextResponse.redirect(redirectUrl);
   }
-  NextResponse.redirect(req.nextUrl);
 
   return response;
 }
