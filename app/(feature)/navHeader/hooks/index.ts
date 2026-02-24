@@ -1,1 +1,1 @@
-export { useSignOut } from './useSingOut';
+export { useSignOut } from './useSignOut';
