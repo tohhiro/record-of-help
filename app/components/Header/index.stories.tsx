@@ -14,11 +14,18 @@ const mockNavAdminItems: NavAdminType = { Form: './form', Dashboard: './dashboar
 const mockNavMemberItems: NavMemberType = { Dashboard: './dashboard' };
 
 export const Admin: Story = {
-  args: { links: mockNavAdminItems, onClick: () => {}, loginUser: 'test@test.com' },
+  args: { links: mockNavAdminItems, onClick: (e) => { e.preventDefault(); }, loginUser: 'test@test.com' },
 };
 
 export const Member: Story = {
-  args: { links: mockNavMemberItems, onClick: () => {}, loginUser: 'test@test.com' },
+  args: { links: mockNavMemberItems, onClick: (e) => { e.preventDefault(); }, loginUser: 'test@test.com' },
 };
 
-export const NotLogin: Story = { args: { links: mockNavMemberItems, onClick: () => {} } };
+export const NotLogin: Story = {
+  args: {
+    links: mockNavMemberItems,
+    onClick: (e) => {
+      e.preventDefault();
+    },
+  },
+};
