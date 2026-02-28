@@ -12,15 +12,18 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const { data } = await supabase.auth.getSession();
-      const auth = await fetchAuth({ email: data.session?.user.email || null });
-
-      if (data.session) {
-        updateLoginUser({
-          id: data.session?.user.id,
-          email: data.session?.user.email!,
-          auth: auth.result?.data?.[0]?.admin!,
-        });
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          const auth = await fetchAuth({ email: data.session?.user.email || null });
+          updateLoginUser({
+            id: data.session?.user.id,
+            email: data.session?.user.email!,
+            auth: auth.result?.data?.[0]?.admin!,
+          });
+        }
+      } catch (error) {
+        console.warn('[SupabaseListener] セッション取得に失敗:', error);
       }
     };
     getUserInfo();
@@ -32,13 +35,22 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
         updateLoginUser({ id: null, email: null, auth: undefined });
         return;
       }
-      const auth = await fetchAuth({ email: session.user.email || null });
-
-      updateLoginUser({
-        id: session.user.id,
-        email: session.user.email!,
-        auth: auth.result?.data?.[0]?.admin!,
-      });
+      try {
+        const auth = await fetchAuth({ email: session.user.email || null });
+        updateLoginUser({
+          id: session.user.id,
+          email: session.user.email!,
+          auth: auth.result?.data?.[0]?.admin!,
+        });
+      } catch (error) {
+        // fetchAuth失敗時でも基本情報は更新（authはundefinedのまま）
+        console.warn('[SupabaseListener] admin判定に失敗:', error);
+        updateLoginUser({
+          id: session.user.id,
+          email: session.user.email!,
+          auth: undefined,
+        });
+      }
       if (session.access_token !== accessToken) router.refresh();
     });
 

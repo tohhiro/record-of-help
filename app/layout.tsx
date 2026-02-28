@@ -1,7 +1,7 @@
 import { NavHeader } from '@/app/(feature)/navHeader';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { type PropsWithChildren } from 'react';
-import { supabase } from './libs/supabase';
+import { createSupabaseServerClient } from './libs/supabaseServer';
 import './styles/globals.css';
 
 export const metadata = {
@@ -10,6 +10,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: PropsWithChildren) {
+  const supabase = createSupabaseServerClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();

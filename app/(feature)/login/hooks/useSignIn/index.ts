@@ -1,4 +1,5 @@
 import { supabase } from '@/app/libs/supabase';
+import { useStore } from '@/app/store';
 
 export type Props = {
   email: string;
@@ -6,6 +7,8 @@ export type Props = {
 };
 
 export const useSignIn = () => {
+  const { updateLoginUser } = useStore();
+
   const signIn = async (
     args: Props,
     cb: { onSuccess: (_isAdmin: boolean) => void; onError: (_error: any) => void },
@@ -25,6 +28,14 @@ export const useSignIn = () => {
       } catch {
         // クエリ失敗時は非adminとしてフォールバック
       }
+
+      // ログイン直後にZustandストアを更新（SupabaseListenerのフォールバック）
+      updateLoginUser({
+        id: result.data.user.id,
+        email: result.data.user.email!,
+        auth: isAdmin,
+      });
+
       cb.onSuccess(isAdmin);
     } else {
       cb.onError(result.error);

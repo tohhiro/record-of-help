@@ -20,7 +20,7 @@ export const Header = ({
   onClick,
 }: {
   links: NavAdminType | NavMemberType;
-  onClick: () => void;
+  onClick: (_e: React.MouseEvent) => void;
   loginUser?: string | null;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -91,7 +91,7 @@ export const Header = ({
                 ))}
 
                 <li className={menuLiStyle()}>
-                  <Link href="/login" className={menuLink()} onClick={onClick}>
+                  <Link href="/login" className={menuLink()} onClick={(e) => onClick(e)}>
                     {loginUser}
                   </Link>
                 </li>
