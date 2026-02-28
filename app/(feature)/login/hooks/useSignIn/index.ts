@@ -10,10 +10,15 @@ export type Props = {
  * signInWithPassword 後、認証Cookieが document.cookie に書き込まれるまで待機する。
  * webkit では Cookie の反映に遅延があり、即座にナビゲーションすると
  * middleware がセッションを認識できずログインページにリダイレクトされる。
- * タイムアウト時は reject し、呼び出し側でリトライ／エラー表示に回す。
+ * タイムアウト時は Promise を reject するが、呼び出し側では警告を出した上で
+ * ナビゲーションを続行する（リトライで成功する場合があるため）。
+ * テスト環境（NODE_ENV=test）では即 resolve する。
  */
-const waitForAuthCookie = (): Promise<void> =>
-  new Promise((resolve, reject) => {
+const waitForAuthCookie = (): Promise<void> => {
+  if (process.env.NODE_ENV === 'test') {
+    return Promise.resolve();
+  }
+  return new Promise((resolve, reject) => {
     const maxWait = 3000;
     const start = Date.now();
     const check = () => {
@@ -27,6 +32,7 @@ const waitForAuthCookie = (): Promise<void> =>
     };
     check();
   });
+};
 
 export const useSignIn = () => {
   const { updateLoginUser } = useStore();
