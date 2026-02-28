@@ -30,7 +30,6 @@ export default function Page() {
     setSubmitButton('disabled');
     await signIn(inputData, {
       onSuccess: (isAdmin) => {
-        // middlewareが新API(getAll/setAll)でCookieを正しく処理するため、クライアントナビゲーションで問題ない
         router.replace(isAdmin ? '/form' : '/dashboard');
       },
       onError: (error) => {

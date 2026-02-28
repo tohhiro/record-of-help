@@ -6,6 +6,34 @@ export type Props = {
   password: string;
 };
 
+/**
+ * signInWithPassword 後、認証Cookieが document.cookie に書き込まれるまで待機する。
+ * webkit では Cookie の反映に遅延があり、即座にナビゲーションすると
+ * middleware がセッションを認識できずログインページにリダイレクトされる。
+ * タイムアウト時は Promise を reject するが、呼び出し側では警告を出した上で
+ * ナビゲーションを続行する（リトライで成功する場合があるため）。
+ * テスト環境（NODE_ENV=test）では即 resolve する。
+ */
+const waitForAuthCookie = (): Promise<void> => {
+  if (process.env.NODE_ENV === 'test') {
+    return Promise.resolve();
+  }
+  return new Promise((resolve, reject) => {
+    const maxWait = 3000;
+    const start = Date.now();
+    const check = () => {
+      if (document.cookie.includes('sb-')) {
+        resolve();
+      } else if (Date.now() - start > maxWait) {
+        reject(new Error('認証Cookieの反映がタイムアウトしました'));
+      } else {
+        setTimeout(check, 50);
+      }
+    };
+    check();
+  });
+};
+
 export const useSignIn = () => {
   const { updateLoginUser } = useStore();
 
@@ -35,6 +63,14 @@ export const useSignIn = () => {
         email: result.data.user.email!,
         auth: isAdmin,
       });
+
+      // webkit対応: Cookie反映を待ってからナビゲーション
+      try {
+        await waitForAuthCookie();
+      } catch {
+        // タイムアウト時もナビゲーションを試行（リトライで成功する場合がある）
+        console.warn('認証Cookieの反映待ちがタイムアウトしました。ナビゲーションを続行します。');
+      }
 
       cb.onSuccess(isAdmin);
     } else {

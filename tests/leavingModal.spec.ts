@@ -10,7 +10,7 @@ test.describe('離脱する場合のテスト', () => {
     await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
     await page.getByRole('button', { name: 'ログイン' }).click();
     // ログイン完了を待ち、/formへのリダイレクトを確認
-    await page.waitForURL((url) => url.pathname.includes('/form'));
+    await expect(page).toHaveURL(/\/form/, { timeout: 30000 });
     await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
   });
   test('フォームを入力し、離脱しようとするとconfirmが表示される', async ({ page }) => {
