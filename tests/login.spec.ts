@@ -33,7 +33,7 @@ test.describe('ログインのテスト', () => {
     await page.getByRole('button', { name: 'ログイン' }).click();
 
     // ログイン成功後にリダイレクトされることを確認
-    await page.waitForURL((url) => !url.pathname.includes('/login'));
+    await expect(page).not.toHaveURL(/\/login/, { timeout: 30000 });
 
     await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
     await expect(page.getByText(email)).toBeVisible();

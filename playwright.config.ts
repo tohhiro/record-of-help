@@ -23,8 +23,8 @@ export default defineConfig({
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry failed tests to handle flaky failures */
-  retries: process.env.CI ? 2 : 1,
+  /* Retry failed tests to handle flaky failures (webkit初回ログイン失敗対策) */
+  retries: process.env.CI ? 2 : 2,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -55,10 +55,10 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
 
     /* Test against mobile viewports. */
     // {

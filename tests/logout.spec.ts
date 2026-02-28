@@ -11,7 +11,7 @@ test('ログアウトするとヘッダーのリンクが非表示になる', as
   await page.getByRole('button', { name: 'ログイン' }).click();
 
   // ログイン完了を待つ（URLが/loginから変わるまで）
-  await page.waitForURL((url) => !url.pathname.includes('/login'));
+  await expect(page).not.toHaveURL(/\/login/, { timeout: 30000 });
 
   await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
 
