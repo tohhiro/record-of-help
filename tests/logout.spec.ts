@@ -1,14 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { fillAndLogin } from './helpers/login';
 
 const email = process.env.EMAIL as string;
 const password = process.env.PASSWORD as string;
 
 test('ログアウトするとヘッダーのリンクが非表示になる', async ({ page, baseURL }) => {
   await page.goto(`${baseURL}login`);
-
-  await page.getByRole('textbox', { name: 'メールアドレス' }).fill(email);
-  await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
-  await page.getByRole('button', { name: 'ログイン' }).click();
+  await fillAndLogin(page, email, password);
 
   // ログイン完了を待つ（URLが/loginから変わるまで）
   await expect(page).not.toHaveURL(/\/login/, { timeout: 30000 });

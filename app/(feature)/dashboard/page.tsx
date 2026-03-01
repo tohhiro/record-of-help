@@ -1,5 +1,6 @@
 'use client';
 import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks';
+import { getNowMonthFirstLast } from '@/app/(feature)/dashboard/hooks/useFetchRawsData/helpers';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { SelectBox } from '@/app/components/SelectBox';
@@ -31,18 +32,6 @@ const thData = {
 };
 
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
-
-const getNowMonthFirstLast = () => {
-  const nowDate = new Date();
-  const year = nowDate.getFullYear();
-  const month = nowDate.getMonth();
-  const nowMonthFirst = new Date(year, month, 2);
-  const nowMonthLast = new Date(year, month + 1);
-  return {
-    startDate: nowMonthFirst.toISOString().split('T')[0],
-    endDate: nowMonthLast.toISOString().split('T')[0],
-  };
-};
 
 export default function Page() {
   const [isDisplaySearchPanel, setIsDisplaySearchPanel] = useState(true);

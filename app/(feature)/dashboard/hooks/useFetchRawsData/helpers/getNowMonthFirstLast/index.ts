@@ -1,25 +1,24 @@
 export const getNowMonthFirstLast = () => {
   const nowDate = new Date();
-  const year = nowDate.getFullYear();
-  const month = nowDate.getMonth();
 
-  const nowMonthFirst = new Date(year, month, 1);
+  // JST ベースで年・月を取得（ランタイムのローカルTZに依存しない）
+  const parts = new Intl.DateTimeFormat('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(nowDate);
 
-  const nextMonthFirst = new Date(year, month + 1, 1);
-  const nowMonthLast = new Date(nextMonthFirst.getTime() - 1);
+  const year = Number(parts.find((p) => p.type === 'year')!.value);
+  const month = Number(parts.find((p) => p.type === 'month')!.value);
 
-  const formatDateInJST = (date: Date) =>
-    new Intl.DateTimeFormat('ja-JP', {
-      timeZone: 'Asia/Tokyo',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-      .format(date)
-      .replaceAll('/', '-');
+  // month は 1-based。new Date(year, month, 0) で当月の最終日を取得
+  // （日数計算はカレンダー上の値なのでTZに依存しない）
+  const lastDay = new Date(year, month, 0).getDate();
 
+  const pad2 = (n: number) => String(n).padStart(2, '0');
   return {
-    startDate: formatDateInJST(nowMonthFirst),
-    endDate: formatDateInJST(nowMonthLast),
+    startDate: `${year}-${pad2(month)}-01`,
+    endDate: `${year}-${pad2(month)}-${pad2(lastDay)}`,
   };
 };
