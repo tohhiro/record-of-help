@@ -12,14 +12,20 @@ async function fillWithRetry(
   // hydration による値消失をポーリングで検出・再入力
   const maxRetries = 3;
   for (let i = 0; i < maxRetries; i++) {
-    if ((await locator.inputValue()) === value) return;
-    // Playwright の auto-wait を活用して値の反映を待つ
-    try {
-      await expect(locator).toHaveValue(value, { timeout: 500 });
+    const currentValue = await locator.inputValue();
+    if (currentValue === value) {
       return;
-    } catch {
-      await locator.fill(value);
     }
+    // 最終リトライで一致しなければ、値そのものは出力せずにエラーを投げる
+    if (i === maxRetries - 1) {
+      const maskedExpected = '*'.repeat(Math.min(value.length, 8));
+      throw new Error(
+        `fillWithRetry: input value did not stabilize after ${maxRetries} retries ` +
+          `(expected length=${value.length}, actual length=${currentValue.length}, ` +
+          `masked expected="${maskedExpected}")`,
+      );
+    }
+    await locator.fill(value);
   }
 }
 
