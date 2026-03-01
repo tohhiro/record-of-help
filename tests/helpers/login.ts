@@ -2,16 +2,19 @@ import { type Page, expect } from '@playwright/test';
 
 /**
  * 入力フィールドに値を fill し、hydration で消えた場合はポーリングで再入力する。
- * 固定 sleep ではなく条件ベースの待機を使用する。
+ * fill 後にバックオフ付きで値の安定を確認し、hydration による遅延クリアにも対応する。
  */
 async function fillWithRetry(
   locator: ReturnType<Page['getByRole']>,
   value: string,
 ) {
   await locator.fill(value);
-  // hydration による値消失をポーリングで検出・再入力
+  // hydration による値消失をバックオフ付きポーリングで検出・再入力
   const maxRetries = 3;
+  const backoffMs = [200, 400, 800];
   for (let i = 0; i < maxRetries; i++) {
+    // hydration が遅延して値をクリアするケースに備え、バックオフ後に検証
+    await new Promise((r) => setTimeout(r, backoffMs[i]));
     const currentValue = await locator.inputValue();
     if (currentValue === value) {
       return;
