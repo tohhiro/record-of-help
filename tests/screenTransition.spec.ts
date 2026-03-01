@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { fillAndLogin } from './helpers/login';
 
 const email = process.env.EMAIL as string;
 const password = process.env.PASSWORD as string;
@@ -6,10 +7,7 @@ const password = process.env.PASSWORD as string;
 test.describe('画面遷移のテスト', () => {
   test.beforeEach(async ({ page, baseURL }) => {
     await page.goto(`${baseURL}login`);
-
-    await page.getByRole('textbox', { name: 'メールアドレス' }).fill(email);
-    await page.getByRole('textbox', { name: 'パスワード' }).fill(password);
-    await page.getByRole('button', { name: 'ログイン' }).click();
+    await fillAndLogin(page, email, password);
 
     // ログイン成功後にリダイレクトされることを確認
     await expect(page).not.toHaveURL(/\/login/, { timeout: 30000 });
