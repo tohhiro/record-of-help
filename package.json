@@ -51,7 +51,7 @@
     "@types/jest": "^29.5.8",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "autoprefixer": "^10.4.24",
+    "autoprefixer": "^10.4.27",
     "chromatic": "^11.11.0",
     "eslint": "8.53.0",
     "eslint-config-airbnb": "^19.0.4",
