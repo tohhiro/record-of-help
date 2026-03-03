@@ -34,7 +34,7 @@ export default function Page() {
       },
       onError: (error) => {
         // eslint-disable-next-line no-alert
-        alert(`ログインに失敗しました。\n ${error.message}`);
+        alert(`ログインに失敗しました。\n ${error?.message ?? '不明なエラーが発生しました'}`);
         setSubmitButton('primary');
       },
     });

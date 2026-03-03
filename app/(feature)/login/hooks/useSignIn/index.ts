@@ -1,5 +1,6 @@
 import { supabase } from '@/app/libs/supabase';
 import { useStore } from '@/app/store';
+import { type AuthError } from '@supabase/supabase-js';
 
 export type Props = {
   email: string;
@@ -39,7 +40,7 @@ export const useSignIn = () => {
 
   const signIn = async (
     args: Props,
-    cb: { onSuccess: (_isAdmin: boolean) => void; onError: (_error: any) => void },
+    cb: { onSuccess: (_isAdmin: boolean) => void; onError: (_error: AuthError | null) => void },
   ) => {
     const result = await supabase.auth.signInWithPassword({ ...args });
 
@@ -60,7 +61,7 @@ export const useSignIn = () => {
       // ログイン直後にZustandストアを更新（SupabaseListenerのフォールバック）
       updateLoginUser({
         id: result.data.user.id,
-        email: result.data.user.email!,
+        email: result.data.user.email ?? '',
         auth: isAdmin,
       });
 

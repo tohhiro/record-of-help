@@ -45,7 +45,7 @@ export async function fillAndLogin(
   password: string,
 ) {
   const emailInput = page.getByRole('textbox', { name: 'メールアドレス' });
-  const passwordInput = page.getByRole('textbox', { name: 'パスワード' });
+  const passwordInput = page.getByLabel('パスワード');
 
   await fillWithRetry(emailInput, email);
   await fillWithRetry(passwordInput, password);
