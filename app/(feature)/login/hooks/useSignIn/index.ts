@@ -76,7 +76,6 @@ export const useSignIn = () => {
       cb.onSuccess(isAdmin);
     } else {
       cb.onError(result.error);
-      throw new Error(result.error?.message || 'Unknown error occurred');
     }
   };
   return { signIn };
