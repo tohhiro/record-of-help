@@ -61,7 +61,7 @@ export const useSignIn = () => {
       // ログイン直後にZustandストアを更新（SupabaseListenerのフォールバック）
       updateLoginUser({
         id: result.data.user.id,
-        email: result.data.user.email ?? '',
+        email: result.data.user.email ?? null,
         auth: isAdmin,
       });
 
