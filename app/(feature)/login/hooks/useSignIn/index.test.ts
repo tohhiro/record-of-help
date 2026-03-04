@@ -111,7 +111,7 @@ describe('useSignIn', () => {
     expect(onError).not.toHaveBeenCalled();
   });
 
-  test('signIn失敗時にonErrorが呼ばれ、エラーをthrowすること', async () => {
+  test('signIn失敗時にonErrorが呼ばれること', async () => {
     const fakeError = { message: '認証に失敗しました', status: 400 };
 
     signInWithPasswordSpy.mockResolvedValueOnce({
@@ -124,16 +124,16 @@ describe('useSignIn', () => {
 
     const { result } = renderHook(() => useSignIn());
 
-    await expect(result.current.signIn(mockArgs, { onSuccess, onError })).rejects.toThrow(
-      '認証に失敗しました',
-    );
+    await act(async () => {
+      await result.current.signIn(mockArgs, { onSuccess, onError });
+    });
 
     expect(signInWithPasswordSpy).toHaveBeenCalledWith(mockArgs);
     expect(onSuccess).not.toHaveBeenCalled();
     expect(onError).toHaveBeenCalledWith(fakeError);
   });
 
-  test('signIn失敗時にerrorがnullでもUnknown error occurredをthrowすること', async () => {
+  test('signIn失敗時にerrorがnullでもonErrorがnullで呼ばれること', async () => {
     signInWithPasswordSpy.mockResolvedValueOnce({
       data: { session: null, user: null },
       error: null,
@@ -144,9 +144,9 @@ describe('useSignIn', () => {
 
     const { result } = renderHook(() => useSignIn());
 
-    await expect(result.current.signIn(mockArgs, { onSuccess, onError })).rejects.toThrow(
-      'Unknown error occurred',
-    );
+    await act(async () => {
+      await result.current.signIn(mockArgs, { onSuccess, onError });
+    });
 
     expect(onSuccess).not.toHaveBeenCalled();
     expect(onError).toHaveBeenCalledWith(null);
