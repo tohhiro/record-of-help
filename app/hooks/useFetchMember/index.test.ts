@@ -37,6 +37,9 @@ describe('useFetchMember', () => {
     const { result } = renderHook(() => useFetchMember());
     const response = await result.current.fetchAuth({ email: 'test@test.com' });
 
+    const { mutate } = jest.requireMock('swr');
+    expect(mutate).toHaveBeenCalledWith('admin_auth_test@test.com', expect.any(Promise));
+
     const { supabase } = jest.requireMock('@/app/libs/supabase');
     expect(supabase.from).toHaveBeenCalledWith('members_list');
     expect(mockSelect).toHaveBeenCalledWith('admin');

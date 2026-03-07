@@ -39,6 +39,9 @@ describe('useDeleteRecord', () => {
       response = await result.current.deleteRecord({ ...mockArgs });
     });
 
+    const useSWRMutation = jest.requireMock('swr/mutation').default;
+    expect(useSWRMutation).toHaveBeenCalledWith('delete-raws-data', expect.any(Function));
+
     const { supabase } = jest.requireMock('@/app/libs/supabase');
     expect(supabase.from).toHaveBeenCalledWith('raws_data');
     expect(mockUpdate).toHaveBeenCalledWith({ del_flag: true });
