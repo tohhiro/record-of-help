@@ -39,7 +39,7 @@ export default function Page() {
       },
       onError: (_error) => {
         // eslint-disable-next-line no-alert
-        alert(`エラーが発生しました: ${_error.message}`);
+        alert(`エラーが発生しました: ${_error instanceof Error ? _error.message : '不明なエラー'}`);
       },
     });
   };

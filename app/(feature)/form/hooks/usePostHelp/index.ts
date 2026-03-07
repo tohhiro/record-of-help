@@ -21,7 +21,7 @@ export const usePostHelp = () => {
 
   const postHelp = async (
     args: Props,
-    cb: { onSuccess: () => void; onError: (_error: any) => void },
+    cb: { onSuccess: () => void; onError: (_error: unknown) => void },
   ) => {
     try {
       const result = await trigger(args);
@@ -30,13 +30,11 @@ export const usePostHelp = () => {
         cb.onSuccess();
       } else {
         cb.onError(result);
-        throw new Error(result.statusText);
       }
 
       return { status: result.status, message: result.statusText };
     } catch (e) {
       cb.onError(e);
-      throw e;
     }
   };
   return {

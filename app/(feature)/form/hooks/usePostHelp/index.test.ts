@@ -58,12 +58,10 @@ describe('usePostHelp', () => {
 
     const { result } = renderHook(() => usePostHelp());
 
-    await expect(
-      result.current.postHelp(mockArgs, {
-        onSuccess: mockOnSuccess,
-        onError: mockOnError,
-      }),
-    ).rejects.toThrow(/Bad Request/);
+    await result.current.postHelp(mockArgs, {
+      onSuccess: mockOnSuccess,
+      onError: mockOnError,
+    });
 
     expect(triggerMock).toHaveBeenCalledWith(mockArgs);
     expect(mockOnError).toHaveBeenCalled();
@@ -79,15 +77,13 @@ describe('usePostHelp', () => {
 
     const { result } = renderHook(() => usePostHelp());
 
-    await expect(
-      result.current.postHelp(mockArgs, {
-        onSuccess: mockOnSuccess,
-        onError: mockOnError,
-      }),
-    ).rejects.toThrow('Network Error');
+    await result.current.postHelp(mockArgs, {
+      onSuccess: mockOnSuccess,
+      onError: mockOnError,
+    });
 
     expect(triggerMock).toHaveBeenCalledWith(mockArgs);
-    expect(mockOnError).toHaveBeenCalled();
+    expect(mockOnError).toHaveBeenCalledWith(expect.any(Error));
     expect(mockOnSuccess).not.toHaveBeenCalled();
   });
 });
