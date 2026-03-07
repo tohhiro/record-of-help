@@ -65,5 +65,6 @@ describe('NavHeader', () => {
 
     expect(useStore).toHaveBeenCalled();
     expect(signOut).toHaveBeenCalled();
+    expect(window.location.href).toBe('/login');
   });
 });
