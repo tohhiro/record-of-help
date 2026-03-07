@@ -25,7 +25,7 @@ describe('SelectBox', () => {
       await user.click(select);
       await user.click(await screen.findByText(option.label));
       // react-selectは選択値をhidden inputに格納する
-      const hiddenInput = container.querySelector('input[type="hidden"]');
+      const hiddenInput = container.querySelector('input[type="hidden"][name="selects"]');
       expect(hiddenInput).toHaveValue(option.value);
     }
   });
