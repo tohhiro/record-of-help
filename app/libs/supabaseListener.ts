@@ -18,8 +18,8 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
           const auth = await fetchAuth({ email: data.session?.user.email || null });
           updateLoginUser({
             id: data.session?.user.id,
-            email: data.session?.user.email!,
-            auth: auth.result?.data?.[0]?.admin!,
+            email: data.session?.user.email ?? null,
+            auth: auth.result?.data?.[0]?.admin === true,
           });
         }
       } catch (error) {
@@ -39,15 +39,15 @@ const SupabaseListener: React.FC<{ accessToken?: string }> = ({ accessToken }) =
         const auth = await fetchAuth({ email: session.user.email || null });
         updateLoginUser({
           id: session.user.id,
-          email: session.user.email!,
-          auth: auth.result?.data?.[0]?.admin!,
+          email: session.user.email ?? null,
+          auth: auth.result?.data?.[0]?.admin === true,
         });
       } catch (error) {
         // fetchAuth失敗時でも基本情報は更新（authはundefinedのまま）
         console.warn('[SupabaseListener] admin判定に失敗:', error);
         updateLoginUser({
           id: session.user.id,
-          email: session.user.email!,
+          email: session.user.email ?? null,
           auth: undefined,
         });
       }
