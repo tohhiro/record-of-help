@@ -1,67 +1,65 @@
 import { renderHook } from '@testing-library/react';
 import { useFetchMember } from '.';
 
-const mockSuccessResponse = {
-  result: {
-    data: [{ admin: true }],
-    error: null,
-  },
-};
+const mockSelect = jest.fn().mockReturnThis();
+const mockEq = jest.fn();
 
-const mockErrorResponse = {
-  result: {
-    data: null,
-    error: {
-      name: 'PostgrestError',
-      message: '失敗',
-      details: '失敗',
-      hint: '失敗',
-      code: '500',
-    },
+jest.mock('@/app/libs/supabase', () => ({
+  supabase: {
+    from: jest.fn(() => ({
+      select: mockSelect,
+    })),
   },
+}));
+
+jest.mock('swr', () => ({
+  mutate: jest.fn((_key: string, promise: Promise<unknown>) => promise),
+}));
+
+const mockSuccessData = [{ admin: true }];
+const mockErrorData = {
+  name: 'PostgrestError',
+  message: '失敗',
+  details: '失敗',
+  hint: '失敗',
+  code: '500',
 };
 
 describe('useFetchMember', () => {
-  let fetchAuth: jest.SpyInstance;
-
-  afterEach(() => {
-    fetchAuth.mockRestore();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockSelect.mockReturnValue({ eq: mockEq });
   });
 
-  test('引数にemailを渡すことができる', async () => {
-    const { result } = renderHook(() => useFetchMember());
-    fetchAuth = jest.spyOn(result.current, 'fetchAuth');
-    result.current.fetchAuth({
-      email: 'test@test.com',
-    });
-    expect(fetchAuth).toHaveBeenCalledWith({
-      email: 'test@test.com',
-    });
-  });
+  test('成功時、supabaseからadminデータを取得できる', async () => {
+    mockEq.mockResolvedValueOnce({ data: mockSuccessData, error: null });
 
-  test('レスポンスが成功の場合、resultのdataにはadminがtrueで取得できる', async () => {
     const { result } = renderHook(() => useFetchMember());
-    fetchAuth = jest
-      .spyOn(result.current, 'fetchAuth')
-      .mockResolvedValueOnce({ ...mockSuccessResponse });
-
     const response = await result.current.fetchAuth({ email: 'test@test.com' });
-    expect(response).toStrictEqual({
-      ...mockSuccessResponse,
-    });
-    expect(fetchAuth).toHaveBeenCalled();
+
+    const { supabase } = jest.requireMock('@/app/libs/supabase');
+    expect(supabase.from).toHaveBeenCalledWith('members_list');
+    expect(mockSelect).toHaveBeenCalledWith('admin');
+    expect(mockEq).toHaveBeenCalledWith('email', 'test@test.com');
+    expect(response.result).toStrictEqual({ data: mockSuccessData, error: null });
   });
 
-  test('レスポンスが失敗の場合、resultのerrorにオブジェクトが入った状態で取得できる', async () => {
-    const { result } = renderHook(() => useFetchMember());
-    fetchAuth = jest.spyOn(result.current, 'fetchAuth').mockResolvedValueOnce({
-      ...mockErrorResponse,
-    });
+  test('失敗時、supabaseからエラーレスポンスを取得できる', async () => {
+    mockEq.mockResolvedValueOnce({ data: null, error: mockErrorData });
 
+    const { result } = renderHook(() => useFetchMember());
     const response = await result.current.fetchAuth({ email: 'test@test.com' });
-    expect(response).toStrictEqual({
-      ...mockErrorResponse,
-    });
-    expect(fetchAuth).toHaveBeenCalled();
+
+    expect(response.result).toStrictEqual({ data: null, error: mockErrorData });
+  });
+
+  test('supabaseが例外をスローした場合、エラーがスローされる', async () => {
+    mockEq.mockRejectedValueOnce(new Error('Network error'));
+
+    const { result } = renderHook(() => useFetchMember());
+
+    await expect(result.current.fetchAuth({ email: 'test@test.com' })).rejects.toThrow(
+      'Error: Network error',
+    );
   });
 });
