@@ -33,6 +33,28 @@
     "@typescript-eslint/consistent-type-imports": [
       "error",
       { "prefer": "type-imports", "disallowTypeAnnotations": false }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.property.name='forEach'] > :function[async=true]",
+        "message": "forEach に async コールバックを渡すと await が無視されます。for...of または Promise.all + map を使用してください。"
+      }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "CallExpression[callee.property.name='forEach'] > :function[async=true]",
+            "message": "forEach に async コールバックを渡すと await が無視されます。for...of または Promise.all + map を使用してください。"
+          }
+        ],
+        "no-await-in-loop": "off"
+      }
+    }
+  ]
 }
