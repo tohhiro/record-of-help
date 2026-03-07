@@ -2,12 +2,32 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Header, headerText } from '.';
 
+jest.mock('next/link', () => {
+  return ({
+    children,
+    href,
+    ...rest
+  }: {
+    children: React.ReactNode;
+    href: string;
+    onClick?: React.MouseEventHandler;
+  }) => (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  );
+});
+
 const mockNavItems = { Form: './form', Dashboard: './dashboard' };
 
 const mockLoginUser = 'test@test.com';
 
 describe('Header', () => {
-  const mockData = { links: mockNavItems, loginUser: mockLoginUser, onClick: jest.fn() };
+  const mockData = {
+    links: mockNavItems,
+    loginUser: mockLoginUser,
+    onClick: jest.fn((e: React.MouseEvent) => e.preventDefault()),
+  };
 
   afterEach(() => {
     mockData.onClick.mockClear();

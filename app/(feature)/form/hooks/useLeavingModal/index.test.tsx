@@ -15,7 +15,7 @@ const renderForm = () => {
     return (
       <form>
         <input type="text" {...register('input')} />
-        <a href="https://example.com">Link</a>
+        <a href="#leave">Link</a>
       </form>
     );
   };
