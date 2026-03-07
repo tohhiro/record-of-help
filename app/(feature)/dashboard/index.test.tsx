@@ -59,15 +59,15 @@ describe('Dashboard', () => {
         expect(button).toBeInTheDocument();
       });
 
-      test('非表示のボタンをクリックすると検索パネルが表示される', async () => {
-        const labelNames = ['対象者を選択', '開始', '終了', '検索', '表示'];
+      test('表示ボタンをクリックすると検索パネルが表示される', async () => {
+        const labelNames = ['対象者を選択', '開始', '終了', '検索', '非表示'];
         render(<Dashboard />);
         const button = screen.getByRole('button', { name: '表示' });
 
         await user.click(button);
-        labelNames.forEach(async (text) => {
+        for (const text of labelNames) {
           expect(await screen.findByText(text)).toBeInTheDocument();
-        });
+        }
       });
     });
   });

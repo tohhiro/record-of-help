@@ -16,15 +16,17 @@ describe('SelectBox', () => {
   });
 
   test('SelectBoxのそれぞれの要素をクリックすると、対応する値になっている', async () => {
-    render(<SelectBox {...mockValues} />);
+    const { container } = render(<SelectBox {...mockValues} />);
 
     const select = screen.getByRole('combobox');
     const user = userEvent.setup();
-    await user.click(select);
 
-    mockOptions.forEach(async (option) => {
-      await user.click(screen.getByText(option.label));
-      expect(select).toHaveAttribute('value', option.value);
-    });
+    for (const option of mockOptions) {
+      await user.click(select);
+      await user.click(await screen.findByText(option.label));
+      // react-selectは選択値をhidden inputに格納する
+      const hiddenInput = container.querySelector('input[type="hidden"][name="selects"]');
+      expect(hiddenInput).toHaveValue(option.value);
+    }
   });
 });
