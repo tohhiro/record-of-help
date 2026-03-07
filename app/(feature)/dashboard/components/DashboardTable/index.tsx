@@ -1,5 +1,5 @@
 import { Button } from '@/app/components/Button';
-import { Table } from '@/app/components/Table';
+import { Table, type Props as TableProps } from '@/app/components/Table';
 import type { Database } from '@/supabase/schema';
 import { useDeleteRecord } from './hooks/useDeleteRecord';
 
@@ -28,12 +28,13 @@ const sortData = (
   data: ConvertedData[] | null,
   th: Record<string, string>,
   handleClick: (_id: string) => void,
-) => {
+): TableProps | null => {
   if (!data) return null;
   return data.map((item) => {
-    return Object.keys(th).map((key) => {
+    const row: TableProps[number] = {};
+    Object.keys(th).forEach((key) => {
       if (key === 'id') {
-        return (
+        row[key] = (
           <Button
             key={item.id}
             label="削除"
@@ -42,9 +43,11 @@ const sortData = (
             onClick={() => handleClick(item.id)}
           />
         );
+      } else {
+        row[key] = item[key as keyof typeof item];
       }
-      return item[key as keyof typeof item];
     });
+    return row;
   });
 };
 
@@ -66,7 +69,6 @@ export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: Pro
   const sortedData = sortData(convertedData, th, handleClick);
 
   return (
-    // TODO: asで型を変換しているが、as unknown asを使うのは避けたい
-    <Table thData={th} tdData={sortedData as unknown as Record<string, string | number | null>[]} />
+    <Table thData={th} tdData={sortedData} />
   );
 };
