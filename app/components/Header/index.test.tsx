@@ -3,7 +3,15 @@ import userEvent from '@testing-library/user-event';
 import { Header, headerText } from '.';
 
 jest.mock('next/link', () => {
-  return ({ children, href, ...rest }: { children: React.ReactNode; href: string; onClick?: React.MouseEventHandler }) => (
+  return ({
+    children,
+    href,
+    ...rest
+  }: {
+    children: React.ReactNode;
+    href: string;
+    onClick?: React.MouseEventHandler;
+  }) => (
     <a href={href} {...rest}>
       {children}
     </a>
