@@ -11,12 +11,14 @@ jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 const originalLocation = window.location;
 beforeEach(() => {
   Object.defineProperty(window, 'location', {
+    configurable: true,
     writable: true,
     value: { ...originalLocation, href: originalLocation.href },
   });
 });
 afterEach(() => {
   Object.defineProperty(window, 'location', {
+    configurable: true,
     writable: true,
     value: originalLocation,
   });
