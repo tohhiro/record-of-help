@@ -55,7 +55,9 @@ describe('useDeleteRecord', () => {
     const { result } = renderHook(() => useDeleteRecord());
 
     await act(async () => {
-      await expect(result.current.deleteRecord(mockArgs)).rejects.toThrow();
+      await expect(result.current.deleteRecord(mockArgs)).rejects.toThrow(
+        'Error: Delete failed',
+      );
     });
   });
 });
