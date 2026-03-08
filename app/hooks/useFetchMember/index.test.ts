@@ -62,7 +62,7 @@ describe('useFetchMember', () => {
     const { result } = renderHook(() => useFetchMember());
 
     await expect(result.current.fetchAuth({ email: 'test@test.com' })).rejects.toThrow(
-      'Error: Network error',
+      'Network error',
     );
   });
 });

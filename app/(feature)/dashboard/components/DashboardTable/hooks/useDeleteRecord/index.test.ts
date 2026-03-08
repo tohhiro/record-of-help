@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { useDeleteRecord } from '.';
 
-const mockUpdate = jest.fn().mockReturnThis();
+const mockUpdate = jest.fn();
 const mockEq = jest.fn();
 
 jest.mock('@/app/libs/supabase', () => ({
@@ -56,7 +56,7 @@ describe('useDeleteRecord', () => {
 
     await act(async () => {
       await expect(result.current.deleteRecord(mockArgs)).rejects.toThrow(
-        'Error: Delete failed',
+        'Delete failed',
       );
     });
   });
