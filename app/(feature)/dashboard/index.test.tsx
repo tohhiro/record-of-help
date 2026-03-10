@@ -7,7 +7,7 @@ jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 describe('Dashboard', () => {
   const user = userEvent.setup();
 
-  afterAll(() => {
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
