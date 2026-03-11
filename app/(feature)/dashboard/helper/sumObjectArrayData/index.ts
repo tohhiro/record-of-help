@@ -5,7 +5,7 @@ export const sumObjectArrayData = (data: Props, sumItem: string[]) => {
   const sumEachObject = data?.map((item) => {
     return Object.keys(item).reduce((acc, cur) => {
       if (!item) return acc;
-      if (sumItem.includes(cur) && cur !== null) {
+      if (sumItem.includes(cur) && item[cur as keyof typeof item] != null) {
         return acc + Number(item[cur as keyof typeof item]);
       }
       return acc;
