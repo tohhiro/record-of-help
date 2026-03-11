@@ -3,17 +3,21 @@ import { type PricesHelpsList } from '@/app/types';
 import useSWR from 'swr';
 
 const fetchSupabase = async () => {
-  const { data, error } = await supabase.from('helps_list').select('*, prices_list (*)');
-  return { data, error };
+  try {
+    const { data, error } = await supabase.from('helps_list').select('*, prices_list (*)');
+    return { data, error };
+  } catch (error) {
+    throw new Error(String(error));
+  }
 };
 
-export const useFetchPricesList = (): PricesHelpsList | undefined => {
-  const { data, error } = useSWR('helps_list_and_prices_list', fetchSupabase, {
+export const useFetchPricesList = (): PricesHelpsList => {
+  const { data } = useSWR('helps_list_and_prices_list', fetchSupabase, {
     suspense: true,
   });
 
   return {
     data: data?.data ?? [],
-    error: error ?? null,
+    error: data?.error ?? null,
   };
 };
