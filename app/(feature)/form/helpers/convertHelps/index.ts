@@ -7,9 +7,9 @@ export const convertHelps = (data: string[]) => {
     special: 0,
   };
   return data.reduce((acc, help) => {
-    const tmp = help.split(',');
-    const tmp2 = { [tmp[0]]: Number(tmp[1]) };
+    const [key, priceStr] = help.split(',');
+    const helpEntry = { [key]: Number(priceStr) };
 
-    return { ...acc, ...tmp2 };
+    return { ...acc, ...helpEntry };
   }, defaultHelps);
 };

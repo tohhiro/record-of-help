@@ -20,10 +20,10 @@ describe('Checkbox', () => {
     const checkboxComponent = screen.getByRole('checkbox', { name: mockValues.label });
 
     expect(checkboxComponent).toBeEnabled();
-    expect(checkboxComponent.getAttribute('checked')).toBeNull();
+    expect(checkboxComponent).not.toBeChecked();
 
     const user = userEvent.setup();
     await user.click(checkboxComponent);
-    expect(checkboxComponent.getAttribute('checked'));
+    expect(checkboxComponent).toBeChecked();
   });
 });
