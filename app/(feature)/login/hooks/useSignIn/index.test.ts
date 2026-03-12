@@ -11,7 +11,7 @@ const mockArgs = {
 describe('useSignIn', () => {
   const signInWithPasswordSpy = jest
     .spyOn(Supabase.supabase.auth, 'signInWithPassword')
-    .mockResolvedValue({} as AuthTokenResponse);
+    .mockRejectedValue(new Error('mockResolvedValueOnce not set'));
 
   // members_listクエリのチェーン全体をモック
   const mockSingle = jest.fn();

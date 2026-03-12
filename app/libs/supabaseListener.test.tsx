@@ -44,6 +44,9 @@ const createMockSubscription = (unsubscribe: jest.Mock): Subscription => ({
   unsubscribe,
 });
 
+/** onAuthStateChange のコールバック型 */
+type AuthStateChangeCallback = Parameters<typeof supabase.auth.onAuthStateChange>[0];
+
 describe('SupabaseListener', () => {
   const mockUpdateLoginUser = jest.fn();
   const mockFetchAuth = jest.fn();
@@ -101,10 +104,10 @@ describe('SupabaseListener', () => {
     const mockUnsubscribe = jest.fn();
     jest
       .spyOn(supabase.auth, 'onAuthStateChange')
-      .mockImplementation(((callback: (..._args: unknown[]) => void) => {
+      .mockImplementation((callback: AuthStateChangeCallback) => {
         mockOnAuthHandler.mockImplementation(callback);
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
-      }) as typeof supabase.auth.onAuthStateChange);
+      });
 
     mockFetchAuth.mockResolvedValue({
       result: { data: [{ admin: false }] },
@@ -136,10 +139,10 @@ describe('SupabaseListener', () => {
     const mockUnsubscribe = jest.fn();
     jest
       .spyOn(supabase.auth, 'onAuthStateChange')
-      .mockImplementation(((callback: (..._args: unknown[]) => void) => {
+      .mockImplementation((callback: AuthStateChangeCallback) => {
         mockOnAuthHandler.mockImplementation(callback);
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
-      }) as typeof supabase.auth.onAuthStateChange);
+      });
 
     render(<SupabaseListener accessToken="oldToken" />);
 
