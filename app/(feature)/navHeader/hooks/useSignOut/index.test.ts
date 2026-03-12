@@ -3,13 +3,12 @@ import { type AuthError } from '@supabase/supabase-js';
 import { act, renderHook } from '@testing-library/react';
 import { useSignOut } from '.';
 
-jest.mock('@/app/libs/supabase');
-
 describe('useSignOut', () => {
   let signOutSpy: jest.SpyInstance;
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   test('signOutが成功した場合、onErrorは呼ばれない', async () => {

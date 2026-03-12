@@ -3,15 +3,15 @@ import { type AuthTokenResponse } from '@supabase/supabase-js';
 import { act, renderHook } from '@testing-library/react';
 import { useSignIn } from '.';
 
-jest.mock('@/app/libs/supabase');
-
 const mockArgs = {
   email: 'test@example.com',
   password: 'password123',
 };
 
 describe('useSignIn', () => {
-  const signInWithPasswordSpy = jest.spyOn(Supabase.supabase.auth, 'signInWithPassword');
+  const signInWithPasswordSpy = jest
+    .spyOn(Supabase.supabase.auth, 'signInWithPassword')
+    .mockResolvedValue({} as AuthTokenResponse);
 
   // members_listクエリのチェーン全体をモック
   const mockSingle = jest.fn();
@@ -23,6 +23,10 @@ describe('useSignIn', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 
   test('signIn成功時にonSuccessがisAdmin=trueで呼ばれること', async () => {
