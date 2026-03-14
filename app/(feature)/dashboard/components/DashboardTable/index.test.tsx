@@ -20,10 +20,11 @@ const mockTdDataWithDelFlag = [
 ];
 
 describe('DashboardTable', () => {
-  test('テーブルに2つの氏名が表示され、データにない氏名は表示されない', () => {
+  test('テーブルに3つの氏名が表示され、データにない氏名は表示されない', () => {
     render(<DashboardTable th={mockThData} td={mockRawsData.data} />);
     expect(screen.getByText('eito')).toBeInTheDocument();
     expect(screen.getByText('mei')).toBeInTheDocument();
+    expect(screen.getByText('tohhiro')).toBeInTheDocument();
     expect(screen.queryByText('taro')).not.toBeInTheDocument();
   });
 

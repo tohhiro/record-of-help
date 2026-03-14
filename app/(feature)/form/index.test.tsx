@@ -21,17 +21,18 @@ describe('Form', () => {
   });
 
   describe('radio', () => {
-    test('radioボタンが2つレンダリングされる', () => {
+    test('radioボタンが3つレンダリングされる', () => {
       render(<Form />);
 
       const radioButtons = screen.getAllByRole('radio');
-      expect(radioButtons).toHaveLength(2);
+      expect(radioButtons).toHaveLength(3);
     });
 
     test.each`
       checkboxName | expected
       ${'eito'}    | ${'eito'}
       ${'mei'}     | ${'mei'}
+      ${'tohhiro'} | ${'tohhiro'}
     `('radioボタンのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
       render(<Form />);
 
@@ -43,6 +44,7 @@ describe('Form', () => {
       checkboxName | expected
       ${'eito'}    | ${true}
       ${'mei'}     | ${true}
+      ${'tohhiro'} | ${true}
     `(
       'radioボタンのチェックを入れると、チェックされたradioボタンの属性がcheckedになっている',
       async ({ checkboxName }) => {

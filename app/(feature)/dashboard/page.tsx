@@ -17,6 +17,7 @@ const options: OptionsType[] = [
   { value: 'all', label: 'All' },
   { value: 'eito', label: 'Eito' },
   { value: 'mei', label: 'Mei' },
+  { value: 'tohhiro', label: 'Tohhiro' },
 ];
 
 const thData = {
