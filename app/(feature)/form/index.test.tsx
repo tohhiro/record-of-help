@@ -29,27 +29,27 @@ describe('Form', () => {
     });
 
     test.each`
-      checkboxName | expected
+      radioName    | expected
       ${'eito'}    | ${'eito'}
       ${'mei'}     | ${'mei'}
       ${'tohhiro'} | ${'tohhiro'}
-    `('radioボタンのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
+    `('radioボタンのvalue属性が正しく設定されている', ({ radioName, expected }) => {
       render(<Form />);
 
-      const radioButton = screen.getByRole('radio', { name: checkboxName });
+      const radioButton = screen.getByRole('radio', { name: radioName });
       expect(radioButton).toHaveAttribute('value', expected);
     });
 
     test.each`
-      checkboxName | expected
+      radioName    | expected
       ${'eito'}    | ${true}
       ${'mei'}     | ${true}
       ${'tohhiro'} | ${true}
     `(
       'radioボタンのチェックを入れると、チェックされたradioボタンの属性がcheckedになっている',
-      async ({ checkboxName }) => {
+      async ({ radioName }) => {
         render(<Form />);
-        const radioButton = screen.getByRole('radio', { name: checkboxName });
+        const radioButton = screen.getByRole('radio', { name: radioName });
 
         await user.click(radioButton);
         expect(radioButton).toBeChecked();
