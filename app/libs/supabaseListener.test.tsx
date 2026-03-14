@@ -2,7 +2,8 @@ import { useFetchMember } from '@/app/hooks';
 import { supabase } from '@/app/libs/supabase';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { useStore } from '@/app/store';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, act } from '@testing-library/react';
+import { type Session, type Subscription } from '@supabase/auth-js';
 import mockRouter from 'next-router-mock';
 
 jest.mock('@/app/store');
@@ -10,15 +11,6 @@ jest.mock('@/app/hooks');
 
 const mockUseStore = jest.mocked(useStore);
 const mockUseFetchMember = jest.mocked(useFetchMember);
-
-jest.mock('@/app/libs/supabase', () => ({
-  supabase: {
-    auth: {
-      getSession: jest.fn(),
-      onAuthStateChange: jest.fn(),
-    },
-  },
-}));
 
 const mockRouterRefresh = jest.fn();
 
@@ -28,6 +20,32 @@ jest.mock('next/navigation', () => ({
     refresh: mockRouterRefresh,
   }),
 }));
+
+/** テスト用の最小限Session */
+const createMockSession = (overrides: { id: string; email: string }): Session => ({
+  access_token: 'mock-access-token',
+  refresh_token: 'mock-refresh-token',
+  expires_in: 3600,
+  token_type: 'bearer',
+  user: {
+    id: overrides.id,
+    email: overrides.email,
+    app_metadata: {},
+    user_metadata: {},
+    aud: 'authenticated',
+    created_at: '',
+  },
+});
+
+/** テスト用の最小限Subscription */
+const createMockSubscription = (unsubscribe: Subscription['unsubscribe']): Subscription => ({
+  id: 'mock-subscription-id',
+  callback: jest.fn(),
+  unsubscribe,
+});
+
+/** onAuthStateChange のコールバック型 */
+type AuthStateChangeCallback = Parameters<typeof supabase.auth.onAuthStateChange>[0];
 
 describe('SupabaseListener', () => {
   const mockUpdateLoginUser = jest.fn();
@@ -45,20 +63,20 @@ describe('SupabaseListener', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   test('mount時にgetSessionとupdateLoginUserが呼ばれる', async () => {
-    (supabase.auth.getSession as jest.Mock).mockResolvedValue({
+    const getSessionSpy = jest.spyOn(supabase.auth, 'getSession').mockResolvedValue({
       data: {
-        session: {
-          user: { id: '123', email: 'test@example.com' },
-        },
+        session: createMockSession({ id: '123', email: 'test@example.com' }),
       },
+      error: null,
     });
 
     const mockUnsubscribe = jest.fn();
-    (supabase.auth.onAuthStateChange as jest.Mock).mockReturnValue({
-      data: { subscription: { unsubscribe: mockUnsubscribe } },
+    jest.spyOn(supabase.auth, 'onAuthStateChange').mockReturnValue({
+      data: { subscription: createMockSubscription(mockUnsubscribe) },
     });
 
     mockFetchAuth.mockResolvedValue({
@@ -68,7 +86,7 @@ describe('SupabaseListener', () => {
     render(<SupabaseListener accessToken="token123" />);
 
     await waitFor(() => {
-      expect(supabase.auth.getSession).toHaveBeenCalled();
+      expect(getSessionSpy).toHaveBeenCalled();
       expect(mockUpdateLoginUser).toHaveBeenCalledWith({
         id: '123',
         email: 'test@example.com',
@@ -78,14 +96,18 @@ describe('SupabaseListener', () => {
   });
 
   test('onAuthStateChange時にもupdateLoginUserとrefreshが呼ばれる', async () => {
-    (supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
+    jest
+      .spyOn(supabase.auth, 'getSession')
+      .mockResolvedValue({ data: { session: null }, error: null });
 
     const mockOnAuthHandler = jest.fn();
     const mockUnsubscribe = jest.fn();
-    (supabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback: () => void) => {
-      mockOnAuthHandler.mockImplementation(callback);
-      return { data: { subscription: { unsubscribe: mockUnsubscribe } } };
-    });
+    jest
+      .spyOn(supabase.auth, 'onAuthStateChange')
+      .mockImplementation((callback: AuthStateChangeCallback) => {
+        mockOnAuthHandler.mockImplementation(callback);
+        return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
+      });
 
     mockFetchAuth.mockResolvedValue({
       result: { data: [{ admin: false }] },
@@ -93,41 +115,49 @@ describe('SupabaseListener', () => {
 
     render(<SupabaseListener accessToken="oldToken" />);
 
-    await waitFor(() => {
-      mockOnAuthHandler(null, {
+    await act(async () => {
+      await mockOnAuthHandler(null, {
         user: { id: '456', email: 'new@example.com' },
         access_token: 'newToken',
       });
     });
 
-    expect(mockUpdateLoginUser).toHaveBeenCalledWith({
-      id: '456',
-      email: 'new@example.com',
-      auth: false,
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: '456',
+        email: 'new@example.com',
+        auth: false,
+      });
     });
     expect(mockRouterRefresh).toHaveBeenCalled();
   });
 
   test('onAuthStateChange時にsessionがnullの場合はloginUserをリセットする', async () => {
-    (supabase.auth.getSession as jest.Mock).mockResolvedValue({ data: { session: null } });
+    jest
+      .spyOn(supabase.auth, 'getSession')
+      .mockResolvedValue({ data: { session: null }, error: null });
 
     const mockOnAuthHandler = jest.fn();
     const mockUnsubscribe = jest.fn();
-    (supabase.auth.onAuthStateChange as jest.Mock).mockImplementation((callback: () => void) => {
-      mockOnAuthHandler.mockImplementation(callback);
-      return { data: { subscription: { unsubscribe: mockUnsubscribe } } };
-    });
+    jest
+      .spyOn(supabase.auth, 'onAuthStateChange')
+      .mockImplementation((callback: AuthStateChangeCallback) => {
+        mockOnAuthHandler.mockImplementation(callback);
+        return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
+      });
 
     render(<SupabaseListener accessToken="oldToken" />);
 
-    await waitFor(() => {
-      mockOnAuthHandler(null, null);
+    await act(async () => {
+      await mockOnAuthHandler(null, null);
     });
 
-    expect(mockUpdateLoginUser).toHaveBeenCalledWith({
-      id: null,
-      email: null,
-      auth: undefined,
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: null,
+        email: null,
+        auth: undefined,
+      });
     });
     expect(mockFetchAuth).not.toHaveBeenCalledWith({ email: expect.any(String) });
   });
