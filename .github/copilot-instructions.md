@@ -48,11 +48,11 @@ npm run build       # ビルド
 
 - `feat/` - 新機能
 - `fix/` - バグ修正
-- `refact/` - リファクタリング
+- `refact/` - リファクタリング（※ブランチ名は慣例で `refact/` を使用）
 
 ## コミットメッセージ
 
-- Conventional Commits に従う: `feat:`, `fix:`, `refactor:`, `test:`, `chore:`
+- Conventional Commits に従う: `feat:`, `fix:`, `refactor:`, `test:`, `chore:`（※コミットプレフィックスは `refactor:` が正式）
 - 原則日本語で記載する
 - issue を閉じる場合は `Closes #<番号>` をコミットメッセージまたは PR body に記載
 - 意味のある塊でコミットする（複数の無関係な変更を1コミットにまとめない）
