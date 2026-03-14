@@ -21,7 +21,8 @@
 
 - `jest.mock` と `jest.spyOn` の併用は避け、`spyOn` のみで統一する（将来方針。既存テストは段階的に移行中）
   - ESM エクスポートで `spyOn` だけでは書き換えできない場合のみ `jest.mock` を使用（例: Zustand の `useStore`）
-- テストのクリーンアップ: `afterEach` で `jest.clearAllMocks()` + `jest.restoreAllMocks()`
+- テストのクリーンアップ: `afterEach` で `jest.clearAllMocks()`
+  - `spyOn` を使うテストでは `jest.restoreAllMocks()` も追加する
   - `describe` スコープで `const` 宣言した spy を再利用する場合は `restoreAllMocks` を `afterAll` に配置
 - モックデータは `as any` や `as jest.Mock` ではなく、型準拠のヘルパー関数を作成する
 - async コールバックのテストでは `await act(async () => { ... })` で Promise 完了を待機し、`waitFor` でアサーションを待つ
