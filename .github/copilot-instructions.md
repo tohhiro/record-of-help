@@ -30,7 +30,7 @@
 
 ### Supabase
 
-- クライアントは `app/libs/supabase.ts` で一元管理
+- クライアントはブラウザ用 `app/libs/supabase.ts`、サーバー用 `app/libs/supabaseServer.ts` で管理
 - fetcher 関数では `try/catch` で例外をラップし `throw new Error(String(error))` で統一
 - `suspense: true` の SWR では、SWR 自体がエラーをスローするため、返り値で `swrError` を throw する必要はない
 
