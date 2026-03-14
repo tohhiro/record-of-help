@@ -71,6 +71,7 @@ export default function Page() {
               <Section>
                 <Radio id="eito" label="eito" {...field} value="eito" />
                 <Radio id="mei" label="mei" {...field} value="mei" />
+                <Radio id="tohhiro" label="tohhiro" {...field} value="tohhiro" />
               </Section>
             )}
           />
