@@ -26,7 +26,7 @@
   - `describe` スコープで `const` 宣言した spy を再利用する場合は `restoreAllMocks` を `afterAll` に配置
 - モックデータは `as any` や `as jest.Mock` ではなく、型準拠のヘルパー関数を作成する
 - async コールバックのテストでは `await act(async () => { ... })` で Promise 完了を待機し、`waitFor` でアサーションを待つ
-- Supabase のモックには `@supabase/supabase-js` や `@supabase/auth-js` の型（`Session`, `Subscription` 等）を使用する
+- Supabase のモックには `@supabase/supabase-js` の型（`Session`, `AuthError`, `AuthTokenResponse` 等）を使用する
 
 ### Supabase
 
