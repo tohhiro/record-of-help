@@ -19,7 +19,7 @@
 
 ### テスト
 
-- `jest.mock` と `jest.spyOn` の併用は避け、`spyOn` のみで統一する
+- `jest.mock` と `jest.spyOn` の併用は避け、`spyOn` のみで統一する（将来方針。既存テストは段階的に移行中）
   - ESM エクスポートで `spyOn` だけでは書き換えできない場合のみ `jest.mock` を使用（例: Zustand の `useStore`）
 - テストのクリーンアップ: `afterEach` で `jest.clearAllMocks()` + `jest.restoreAllMocks()`
   - `describe` スコープで `const` 宣言した spy を再利用する場合は `restoreAllMocks` を `afterAll` に配置
