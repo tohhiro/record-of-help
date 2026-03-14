@@ -2,7 +2,7 @@ import { useFetchMember } from '@/app/hooks';
 import { supabase } from '@/app/libs/supabase';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { useStore } from '@/app/store';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, act } from '@testing-library/react';
 import { type Session, type Subscription } from '@supabase/auth-js';
 import mockRouter from 'next-router-mock';
 
@@ -38,7 +38,7 @@ const createMockSession = (overrides: { id: string; email: string }): Session =>
 });
 
 /** テスト用の最小限Subscription */
-const createMockSubscription = (unsubscribe: jest.Mock): Subscription => ({
+const createMockSubscription = (unsubscribe: Subscription['unsubscribe']): Subscription => ({
   id: 'mock-subscription-id',
   callback: jest.fn(),
   unsubscribe,
@@ -115,17 +115,19 @@ describe('SupabaseListener', () => {
 
     render(<SupabaseListener accessToken="oldToken" />);
 
-    await waitFor(() => {
-      mockOnAuthHandler(null, {
+    await act(async () => {
+      await mockOnAuthHandler(null, {
         user: { id: '456', email: 'new@example.com' },
         access_token: 'newToken',
       });
     });
 
-    expect(mockUpdateLoginUser).toHaveBeenCalledWith({
-      id: '456',
-      email: 'new@example.com',
-      auth: false,
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: '456',
+        email: 'new@example.com',
+        auth: false,
+      });
     });
     expect(mockRouterRefresh).toHaveBeenCalled();
   });
@@ -146,14 +148,16 @@ describe('SupabaseListener', () => {
 
     render(<SupabaseListener accessToken="oldToken" />);
 
-    await waitFor(() => {
-      mockOnAuthHandler(null, null);
+    await act(async () => {
+      await mockOnAuthHandler(null, null);
     });
 
-    expect(mockUpdateLoginUser).toHaveBeenCalledWith({
-      id: null,
-      email: null,
-      auth: undefined,
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: null,
+        email: null,
+        auth: undefined,
+      });
     });
     expect(mockFetchAuth).not.toHaveBeenCalledWith({ email: expect.any(String) });
   });
