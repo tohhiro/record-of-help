@@ -1,4 +1,5 @@
 import { NavHeader } from '@/app/(feature)/navHeader';
+import { isExpectedAuthError } from '@/app/libs/authUtils';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { type PropsWithChildren } from 'react';
 import { createSupabaseServerClient } from './libs/supabaseServer';
@@ -12,13 +13,20 @@ export const metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createSupabaseServerClient();
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  // error 時は未ログインとして扱う（user は null になる）
+  // 未ログイン相当のエラーはログを出さず、真正なエラーのみ warn する
+  if (error && !isExpectedAuthError(error.message)) {
+    console.warn('[RootLayout] ユーザー情報取得に失敗:', error.message);
+  }
 
   return (
     <html lang="ja">
       <body>
-        <SupabaseListener accessToken={session?.access_token} />
+        <SupabaseListener serverUserId={user?.id} />
         <NavHeader />
         {children}
       </body>
