@@ -255,12 +255,10 @@ describe('SupabaseListener', () => {
   test('getUser が未ログイン相当のエラーを返した場合はwarnを出さない', async () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
-    jest
-      .spyOn(supabase.auth, 'getUser')
-      .mockResolvedValue({
-        data: { user: null },
-        error: new AuthError('Auth session missing!'),
-      });
+    const getUserSpy = jest.spyOn(supabase.auth, 'getUser').mockResolvedValue({
+      data: { user: null },
+      error: new AuthError('Auth session missing!'),
+    });
 
     const mockUnsubscribe = jest.fn();
     jest.spyOn(supabase.auth, 'onAuthStateChange').mockReturnValue({
@@ -269,10 +267,12 @@ describe('SupabaseListener', () => {
 
     render(<SupabaseListener />);
 
-    // 少し待って warn が出ていないことを確認
+    // まず getUser が呼ばれたことを待ち、非同期処理の完了を担保する
     await waitFor(() => {
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(getUserSpy).toHaveBeenCalled();
     });
+    // 非同期処理完了後に warn が出ていないことを確認
+    expect(consoleWarnSpy).not.toHaveBeenCalled();
     // 未ログイン相当なので updateLoginUser も呼ばない
     expect(mockUpdateLoginUser).not.toHaveBeenCalled();
   });
