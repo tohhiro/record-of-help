@@ -188,4 +188,67 @@ describe('SupabaseListener', () => {
     // serverUserId が未設定で session も null → もともと未ログインなので refresh 不要
     expect(mockRouterRefresh).not.toHaveBeenCalled();
   });
+
+  test('同一ユーザーでトークンのみ更新された場合はrefreshしない', async () => {
+    jest
+      .spyOn(supabase.auth, 'getUser')
+      .mockResolvedValue({ data: { user: null }, error: new AuthError('Not authenticated') });
+
+    const mockOnAuthHandler = jest.fn();
+    const mockUnsubscribe = jest.fn();
+    jest
+      .spyOn(supabase.auth, 'onAuthStateChange')
+      .mockImplementation((callback: AuthStateChangeCallback) => {
+        mockOnAuthHandler.mockImplementation(callback);
+        return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
+      });
+
+    mockFetchAuth.mockResolvedValue({
+      result: { data: [{ admin: true }] },
+    });
+
+    // serverUserId と session.user.id が同じ → トークンだけ変わったケース
+    render(<SupabaseListener serverUserId="sameUserId" />);
+
+    await act(async () => {
+      await mockOnAuthHandler(null, {
+        user: { id: 'sameUserId', email: 'same@example.com' },
+        access_token: 'newRefreshedToken',
+      });
+    });
+
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: 'sameUserId',
+        email: 'same@example.com',
+        auth: true,
+      });
+    });
+    // user.id が同じなので refresh は不要（トークンリフレッシュによる不要な refresh を防止）
+    expect(mockRouterRefresh).not.toHaveBeenCalled();
+  });
+
+  test('getUser がエラーを返した場合はwarnしてupdateLoginUserを呼ばない', async () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    jest
+      .spyOn(supabase.auth, 'getUser')
+      .mockResolvedValue({ data: { user: null }, error: new AuthError('Network error') });
+
+    const mockUnsubscribe = jest.fn();
+    jest.spyOn(supabase.auth, 'onAuthStateChange').mockReturnValue({
+      data: { subscription: createMockSubscription(mockUnsubscribe) },
+    });
+
+    render(<SupabaseListener serverUserId="123" />);
+
+    await waitFor(() => {
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        '[SupabaseListener] ユーザー情報取得に失敗:',
+        'Network error',
+      );
+    });
+    // error 時は updateLoginUser を呼ばない
+    expect(mockUpdateLoginUser).not.toHaveBeenCalled();
+  });
 });

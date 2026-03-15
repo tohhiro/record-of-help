@@ -13,7 +13,11 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) {
+          console.warn('[SupabaseListener] ユーザー情報取得に失敗:', error.message);
+          return;
+        }
         if (user) {
           const auth = await fetchAuth({ email: user.email || null });
           updateLoginUser({
@@ -23,7 +27,7 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
           });
         }
       } catch (error) {
-        console.warn('[SupabaseListener] ユーザー情報取得に失敗:', error);
+        console.warn('[SupabaseListener] 予期しないエラー:', error);
       }
     };
     getUserInfo();

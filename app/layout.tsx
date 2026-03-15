@@ -13,7 +13,13 @@ export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createSupabaseServerClient();
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
+
+  // error 時は未ログインとして扱う（user は null になる）
+  if (error) {
+    console.warn('[RootLayout] ユーザー情報取得に失敗:', error.message);
+  }
 
   return (
     <html lang="ja">
