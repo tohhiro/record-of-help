@@ -3,7 +3,7 @@ import { supabase } from '@/app/libs/supabase';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { useStore } from '@/app/store';
 import { render, waitFor, act } from '@testing-library/react';
-import { type Session, type Subscription } from '@supabase/auth-js';
+import { AuthError, type Subscription, type User } from '@supabase/auth-js';
 import mockRouter from 'next-router-mock';
 
 jest.mock('@/app/store');
@@ -21,20 +21,14 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-/** テスト用の最小限Session */
-const createMockSession = (overrides: { id: string; email: string }): Session => ({
-  access_token: 'mock-access-token',
-  refresh_token: 'mock-refresh-token',
-  expires_in: 3600,
-  token_type: 'bearer',
-  user: {
-    id: overrides.id,
-    email: overrides.email,
-    app_metadata: {},
-    user_metadata: {},
-    aud: 'authenticated',
-    created_at: '',
-  },
+/** テスト用の最小限User */
+const createMockUser = (overrides: { id: string; email: string }): User => ({
+  id: overrides.id,
+  email: overrides.email,
+  app_metadata: {},
+  user_metadata: {},
+  aud: 'authenticated',
+  created_at: '',
 });
 
 /** テスト用の最小限Subscription */
@@ -66,10 +60,10 @@ describe('SupabaseListener', () => {
     jest.restoreAllMocks();
   });
 
-  test('mount時にgetSessionとupdateLoginUserが呼ばれる', async () => {
-    const getSessionSpy = jest.spyOn(supabase.auth, 'getSession').mockResolvedValue({
+  test('mount時にgetUserとupdateLoginUserが呼ばれる', async () => {
+    const getUserSpy = jest.spyOn(supabase.auth, 'getUser').mockResolvedValue({
       data: {
-        session: createMockSession({ id: '123', email: 'test@example.com' }),
+        user: createMockUser({ id: '123', email: 'test@example.com' }),
       },
       error: null,
     });
@@ -83,10 +77,10 @@ describe('SupabaseListener', () => {
       result: { data: [{ admin: true }] },
     });
 
-    render(<SupabaseListener accessToken="token123" />);
+    render(<SupabaseListener serverUserId="123" />);
 
     await waitFor(() => {
-      expect(getSessionSpy).toHaveBeenCalled();
+      expect(getUserSpy).toHaveBeenCalled();
       expect(mockUpdateLoginUser).toHaveBeenCalledWith({
         id: '123',
         email: 'test@example.com',
@@ -97,8 +91,8 @@ describe('SupabaseListener', () => {
 
   test('onAuthStateChange時にもupdateLoginUserとrefreshが呼ばれる', async () => {
     jest
-      .spyOn(supabase.auth, 'getSession')
-      .mockResolvedValue({ data: { session: null }, error: null });
+      .spyOn(supabase.auth, 'getUser')
+      .mockResolvedValue({ data: { user: null }, error: new AuthError('Not authenticated') });
 
     const mockOnAuthHandler = jest.fn();
     const mockUnsubscribe = jest.fn();
@@ -113,7 +107,7 @@ describe('SupabaseListener', () => {
       result: { data: [{ admin: false }] },
     });
 
-    render(<SupabaseListener accessToken="oldToken" />);
+    render(<SupabaseListener serverUserId="oldUserId" />);
 
     await act(async () => {
       await mockOnAuthHandler(null, {
@@ -134,8 +128,8 @@ describe('SupabaseListener', () => {
 
   test('onAuthStateChange時にsessionがnullの場合はloginUserをリセットする', async () => {
     jest
-      .spyOn(supabase.auth, 'getSession')
-      .mockResolvedValue({ data: { session: null }, error: null });
+      .spyOn(supabase.auth, 'getUser')
+      .mockResolvedValue({ data: { user: null }, error: new AuthError('Not authenticated') });
 
     const mockOnAuthHandler = jest.fn();
     const mockUnsubscribe = jest.fn();
@@ -146,7 +140,7 @@ describe('SupabaseListener', () => {
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
       });
 
-    render(<SupabaseListener accessToken="oldToken" />);
+    render(<SupabaseListener serverUserId="existingUserId" />);
 
     await act(async () => {
       await mockOnAuthHandler(null, null);
@@ -160,5 +154,38 @@ describe('SupabaseListener', () => {
       });
     });
     expect(mockFetchAuth).not.toHaveBeenCalledWith({ email: expect.any(String) });
+    // serverUserId が存在するのに session が null → ユーザーがログアウトしたため refresh
+    expect(mockRouterRefresh).toHaveBeenCalled();
+  });
+
+  test('onAuthStateChange時にsessionがnullかつserverUserIdが未設定の場合はrefreshしない', async () => {
+    jest
+      .spyOn(supabase.auth, 'getUser')
+      .mockResolvedValue({ data: { user: null }, error: new AuthError('Not authenticated') });
+
+    const mockOnAuthHandler = jest.fn();
+    const mockUnsubscribe = jest.fn();
+    jest
+      .spyOn(supabase.auth, 'onAuthStateChange')
+      .mockImplementation((callback: AuthStateChangeCallback) => {
+        mockOnAuthHandler.mockImplementation(callback);
+        return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
+      });
+
+    render(<SupabaseListener />);
+
+    await act(async () => {
+      await mockOnAuthHandler(null, null);
+    });
+
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: null,
+        email: null,
+        auth: undefined,
+      });
+    });
+    // serverUserId が未設定で session も null → もともと未ログインなので refresh 不要
+    expect(mockRouterRefresh).not.toHaveBeenCalled();
   });
 });

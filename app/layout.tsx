@@ -12,13 +12,13 @@ export const metadata = {
 export default async function RootLayout({ children }: PropsWithChildren) {
   const supabase = createSupabaseServerClient();
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <html lang="ja">
       <body>
-        <SupabaseListener accessToken={session?.access_token} />
+        <SupabaseListener serverUserId={user?.id} />
         <NavHeader />
         {children}
       </body>
