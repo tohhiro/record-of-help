@@ -228,7 +228,7 @@ describe('SupabaseListener', () => {
     expect(mockRouterRefresh).not.toHaveBeenCalled();
   });
 
-  test('getUser がエラーを返した場合はwarnしてupdateLoginUserを呼ばない', async () => {
+  test('getUser が真正なエラーを返した場合はwarnしてupdateLoginUserを呼ばない', async () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
     jest
@@ -249,6 +249,31 @@ describe('SupabaseListener', () => {
       );
     });
     // error 時は updateLoginUser を呼ばない
+    expect(mockUpdateLoginUser).not.toHaveBeenCalled();
+  });
+
+  test('getUser が未ログイン相当のエラーを返した場合はwarnを出さない', async () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    jest
+      .spyOn(supabase.auth, 'getUser')
+      .mockResolvedValue({
+        data: { user: null },
+        error: new AuthError('Auth session missing!'),
+      });
+
+    const mockUnsubscribe = jest.fn();
+    jest.spyOn(supabase.auth, 'onAuthStateChange').mockReturnValue({
+      data: { subscription: createMockSubscription(mockUnsubscribe) },
+    });
+
+    render(<SupabaseListener />);
+
+    // 少し待って warn が出ていないことを確認
+    await waitFor(() => {
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+    });
+    // 未ログイン相当なので updateLoginUser も呼ばない
     expect(mockUpdateLoginUser).not.toHaveBeenCalled();
   });
 });

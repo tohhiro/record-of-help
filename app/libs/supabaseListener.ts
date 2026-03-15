@@ -1,5 +1,6 @@
 'use client';
 import { useFetchMember } from '@/app/hooks';
+import { isExpectedAuthError } from '@/app/libs/authUtils';
 import { supabase } from '@/app/libs/supabase';
 import { useStore } from '@/app/store';
 import { useRouter } from 'next/navigation';
@@ -15,7 +16,10 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
       try {
         const { data: { user }, error } = await supabase.auth.getUser();
         if (error) {
-          console.warn('[SupabaseListener] ユーザー情報取得に失敗:', error.message);
+          // 未ログイン相当のエラーはログを出さず、真正なエラーのみ warn する
+          if (!isExpectedAuthError(error.message)) {
+            console.warn('[SupabaseListener] ユーザー情報取得に失敗:', error.message);
+          }
           return;
         }
         if (user) {
