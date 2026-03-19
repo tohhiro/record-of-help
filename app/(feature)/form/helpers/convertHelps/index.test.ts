@@ -26,4 +26,54 @@ describe('convertHelps', () => {
       special: 50,
     });
   });
+
+  test('空配列の場合はデフォルト値が返る', () => {
+    const result = convertHelps([]);
+    expect(result).toStrictEqual({
+      dish: 0,
+      curtain: 0,
+      prepareEat: 0,
+      landry: 0,
+      special: 0,
+    });
+  });
+
+  test('空文字列が含まれる場合はスキップされる', () => {
+    const data = ['dish,30', '', 'special,50'];
+
+    const result = convertHelps(data);
+    expect(result).toStrictEqual({
+      dish: 30,
+      curtain: 0,
+      prepareEat: 0,
+      landry: 0,
+      special: 50,
+    });
+  });
+
+  test('カンマなし文字列はスキップされる', () => {
+    const data = ['dish,30', 'invalidEntry', 'special,50'];
+
+    const result = convertHelps(data);
+    expect(result).toStrictEqual({
+      dish: 30,
+      curtain: 0,
+      prepareEat: 0,
+      landry: 0,
+      special: 50,
+    });
+  });
+
+  test('価格が数値でない場合はスキップされる', () => {
+    const data = ['dish,abc', 'special,50'];
+
+    const result = convertHelps(data);
+    expect(result).toStrictEqual({
+      dish: 0,
+      curtain: 0,
+      prepareEat: 0,
+      landry: 0,
+      special: 50,
+    });
+  });
 });
