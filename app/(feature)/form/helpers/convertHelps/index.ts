@@ -8,7 +8,10 @@ export const convertHelps = (data: string[]) => {
   };
   return data.reduce((acc, help) => {
     const [key, priceStr] = help.split(',');
-    const helpEntry = { [key]: Number(priceStr) };
+    if (!key || priceStr === undefined) return acc;
+    const price = Number(priceStr);
+    if (Number.isNaN(price)) return acc;
+    const helpEntry = { [key]: price };
 
     return { ...acc, ...helpEntry };
   }, defaultHelps);

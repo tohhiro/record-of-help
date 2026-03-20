@@ -7,7 +7,7 @@ export const createPricesList = (pricesListRaw: PricesHelpsList | undefined) => 
     id: item.id,
     label: item.label,
     column: item.help,
-    value: item.prices_list[0].price,
+    value: item.prices_list[0]?.price ?? 0,
   }));
 
   return pricesList;

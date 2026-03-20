@@ -4,12 +4,12 @@ import { useStore } from '@/app/store';
 import { useSignOut } from './hooks';
 
 const navItemsWithAdmin = {
-  Form: './form',
-  Dashboard: './dashboard',
+  Form: '/form',
+  Dashboard: '/dashboard',
 };
 
 const navItemsWithMember = {
-  Dashboard: './dashboard',
+  Dashboard: '/dashboard',
 };
 
 export const NavHeader = () => {
