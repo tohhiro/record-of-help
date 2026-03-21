@@ -112,4 +112,49 @@ describe('useLeavingModal', () => {
     // OK時はforward()は呼ばれない
     expect(forwardSpy).not.toHaveBeenCalled();
   });
+
+  test('初期化時にpushStateがstateマーカー付きで呼ばれる', () => {
+    renderHook(() => useLeavingModal(true));
+
+    expect(pushStateSpy).toHaveBeenCalledTimes(1);
+    expect(pushStateSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ leavingModal: true }),
+      '',
+      expect.any(String),
+    );
+  });
+
+  test('stateマーカーが既にある場合はpushStateが呼ばれない', () => {
+    // history.state にマーカーを設定
+    Object.defineProperty(window.history, 'state', {
+      value: { leavingModal: true },
+      writable: true,
+      configurable: true,
+    });
+
+    renderHook(() => useLeavingModal(true));
+
+    expect(pushStateSpy).not.toHaveBeenCalled();
+
+    // クリーンアップ
+    Object.defineProperty(window.history, 'state', {
+      value: null,
+      writable: true,
+      configurable: true,
+    });
+  });
+
+  test('forward()によるpopstate再発火時は確認ダイアログが表示されない', () => {
+    renderHook(() => useLeavingModal(true));
+
+    // 1回目: キャンセルで forward() が呼ばれる
+    windowSpy.mockReturnValue(false);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    expect(windowSpy).toHaveBeenCalledTimes(1);
+    expect(forwardSpy).toHaveBeenCalledTimes(1);
+
+    // 2回目: forward() による再発火 → フラグで無視される
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    expect(windowSpy).toHaveBeenCalledTimes(1); // 増えない
+  });
 });

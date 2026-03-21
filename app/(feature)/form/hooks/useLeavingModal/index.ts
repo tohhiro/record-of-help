@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 export const useLeavingModal = (isDirty: boolean) => {
   const isDirtyRef = useRef(isDirty);
   isDirtyRef.current = isDirty;
+  const isNavigatingRef = useRef(false);
 
   // NOTE: 閉じる、リロード
   const handleBeforeunload = (e: BeforeUnloadEvent) => {
@@ -28,10 +29,16 @@ export const useLeavingModal = (isDirty: boolean) => {
     if (!isDirty) return;
 
     const handlePopstate = () => {
+      // forward() による programmatic な popstate は無視する
+      if (isNavigatingRef.current) {
+        isNavigatingRef.current = false;
+        return;
+      }
       if (!isDirtyRef.current) return;
       // eslint-disable-next-line no-alert
       if (!window.confirm('ページを離れても良いですか？')) {
         // キャンセル時は元のページに戻る（履歴を増やさない）
+        isNavigatingRef.current = true;
         window.history.forward();
       }
     };
