@@ -4,6 +4,7 @@ export const useLeavingModal = (isDirty: boolean) => {
   const isDirtyRef = useRef(isDirty);
   isDirtyRef.current = isDirty;
   const isNavigatingRef = useRef(false);
+  const hasPushedStateRef = useRef(false);
 
   // NOTE: 閉じる、リロード
   const handleBeforeunload = (e: BeforeUnloadEvent) => {
@@ -51,11 +52,18 @@ export const useLeavingModal = (isDirty: boolean) => {
         '',
         window.location.href,
       );
+      hasPushedStateRef.current = true;
     }
     window.addEventListener('popstate', handlePopstate);
 
     return () => {
       window.removeEventListener('popstate', handlePopstate);
+      // isDirty が false に戻ったら追加した履歴エントリを解消する
+      if (hasPushedStateRef.current) {
+        hasPushedStateRef.current = false;
+        isNavigatingRef.current = true;
+        window.history.back();
+      }
     };
   }, [isDirty]);
 

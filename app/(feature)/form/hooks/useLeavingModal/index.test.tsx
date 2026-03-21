@@ -38,11 +38,14 @@ describe('useLeavingModal', () => {
   let pushStateSpy: jest.SpyInstance;
   let forwardSpy: jest.SpyInstance;
 
+  let backSpy: jest.SpyInstance;
+
   beforeEach(() => {
     windowSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
     addEventListenerSpy = jest.spyOn(window, 'addEventListener');
     pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {});
     forwardSpy = jest.spyOn(window.history, 'forward').mockImplementation(() => {});
+    backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -50,6 +53,7 @@ describe('useLeavingModal', () => {
     addEventListenerSpy.mockRestore();
     pushStateSpy.mockRestore();
     forwardSpy.mockRestore();
+    backSpy.mockRestore();
   });
 
   const user = userEvent.setup();
@@ -156,5 +160,17 @@ describe('useLeavingModal', () => {
     // 2回目: forward() による再発火 → フラグで無視される
     window.dispatchEvent(new PopStateEvent('popstate'));
     expect(windowSpy).toHaveBeenCalledTimes(1); // 増えない
+  });
+
+  test('isDirtyがfalseに戻ったらpushStateで追加した履歴エントリを解消する', () => {
+    const { rerender } = renderHook(({ dirty }) => useLeavingModal(dirty), {
+      initialProps: { dirty: true },
+    });
+
+    expect(pushStateSpy).toHaveBeenCalledTimes(1);
+
+    // isDirty を false に変更 → cleanup で back() が呼ばれる
+    rerender({ dirty: false });
+    expect(backSpy).toHaveBeenCalledTimes(1);
   });
 });
