@@ -8,7 +8,7 @@ export const validationSchema = z.object({
     })
     .refine(
       ({ helps, comments }) => {
-        if (!helps.includes('special,50')) {
+        if (!helps.some((help) => help.startsWith('special,'))) {
           return true;
         }
         if (comments && comments.trim().length > 0) {
