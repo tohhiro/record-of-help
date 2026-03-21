@@ -58,13 +58,18 @@ export const useLeavingModal = (isDirty: boolean) => {
 
     return () => {
       window.removeEventListener('popstate', handlePopstate);
-      // isDirty が false に戻ったら追加した履歴エントリを解消する
-      if (hasPushedStateRef.current) {
-        hasPushedStateRef.current = false;
-        isNavigatingRef.current = true;
-        window.history.back();
-      }
     };
+  }, [isDirty]);
+
+  // isDirty が false に戻ったタイミングで、追加した履歴エントリを解消する
+  useEffect(() => {
+    if (isDirty) return;
+
+    if (hasPushedStateRef.current) {
+      hasPushedStateRef.current = false;
+      isNavigatingRef.current = true;
+      window.history.back();
+    }
   }, [isDirty]);
 
   useEffect(() => {
