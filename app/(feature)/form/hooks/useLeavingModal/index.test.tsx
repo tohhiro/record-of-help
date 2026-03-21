@@ -36,17 +36,20 @@ describe('useLeavingModal', () => {
   let windowSpy: jest.SpyInstance;
   let addEventListenerSpy: jest.SpyInstance;
   let pushStateSpy: jest.SpyInstance;
+  let forwardSpy: jest.SpyInstance;
 
   beforeEach(() => {
     windowSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
     addEventListenerSpy = jest.spyOn(window, 'addEventListener');
     pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {});
+    forwardSpy = jest.spyOn(window.history, 'forward').mockImplementation(() => {});
   });
 
   afterEach(() => {
     windowSpy.mockRestore();
     addEventListenerSpy.mockRestore();
     pushStateSpy.mockRestore();
+    forwardSpy.mockRestore();
   });
 
   const user = userEvent.setup();
@@ -95,8 +98,8 @@ describe('useLeavingModal', () => {
     window.dispatchEvent(new PopStateEvent('popstate'));
 
     expect(windowSpy).toHaveBeenCalledWith('ページを離れても良いですか？');
-    // キャンセル時はpushStateで現在ページに留まる
-    expect(pushStateSpy).toHaveBeenCalledTimes(2); // 初期化時 + キャンセル時
+    // キャンセル時はforward()で元のページに戻る（履歴を増やさない）
+    expect(forwardSpy).toHaveBeenCalledTimes(1);
   });
 
   test('popstateイベント発火時にOKを選択すると遷移を許可する', () => {
@@ -106,7 +109,7 @@ describe('useLeavingModal', () => {
     window.dispatchEvent(new PopStateEvent('popstate'));
 
     expect(windowSpy).toHaveBeenCalledWith('ページを離れても良いですか？');
-    // OK時はpushStateは初期化時の1回のみ
-    expect(pushStateSpy).toHaveBeenCalledTimes(1);
+    // OK時はforward()は呼ばれない
+    expect(forwardSpy).not.toHaveBeenCalled();
   });
 });

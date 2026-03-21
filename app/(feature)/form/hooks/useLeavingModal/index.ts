@@ -11,10 +11,10 @@ export const useLeavingModal = (isDirty: boolean) => {
 
   // NOTE: リンククリック（closest で子要素クリックにも対応）
   const handleClick = (event: MouseEvent) => {
-    const targetElement = event.target as HTMLElement;
-    const anchor = targetElement.closest('a');
+    if (!(event.target instanceof Element)) return;
+    const anchor = event.target.closest('a');
 
-    if (isDirty && anchor) {
+    if (isDirtyRef.current && anchor) {
       // eslint-disable-next-line no-alert
       if (!window.confirm('ページを離れても良いですか？')) {
         event.preventDefault();
@@ -23,7 +23,7 @@ export const useLeavingModal = (isDirty: boolean) => {
     }
   };
 
-  // NOTE: ブラウザバック/フォワード + SPA の pushState/replaceState 遷移
+  // NOTE: ブラウザバック/フォワードによる履歴移動（popstate）のみ対応
   useEffect(() => {
     if (!isDirty) return;
 
@@ -31,13 +31,20 @@ export const useLeavingModal = (isDirty: boolean) => {
       if (!isDirtyRef.current) return;
       // eslint-disable-next-line no-alert
       if (!window.confirm('ページを離れても良いですか？')) {
-        // キャンセル時は現在のページに留まるため、元の履歴エントリを復元
-        window.history.pushState(null, '', window.location.href);
+        // キャンセル時は元のページに戻る（履歴を増やさない）
+        window.history.forward();
       }
     };
 
-    // 現在のページを履歴スタックに追加して popstate でキャッチできるようにする
-    window.history.pushState(null, '', window.location.href);
+    // state マーカーで重複追加を防止
+    const currentState = window.history.state as Record<string, unknown> | null;
+    if (!currentState?.__leavingModal) {
+      window.history.pushState(
+        { ...(currentState ?? {}), __leavingModal: true },
+        '',
+        window.location.href,
+      );
+    }
     window.addEventListener('popstate', handlePopstate);
 
     return () => {
