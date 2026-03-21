@@ -38,9 +38,9 @@ export const useLeavingModal = (isDirty: boolean) => {
 
     // state マーカーで重複追加を防止
     const currentState = window.history.state as Record<string, unknown> | null;
-    if (!currentState?.__leavingModal) {
+    if (!currentState?.leavingModal) {
       window.history.pushState(
-        { ...(currentState ?? {}), __leavingModal: true },
+        { ...(currentState ?? {}), leavingModal: true },
         '',
         window.location.href,
       );
