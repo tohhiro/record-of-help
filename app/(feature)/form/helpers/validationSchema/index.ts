@@ -14,6 +14,7 @@ export const validationSchema = z.object({
         if (comments && comments.trim().length > 0) {
           return true;
         }
+        return false;
       },
       { path: ['comments'], message: 'スペシャルはコメントしてね' },
     ),
