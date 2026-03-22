@@ -6,7 +6,7 @@ export default function AppError({
   error,
   reset,
 }: {
-  error: Error;
+  error: Error & { digest?: string };
   reset: () => void;
 }) {
   if (process.env.NODE_ENV !== 'production') {
