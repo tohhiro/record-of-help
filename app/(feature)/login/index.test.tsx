@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useSignIn } from './hooks/useSignIn';
 import { default as Login } from './page';
@@ -19,6 +19,7 @@ describe('Login', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
@@ -99,5 +100,40 @@ describe('Login', () => {
 
     await user.click(loginButtonComponent);
     expect(loginButtonComponent).toBeDisabled();
+  });
+
+  test('ログインに失敗した場合、alertが表示されボタンが有効に戻る', async () => {
+    const errorMessage = 'Invalid login credentials';
+    const mockSignIn = jest.fn().mockImplementation((_input, cb) => {
+      cb.onError({ message: errorMessage });
+      return Promise.resolve();
+    });
+
+    // NOTE: user.type による再レンダリングで mockReturnValueOnce が消費されるため
+    // mockReturnValue を使用。afterEach の clearAllMocks でリセットされる
+    mockedUseSignIn.mockReturnValue({
+      signIn: mockSignIn,
+    });
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    render(<Login />);
+
+    const emailInputComponent = screen.getByRole('textbox', {
+      name: 'メールアドレス',
+    });
+    const passwordInputComponent = screen.getByLabelText('パスワード');
+    const loginButtonComponent = screen.getByRole('button');
+
+    await user.type(emailInputComponent, 'email@test.com');
+    await user.type(passwordInputComponent, 'password');
+    await user.click(loginButtonComponent);
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        `ログインに失敗しました。\n ${errorMessage}`,
+      );
+    });
+    expect(loginButtonComponent).toBeEnabled();
   });
 });

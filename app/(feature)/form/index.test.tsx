@@ -1,23 +1,31 @@
 import { mockPricesListRaw } from '@/mocks/pricesList';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useFetchPricesList } from './hooks/useFetchPricesList';
+import { usePostHelp } from './hooks/usePostHelp';
 import { default as Form } from './page';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 jest.mock('./hooks/useFetchPricesList');
+jest.mock('./hooks/usePostHelp');
 
 const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
+const mockUsePostHelp = jest.mocked(usePostHelp);
 
 describe('Form', () => {
   const user = userEvent.setup();
 
   beforeEach(() => {
     mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
+    mockUsePostHelp.mockReturnValue({
+      postHelp: jest.fn().mockResolvedValue(undefined),
+      isMutating: false,
+    });
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('radio', () => {
@@ -125,6 +133,40 @@ describe('Form', () => {
       await user.click(button);
       expect(screen.getAllByText('どちらかを選択してください')).toHaveLength(1);
       expect(screen.getAllByText('1つ以上選択してください')).toHaveLength(1);
+    });
+  });
+
+  describe('submit error', () => {
+    test('送信に失敗した場合、alertが表示される', async () => {
+      const errorMessage = 'Server error';
+      const mockPostHelp = jest.fn().mockImplementation((_data, cb) => {
+        cb.onError(new Error(errorMessage));
+        return Promise.resolve();
+      });
+
+      mockUsePostHelp.mockReturnValue({
+        postHelp: mockPostHelp,
+        isMutating: false,
+      });
+
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+      render(<Form />);
+
+      const radioButton = screen.getByRole('radio', { name: 'eito' });
+      await user.click(radioButton);
+
+      const checkbox = screen.getByRole('checkbox', { name: '皿洗い' });
+      await user.click(checkbox);
+
+      const button = screen.getByRole('button');
+      await user.click(button);
+
+      await waitFor(() => {
+        expect(alertSpy).toHaveBeenCalledWith(
+          `エラーが発生しました: ${errorMessage}`,
+        );
+      });
     });
   });
 });
