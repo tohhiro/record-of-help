@@ -109,6 +109,8 @@ describe('Login', () => {
       return Promise.resolve();
     });
 
+    // NOTE: user.type による再レンダリングで mockReturnValueOnce が消費されるため
+    // mockReturnValue を使用。afterEach の clearAllMocks でリセットされる
     mockedUseSignIn.mockReturnValue({
       signIn: mockSignIn,
     });

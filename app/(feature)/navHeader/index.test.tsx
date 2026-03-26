@@ -1,12 +1,14 @@
 import * as Supabase from '@/app/libs/supabase';
-import * as Zustand from '@/app/store';
-import { render, screen } from '@testing-library/react';
+import { useStore } from '@/app/store';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AuthApiError } from '@supabase/auth-js';
 import { NavHeader } from '.';
 
 jest.mock('@/app/store');
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
+
+const mockedUseStore = jest.mocked(useStore);
 
 const originalLocation = window.location;
 beforeEach(() => {
@@ -34,7 +36,6 @@ const data = {
 describe('NavHeader', () => {
   const user = userEvent.setup();
 
-  let useStore: jest.SpyInstance;
   let signOut: jest.SpyInstance;
 
   afterEach(() => {
@@ -43,7 +44,7 @@ describe('NavHeader', () => {
   });
 
   test('NavHeaderがレンダリングされタイトルの文字列が取得できる', () => {
-    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation(
+    mockedUseStore.mockImplementation(
       (state) =>
         state({
           loginUser: { email: '', id: '', auth: false },
@@ -54,25 +55,25 @@ describe('NavHeader', () => {
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut');
     render(<NavHeader />);
     expect(screen.getByText('Record of help')).toBeInTheDocument();
-    expect(useStore).toHaveBeenCalled();
+    expect(mockedUseStore).toHaveBeenCalled();
   });
 
   test('ログイン名をクリックするとサインアウトとuseStoreが呼ばれる', async () => {
-    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
+    mockedUseStore.mockImplementation((state) => state(data));
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
 
     render(<NavHeader />);
     const logout = screen.getByRole('link', { name: mockedLoginUser });
     await user.click(logout);
 
-    expect(useStore).toHaveBeenCalled();
+    expect(mockedUseStore).toHaveBeenCalled();
     expect(signOut).toHaveBeenCalled();
     expect(window.location.href).toBe('/login');
   });
 
   test('サインアウトに失敗した場合、alertが表示される', async () => {
     const errorMessage = 'Sign out failed';
-    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
+    mockedUseStore.mockImplementation((state) => state(data));
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({
       error: new AuthApiError(errorMessage, 500, 'unexpected'),
     });
@@ -83,8 +84,10 @@ describe('NavHeader', () => {
     await user.click(logout);
 
     expect(signOut).toHaveBeenCalled();
-    expect(alertSpy).toHaveBeenCalledWith(
-      `ログアウトに失敗しました。\n ${errorMessage}`,
-    );
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith(
+        `ログアウトに失敗しました。\n ${errorMessage}`,
+      );
+    });
   });
 });
