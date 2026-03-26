@@ -7,7 +7,7 @@ const fetchSupabase = async () => {
     const { data, error } = await supabase.from('helps_list').select('*, prices_list (*)');
     return { data, error };
   } catch (error) {
-    throw new Error(String(error));
+    throw error instanceof Error ? error : new Error(String(error));
   }
 };
 

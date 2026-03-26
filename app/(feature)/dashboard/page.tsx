@@ -35,7 +35,7 @@ const thData = {
 const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
 
 export default function Page() {
-  const [isDisplaySearchPanel, setIsDisplaySearchPanel] = useState(true);
+  const [isSearchPanelHidden, setIsSearchPanelHidden] = useState(true);
   const { success, conditionsFetch } = useFetchRawsData();
   const fetchData: TdProps = success.rawsData;
 
@@ -52,8 +52,8 @@ export default function Page() {
     resolver: zodResolver(validationSchema),
   });
 
-  const onDisplaySearchPanel = () => {
-    setIsDisplaySearchPanel((prev) => !prev);
+  const onToggleSearchPanel = () => {
+    setIsSearchPanelHidden((prev) => !prev);
   };
 
   const onSubmit: SubmitHandler<DashboardProps> = (data) => {
@@ -72,13 +72,13 @@ export default function Page() {
         <Button
           type="button"
           intent="secondary"
-          label={isDisplaySearchPanel ? '表示' : '非表示'}
-          onClick={onDisplaySearchPanel}
+          label={isSearchPanelHidden ? '表示' : '非表示'}
+          onClick={onToggleSearchPanel}
         />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={dashboardFormStyles({ display: isDisplaySearchPanel ? 'hidden' : 'block' })}
+        className={dashboardFormStyles({ display: isSearchPanelHidden ? 'hidden' : 'block' })}
       >
         <div className="w-[10em]">
           <Controller
@@ -125,7 +125,7 @@ export default function Page() {
       <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
       <div
         className={`${dashboardStyles.tableContainer} ${
-          isDisplaySearchPanel ? 'h-[560px]' : 'h-56'
+          isSearchPanelHidden ? 'h-[560px]' : 'h-56'
         }`}
       >
         <Suspense fallback={<div>Loading...</div>}>
