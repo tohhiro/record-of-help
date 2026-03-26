@@ -19,7 +19,7 @@ export const useDeleteRecord = () => {
       const result = await trigger(args);
       return { status: result.status, message: result.statusText };
     } catch (e) {
-      throw new Error(String(e));
+      throw e instanceof Error ? e : new Error(String(e));
     }
   };
 

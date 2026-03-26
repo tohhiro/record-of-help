@@ -35,7 +35,7 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
     const { data, error } = await fetchPerson();
     return { data, error };
   } catch (error) {
-    throw new Error(String(error));
+    throw error instanceof Error ? error : new Error(String(error));
   }
 };
 
