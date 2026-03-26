@@ -2,6 +2,7 @@ import * as Supabase from '@/app/libs/supabase';
 import * as Zustand from '@/app/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { AuthApiError } from '@supabase/auth-js';
 import { NavHeader } from '.';
 
 jest.mock('@/app/store');
@@ -67,5 +68,23 @@ describe('NavHeader', () => {
     expect(useStore).toHaveBeenCalled();
     expect(signOut).toHaveBeenCalled();
     expect(window.location.href).toBe('/login');
+  });
+
+  test('サインアウトに失敗した場合、alertが表示される', async () => {
+    const errorMessage = 'Sign out failed';
+    useStore = jest.spyOn(Zustand, 'useStore').mockImplementation((state) => state(data));
+    signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({
+      error: new AuthApiError(errorMessage, 500, 'unexpected'),
+    });
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    render(<NavHeader />);
+    const logout = screen.getByRole('link', { name: mockedLoginUser });
+    await user.click(logout);
+
+    expect(signOut).toHaveBeenCalled();
+    expect(alertSpy).toHaveBeenCalledWith(
+      `ログアウトに失敗しました。\n ${errorMessage}`,
+    );
   });
 });
