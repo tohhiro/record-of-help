@@ -21,7 +21,7 @@ const fetcher = async ({ email }: { email: string | null }) => {
     const { data, error } = await fetchSupabase();
     return { data, error };
   } catch (error) {
-    throw new Error(String(error));
+    throw error instanceof Error ? error : new Error(String(error));
   }
 };
 
