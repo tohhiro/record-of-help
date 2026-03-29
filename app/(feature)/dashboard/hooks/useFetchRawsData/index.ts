@@ -49,7 +49,7 @@ export const useFetchRawsData = () => {
 
   const swrKey = `raws_data/${conditions.startDate}/${conditions.endDate}/${conditions.person}`;
 
-  const { data } = useSWR(swrKey, () => conditionsFetcher(conditions));
+  const { data, mutate } = useSWR(swrKey, () => conditionsFetcher(conditions));
 
   const rawsData: Props = data?.data ?? null;
 
@@ -58,7 +58,9 @@ export const useFetchRawsData = () => {
       ...args,
       person: args.person ?? '',
     });
-  }, []);
+    // 同一条件での再検索時もデータを再取得する
+    mutate();
+  }, [mutate]);
 
   return {
     success: {

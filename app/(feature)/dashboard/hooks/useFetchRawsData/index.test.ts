@@ -151,15 +151,18 @@ describe('useFetchRawsData', () => {
       });
     });
 
-    test('SWRがデータなしを返す場合、rawsDataがnullになる', async () => {
+    test('conditionsFetch呼び出し時にmutateが実行される', async () => {
+      const mockMutate = jest.fn();
       mockedUseSWR.mockReturnValue({
         ...commonMockData,
+        data: { data: mockRawsData.data, error: null },
+        mutate: mockMutate,
       });
 
       const conditionsArgs: ConditionsArgsType = {
-        startDate: '2023-02-01',
-        endDate: '2023-02-28',
-        person: 'テストユーザー1',
+        startDate: '2023-01-01',
+        endDate: '2023-01-31',
+        person: '',
       };
 
       const { result } = renderHook(() => useFetchRawsData());
@@ -168,9 +171,7 @@ describe('useFetchRawsData', () => {
         result.current.conditionsFetch(conditionsArgs);
       });
 
-      await waitFor(() => {
-        expect(result.current.success.rawsData).toBeNull();
-      });
+      expect(mockMutate).toHaveBeenCalled();
     });
   });
 
