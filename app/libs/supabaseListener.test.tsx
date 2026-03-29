@@ -43,7 +43,6 @@ type AuthStateChangeCallback = Parameters<typeof supabase.auth.onAuthStateChange
 
 describe('SupabaseListener', () => {
   const mockUpdateLoginUser = jest.fn();
-  const mockFetchAuth = jest.fn();
 
   beforeEach(() => {
     mockUseStore.mockReturnValue({
@@ -51,7 +50,9 @@ describe('SupabaseListener', () => {
     });
 
     mockUseFetchMember.mockReturnValue({
-      fetchAuth: mockFetchAuth,
+      result: undefined,
+      error: undefined,
+      isLoading: false,
     });
   });
 
@@ -73,8 +74,10 @@ describe('SupabaseListener', () => {
       data: { subscription: createMockSubscription(mockUnsubscribe) },
     });
 
-    mockFetchAuth.mockResolvedValue({
-      result: { data: [{ admin: true }] },
+    mockUseFetchMember.mockReturnValue({
+      result: { data: [{ admin: true }], error: null },
+      error: undefined,
+      isLoading: false,
     });
 
     render(<SupabaseListener serverUserId="123" />);
@@ -103,8 +106,10 @@ describe('SupabaseListener', () => {
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
       });
 
-    mockFetchAuth.mockResolvedValue({
-      result: { data: [{ admin: false }] },
+    mockUseFetchMember.mockReturnValue({
+      result: { data: [{ admin: false }], error: null },
+      error: undefined,
+      isLoading: false,
     });
 
     render(<SupabaseListener serverUserId="oldUserId" />);
@@ -153,7 +158,8 @@ describe('SupabaseListener', () => {
         auth: undefined,
       });
     });
-    expect(mockFetchAuth).not.toHaveBeenCalledWith({ email: expect.any(String) });
+    // sessionがnullの場合、useFetchMemberにemailは渡されない
+    expect(mockUseFetchMember).toHaveBeenCalledWith(null);
     // serverUserId が存在するのに session が null → ユーザーがログアウトしたため refresh
     expect(mockRouterRefresh).toHaveBeenCalled();
   });
@@ -203,8 +209,10 @@ describe('SupabaseListener', () => {
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
       });
 
-    mockFetchAuth.mockResolvedValue({
-      result: { data: [{ admin: true }] },
+    mockUseFetchMember.mockReturnValue({
+      result: { data: [{ admin: true }], error: null },
+      error: undefined,
+      isLoading: false,
     });
 
     // serverUserId と session.user.id が同じ → トークンだけ変わったケース

@@ -1,38 +1,29 @@
 import { supabase } from '@/app/libs/supabase';
 import { type PostgrestError } from '@supabase/supabase-js';
-import { mutate } from 'swr';
+import useSWR from 'swr';
 
-type ReturnProps = {
-  result:
-    | {
-        data:
-          | {
-              admin: boolean;
-            }[]
-          | null;
-        error: PostgrestError | null;
-      }
-    | undefined;
+type MemberResult = {
+  data: { admin: boolean }[] | null;
+  error: PostgrestError | null;
 };
 
-const fetcher = async ({ email }: { email: string | null }) => {
+const fetcher = async (email: string): Promise<MemberResult> => {
   try {
-    const fetchSupabase = () => supabase.from('members_list').select('admin').eq('email', email);
-    const { data, error } = await fetchSupabase();
+    const { data, error } = await supabase.from('members_list').select('admin').eq('email', email);
     return { data, error };
   } catch (error) {
     throw error instanceof Error ? error : new Error(String(error));
   }
 };
 
-export const useFetchMember = () => {
-  const fetchAuth = async ({ email }: { email: string | null }): Promise<ReturnProps> => {
-    const result = await mutate(`admin_auth_${email}`, fetcher({ email }));
-    return {
-      result,
-    };
-  };
+export const useFetchMember = (email: string | null) => {
+  const { data, error, isLoading } = useSWR(
+    email ? `admin_auth_${email}` : null,
+    () => fetcher(email!),
+  );
   return {
-    fetchAuth,
+    result: data,
+    error,
+    isLoading,
   };
 };

@@ -4,31 +4,42 @@ import { isExpectedAuthError } from '@/app/libs/authUtils';
 import { supabase } from '@/app/libs/supabase';
 import { useStore } from '@/app/store';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId }) => {
   const router = useRouter();
   const { updateLoginUser } = useStore();
-  const { fetchAuth } = useFetchMember();
+  const [userInfo, setUserInfo] = useState<{ id: string; email: string | null } | null>(null);
+  const { result, error: memberError, isLoading } = useFetchMember(userInfo?.email ?? null);
+
+  // member情報が取得できたらstoreを更新
+  useEffect(() => {
+    if (!userInfo) return;
+    if (isLoading) return;
+    if (memberError) {
+      console.warn('[SupabaseListener] admin判定に失敗:', memberError);
+      updateLoginUser({ id: userInfo.id, email: userInfo.email, auth: undefined });
+    } else if (result) {
+      updateLoginUser({
+        id: userInfo.id,
+        email: userInfo.email,
+        auth: result.data?.[0]?.admin === true,
+      });
+    }
+  }, [userInfo, result, memberError, isLoading, updateLoginUser]);
 
   useEffect(() => {
     const getUserInfo = async () => {
       try {
         const { data: { user }, error } = await supabase.auth.getUser();
         if (error) {
-          // 未ログイン相当のエラーはログを出さず、真正なエラーのみ warn する
           if (!isExpectedAuthError(error.message)) {
             console.warn('[SupabaseListener] ユーザー情報取得に失敗:', error.message);
           }
           return;
         }
         if (user) {
-          const auth = await fetchAuth({ email: user.email || null });
-          updateLoginUser({
-            id: user.id,
-            email: user.email ?? null,
-            auth: auth.result?.data?.[0]?.admin === true,
-          });
+          setUserInfo({ id: user.id, email: user.email ?? null });
         }
       } catch (error) {
         console.warn('[SupabaseListener] 予期しないエラー:', error);
@@ -41,25 +52,11 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
     } = supabase.auth.onAuthStateChange(async (_, session) => {
       if (!session) {
         updateLoginUser({ id: null, email: null, auth: undefined });
+        setUserInfo(null);
         if (serverUserId) router.refresh();
         return;
       }
-      try {
-        const auth = await fetchAuth({ email: session.user.email || null });
-        updateLoginUser({
-          id: session.user.id,
-          email: session.user.email ?? null,
-          auth: auth.result?.data?.[0]?.admin === true,
-        });
-      } catch (error) {
-        // fetchAuth失敗時でも基本情報は更新（authはundefinedのまま）
-        console.warn('[SupabaseListener] admin判定に失敗:', error);
-        updateLoginUser({
-          id: session.user.id,
-          email: session.user.email ?? null,
-          auth: undefined,
-        });
-      }
+      setUserInfo({ id: session.user.id, email: session.user.email ?? null });
       if (session.user.id !== serverUserId) router.refresh();
     });
 
