@@ -1,7 +1,7 @@
 import { supabase } from '@/app/libs/supabase';
 import type { Database } from '@/supabase/schema';
-import { useCallback, useEffect, useState } from 'react';
-import useSWR, { mutate } from 'swr';
+import { useCallback, useState } from 'react';
+import useSWR from 'swr';
 import { getNowMonthFirstLast } from './helpers';
 
 type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
@@ -40,34 +40,40 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
 };
 
 export const useFetchRawsData = () => {
-  const [rawsData, setRawsData] = useState<Props | null>(null);
+  const [conditions, setConditions] = useState<ConditionsArgsType>(() => {
+    const { startDate, endDate } = getNowMonthFirstLast();
+    return { person: '', startDate, endDate };
+  });
 
-  const { startDate, endDate } = getNowMonthFirstLast();
-  const sendingData: ConditionsArgsType = {
-    person: '',
-    startDate,
-    endDate,
-  };
+  const swrKey = `raws_data/${conditions.startDate}/${conditions.endDate}/${conditions.person}`;
 
-  const fetcher = () => conditionsFetcher({ ...sendingData });
+  const { data, mutate } = useSWR(swrKey, () => conditionsFetcher(conditions));
 
-  const { data } = useSWR('raws_data', fetcher);
-  useEffect(() => {
-    setRawsData(data?.data || null);
-  }, [data]);
+  const rawsData: Props = data?.data ?? null;
 
-  const mutateFetch = useCallback(async (args: ConditionsArgsType) => {
-    const swrKey = `raws_data_conditions/${args.startDate}/${args.endDate}/${args.person}`;
-    const result = await mutate(swrKey, conditionsFetcher({ ...args }));
-    setRawsData(() => result?.data || null);
-  }, []);
+  const conditionsFetch = useCallback(
+    (args: ConditionsArgsType) => {
+      const nextConditions: ConditionsArgsType = {
+        ...args,
+        person: args.person ?? '',
+      };
+      const { startDate: s, endDate: e, person: p } = nextConditions;
+      const nextKey = `raws_data/${s}/${e}/${p}`;
+
+      setConditions(nextConditions);
+
+      // 同一条件での再検索時のみ、現在のキーで明示的に再取得する
+      if (nextKey === swrKey) {
+        mutate();
+      }
+    },
+    [mutate, swrKey],
+  );
 
   return {
     success: {
       rawsData,
     },
-    conditionsFetch: (args: ConditionsArgsType) => {
-      mutateFetch(args);
-    },
+    conditionsFetch,
   };
 };

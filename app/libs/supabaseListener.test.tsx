@@ -22,7 +22,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 /** テスト用の最小限User */
-const createMockUser = (overrides: { id: string; email: string }): User => ({
+const createMockUser = (overrides: { id: string; email?: string }): User => ({
   id: overrides.id,
   email: overrides.email,
   app_metadata: {},
@@ -43,7 +43,6 @@ type AuthStateChangeCallback = Parameters<typeof supabase.auth.onAuthStateChange
 
 describe('SupabaseListener', () => {
   const mockUpdateLoginUser = jest.fn();
-  const mockFetchAuth = jest.fn();
 
   beforeEach(() => {
     mockUseStore.mockReturnValue({
@@ -51,7 +50,10 @@ describe('SupabaseListener', () => {
     });
 
     mockUseFetchMember.mockReturnValue({
-      fetchAuth: mockFetchAuth,
+      memberData: null,
+      postgrestError: null,
+      swrError: undefined,
+      isLoading: false,
     });
   });
 
@@ -73,8 +75,11 @@ describe('SupabaseListener', () => {
       data: { subscription: createMockSubscription(mockUnsubscribe) },
     });
 
-    mockFetchAuth.mockResolvedValue({
-      result: { data: [{ admin: true }] },
+    mockUseFetchMember.mockReturnValue({
+      memberData: [{ admin: true }],
+      postgrestError: null,
+      swrError: undefined,
+      isLoading: false,
     });
 
     render(<SupabaseListener serverUserId="123" />);
@@ -103,8 +108,11 @@ describe('SupabaseListener', () => {
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
       });
 
-    mockFetchAuth.mockResolvedValue({
-      result: { data: [{ admin: false }] },
+    mockUseFetchMember.mockReturnValue({
+      memberData: [{ admin: false }],
+      postgrestError: null,
+      swrError: undefined,
+      isLoading: false,
     });
 
     render(<SupabaseListener serverUserId="oldUserId" />);
@@ -153,7 +161,8 @@ describe('SupabaseListener', () => {
         auth: undefined,
       });
     });
-    expect(mockFetchAuth).not.toHaveBeenCalledWith({ email: expect.any(String) });
+    // sessionがnullの場合、useFetchMemberにemail（文字列）は渡されない
+    expect(mockUseFetchMember).not.toHaveBeenCalledWith(expect.any(String));
     // serverUserId が存在するのに session が null → ユーザーがログアウトしたため refresh
     expect(mockRouterRefresh).toHaveBeenCalled();
   });
@@ -203,8 +212,11 @@ describe('SupabaseListener', () => {
         return { data: { subscription: createMockSubscription(mockUnsubscribe) } };
       });
 
-    mockFetchAuth.mockResolvedValue({
-      result: { data: [{ admin: true }] },
+    mockUseFetchMember.mockReturnValue({
+      memberData: [{ admin: true }],
+      postgrestError: null,
+      swrError: undefined,
+      isLoading: false,
     });
 
     // serverUserId と session.user.id が同じ → トークンだけ変わったケース
@@ -275,5 +287,31 @@ describe('SupabaseListener', () => {
     expect(consoleWarnSpy).not.toHaveBeenCalled();
     // 未ログイン相当なので updateLoginUser も呼ばない
     expect(mockUpdateLoginUser).not.toHaveBeenCalled();
+  });
+
+  test('getUser でemailがnull/undefinedのユーザーの場合、auth undefinedで更新される', async () => {
+    jest.spyOn(supabase.auth, 'getUser').mockResolvedValue({
+      data: {
+        user: createMockUser({ id: 'no-email-user' }),
+      },
+      error: null,
+    });
+
+    const mockUnsubscribe = jest.fn();
+    jest.spyOn(supabase.auth, 'onAuthStateChange').mockReturnValue({
+      data: { subscription: createMockSubscription(mockUnsubscribe) },
+    });
+
+    render(<SupabaseListener serverUserId="no-email-user" />);
+
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: 'no-email-user',
+        email: null,
+        auth: undefined,
+      });
+    });
+    // emailがnullのため、useFetchMemberに文字列emailは渡されない
+    expect(mockUseFetchMember).not.toHaveBeenCalledWith(expect.any(String));
   });
 });
