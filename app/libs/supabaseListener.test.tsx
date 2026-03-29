@@ -22,7 +22,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 /** テスト用の最小限User */
-const createMockUser = (overrides: { id: string; email: string }): User => ({
+const createMockUser = (overrides: { id: string; email?: string }): User => ({
   id: overrides.id,
   email: overrides.email,
   app_metadata: {},
@@ -287,5 +287,31 @@ describe('SupabaseListener', () => {
     expect(consoleWarnSpy).not.toHaveBeenCalled();
     // 未ログイン相当なので updateLoginUser も呼ばない
     expect(mockUpdateLoginUser).not.toHaveBeenCalled();
+  });
+
+  test('getUser でemailがnull/undefinedのユーザーの場合、auth undefinedで更新される', async () => {
+    jest.spyOn(supabase.auth, 'getUser').mockResolvedValue({
+      data: {
+        user: createMockUser({ id: 'no-email-user' }),
+      },
+      error: null,
+    });
+
+    const mockUnsubscribe = jest.fn();
+    jest.spyOn(supabase.auth, 'onAuthStateChange').mockReturnValue({
+      data: { subscription: createMockSubscription(mockUnsubscribe) },
+    });
+
+    render(<SupabaseListener serverUserId="no-email-user" />);
+
+    await waitFor(() => {
+      expect(mockUpdateLoginUser).toHaveBeenCalledWith({
+        id: 'no-email-user',
+        email: null,
+        auth: undefined,
+      });
+    });
+    // emailがnullのため、useFetchMemberに文字列emailは渡されない
+    expect(mockUseFetchMember).not.toHaveBeenCalledWith(expect.any(String));
   });
 });

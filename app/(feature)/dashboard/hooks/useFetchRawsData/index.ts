@@ -40,11 +40,9 @@ const conditionsFetcher = async (args: ConditionsArgsType) => {
 };
 
 export const useFetchRawsData = () => {
-  const { startDate, endDate } = getNowMonthFirstLast();
-  const [conditions, setConditions] = useState<ConditionsArgsType>({
-    person: '',
-    startDate,
-    endDate,
+  const [conditions, setConditions] = useState<ConditionsArgsType>(() => {
+    const { startDate, endDate } = getNowMonthFirstLast();
+    return { person: '', startDate, endDate };
   });
 
   const swrKey = `raws_data/${conditions.startDate}/${conditions.endDate}/${conditions.person}`;
