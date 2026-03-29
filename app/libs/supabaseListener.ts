@@ -12,7 +12,7 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
   const [userInfo, setUserInfo] = useState<{ id: string; email: string | null } | null>(null);
   const { result, error: memberError, isLoading } = useFetchMember(userInfo?.email ?? null);
 
-  // member情報が取得できたらstoreを更新
+  // member情報が取得できたらstoreのauth情報を更新
   useEffect(() => {
     if (!userInfo) return;
     if (isLoading) return;
@@ -25,6 +25,9 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
         email: userInfo.email,
         auth: result.data?.[0]?.admin === true,
       });
+    } else if (!userInfo.email) {
+      // emailがnullの場合、SWRキーがnullでフェッチされないためauth undefinedで確定
+      updateLoginUser({ id: userInfo.id, email: userInfo.email, auth: undefined });
     }
   }, [userInfo, result, memberError, isLoading, updateLoginUser]);
 
@@ -39,7 +42,10 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
           return;
         }
         if (user) {
-          setUserInfo({ id: user.id, email: user.email ?? null });
+          // id/emailを先にstoreに反映（authはmember取得後に更新）
+          const info = { id: user.id, email: user.email ?? null };
+          updateLoginUser({ ...info, auth: undefined });
+          setUserInfo(info);
         }
       } catch (error) {
         console.warn('[SupabaseListener] 予期しないエラー:', error);
@@ -56,7 +62,10 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
         if (serverUserId) router.refresh();
         return;
       }
-      setUserInfo({ id: session.user.id, email: session.user.email ?? null });
+      // id/emailを先にstoreに反映（authはmember取得後に更新）
+      const info = { id: session.user.id, email: session.user.email ?? null };
+      updateLoginUser({ ...info, auth: undefined });
+      setUserInfo(info);
       if (session.user.id !== serverUserId) router.refresh();
     });
 

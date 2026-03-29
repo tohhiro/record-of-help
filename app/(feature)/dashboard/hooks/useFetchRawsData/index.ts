@@ -54,7 +54,10 @@ export const useFetchRawsData = () => {
   const rawsData: Props = data?.data ?? null;
 
   const conditionsFetch = useCallback((args: ConditionsArgsType) => {
-    setConditions(args);
+    setConditions({
+      ...args,
+      person: args.person ?? '',
+    });
   }, []);
 
   return {

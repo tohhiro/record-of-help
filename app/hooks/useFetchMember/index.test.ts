@@ -95,7 +95,7 @@ describe('useFetchMember', () => {
       mockEq.mockResolvedValueOnce({ data: mockSuccessData, error: null });
 
       if (fetcherFunction) {
-        const result = await fetcherFunction('admin_auth_test@test.com');
+        const result = await fetcherFunction();
         expect(supabase.from).toHaveBeenCalledWith('members_list');
         expect(mockSelect).toHaveBeenCalledWith('admin');
         expect(mockEq).toHaveBeenCalledWith('email', 'test@test.com');
@@ -112,7 +112,7 @@ describe('useFetchMember', () => {
       mockEq.mockResolvedValueOnce({ data: null, error: mockErrorData });
 
       if (fetcherFunction) {
-        const result = await fetcherFunction('admin_auth_test@test.com');
+        const result = await fetcherFunction();
         expect(result).toStrictEqual({ data: null, error: mockErrorData });
       }
     });
@@ -126,7 +126,7 @@ describe('useFetchMember', () => {
       mockEq.mockRejectedValueOnce(new Error('Network error'));
 
       if (fetcherFunction) {
-        await expect(fetcherFunction('admin_auth_test@test.com')).rejects.toThrow('Network error');
+        await expect(fetcherFunction()).rejects.toThrow('Network error');
       }
     });
   });

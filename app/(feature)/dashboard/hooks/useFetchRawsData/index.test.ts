@@ -45,9 +45,14 @@ describe('useFetchRawsData', () => {
     mockOrder.mockReturnValue(chain);
     mockGte.mockReturnValue(chain);
 
-    // lteの戻り値: person指定時の.eq()チェーン用
+    // lteの戻り値:
+    // - person指定時: .eq() チェーンで { data, error } を返す
+    // - person未指定時: await ...lte(...) で { data, error } を返す（thenable として振る舞う）
     const chainAfterLte = {
       eq: jest.fn().mockResolvedValue({ data: mockRawsData.data, error: null }),
+      then: (
+        _onFulfilled: (_value: { data: typeof mockRawsData.data; error: null }) => unknown,
+      ) => _onFulfilled({ data: mockRawsData.data, error: null }),
     };
     mockLte.mockReturnValue(chainAfterLte);
 
@@ -140,7 +145,7 @@ describe('useFetchRawsData', () => {
 
       await waitFor(() => {
         expect(mockedUseSWR).toHaveBeenCalledWith(
-          `raws_data/${conditionsArgs.startDate}/${conditionsArgs.endDate}/undefined`,
+          `raws_data/${conditionsArgs.startDate}/${conditionsArgs.endDate}/`,
           expect.any(Function),
         );
       });
@@ -179,7 +184,7 @@ describe('useFetchRawsData', () => {
 
       if (fetcherFunction) {
         await act(async () => {
-          await fetcherFunction('raws_data/2023-01-01/2023-01-31/');
+          await fetcherFunction();
         });
 
         // Supabaseクエリが正しく呼ばれることを確認
@@ -198,7 +203,7 @@ describe('useFetchRawsData', () => {
 
       if (fetcherFunction) {
         await act(async () => {
-          await fetcherFunction('raws_data/2023-01-01/2023-01-31/');
+          await fetcherFunction();
         });
 
         await waitFor(() => {
@@ -220,7 +225,7 @@ describe('useFetchRawsData', () => {
 
       if (fetcherFunction) {
         await act(async () => {
-          await fetcherFunction('raws_data/2023-02-01/2023-02-28/');
+          await fetcherFunction();
         });
 
         await waitFor(() => {
