@@ -53,14 +53,24 @@ export const useFetchRawsData = () => {
 
   const rawsData: Props = data?.data ?? null;
 
-  const conditionsFetch = useCallback((args: ConditionsArgsType) => {
-    setConditions({
-      ...args,
-      person: args.person ?? '',
-    });
-    // 同一条件での再検索時もデータを再取得する
-    mutate();
-  }, [mutate]);
+  const conditionsFetch = useCallback(
+    (args: ConditionsArgsType) => {
+      const nextConditions: ConditionsArgsType = {
+        ...args,
+        person: args.person ?? '',
+      };
+      const { startDate: s, endDate: e, person: p } = nextConditions;
+      const nextKey = `raws_data/${s}/${e}/${p}`;
+
+      setConditions(nextConditions);
+
+      // 同一条件での再検索時のみ、現在のキーで明示的に再取得する
+      if (nextKey === swrKey) {
+        mutate();
+      }
+    },
+    [mutate, swrKey],
+  );
 
   return {
     success: {

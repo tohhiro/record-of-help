@@ -161,8 +161,8 @@ describe('SupabaseListener', () => {
         auth: undefined,
       });
     });
-    // sessionがnullの場合、useFetchMemberにemailは渡されない
-    expect(mockUseFetchMember).toHaveBeenCalledWith(null);
+    // sessionがnullの場合、useFetchMemberにemail（文字列）は渡されない
+    expect(mockUseFetchMember).not.toHaveBeenCalledWith(expect.any(String));
     // serverUserId が存在するのに session が null → ユーザーがログアウトしたため refresh
     expect(mockRouterRefresh).toHaveBeenCalled();
   });

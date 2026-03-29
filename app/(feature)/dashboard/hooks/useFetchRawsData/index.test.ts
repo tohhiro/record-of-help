@@ -151,7 +151,7 @@ describe('useFetchRawsData', () => {
       });
     });
 
-    test('conditionsFetch呼び出し時にmutateが実行される', async () => {
+    test('同一条件での再検索時にmutateが実行される', async () => {
       const mockMutate = jest.fn();
       mockedUseSWR.mockReturnValue({
         ...commonMockData,
@@ -159,6 +159,7 @@ describe('useFetchRawsData', () => {
         mutate: mockMutate,
       });
 
+      // 初期条件と同一の条件を渡す（2023-01-01〜2023-01-31, person: ''）
       const conditionsArgs: ConditionsArgsType = {
         startDate: '2023-01-01',
         endDate: '2023-01-31',
@@ -173,6 +174,29 @@ describe('useFetchRawsData', () => {
 
       expect(mockMutate).toHaveBeenCalled();
     });
+
+    test('異なる条件での検索時にmutateが実行されない', async () => {
+      const mockMutate = jest.fn();
+      mockedUseSWR.mockReturnValue({
+        ...commonMockData,
+        data: { data: mockRawsData.data, error: null },
+        mutate: mockMutate,
+      });
+
+      const conditionsArgs: ConditionsArgsType = {
+        startDate: '2023-02-01',
+        endDate: '2023-02-28',
+        person: 'テストユーザー1',
+      };
+
+      const { result } = renderHook(() => useFetchRawsData());
+
+      await act(async () => {
+        result.current.conditionsFetch(conditionsArgs);
+      });
+
+      expect(mockMutate).not.toHaveBeenCalled();
+    });
   });
 
   describe('fetcherの動作テスト', () => {
@@ -183,17 +207,16 @@ describe('useFetchRawsData', () => {
       const swrCall = mockedUseSWR.mock.calls[0];
       const fetcherFunction = swrCall[1];
 
-      if (fetcherFunction) {
-        await act(async () => {
-          await fetcherFunction();
-        });
+      expect(fetcherFunction).toBeDefined();
+      await act(async () => {
+        await fetcherFunction!();
+      });
 
-        // Supabaseクエリが正しく呼ばれることを確認
-        expect(supabase.from).toHaveBeenCalledWith('raws_data');
-        expect(mockSelect).toHaveBeenCalledWith('*');
-        expect(mockEq).toHaveBeenCalledWith('del_flag', false);
-        expect(mockOrder).toHaveBeenCalledWith('created_at', { ascending: true });
-      }
+      // Supabaseクエリが正しく呼ばれることを確認
+      expect(supabase.from).toHaveBeenCalledWith('raws_data');
+      expect(mockSelect).toHaveBeenCalledWith('*');
+      expect(mockEq).toHaveBeenCalledWith('del_flag', false);
+      expect(mockOrder).toHaveBeenCalledWith('created_at', { ascending: true });
     });
 
     test('日付範囲でフィルタリングされる', async () => {
@@ -202,17 +225,16 @@ describe('useFetchRawsData', () => {
       const swrCall = mockedUseSWR.mock.calls[0];
       const fetcherFunction = swrCall[1];
 
-      if (fetcherFunction) {
-        await act(async () => {
-          await fetcherFunction();
-        });
+      expect(fetcherFunction).toBeDefined();
+      await act(async () => {
+        await fetcherFunction!();
+      });
 
-        await waitFor(() => {
-          // 2023年1月の範囲でフィルタリングされることを確認
-          expect(mockGte).toHaveBeenCalledWith('created_at', '2023-01-01 00:00:00');
-          expect(mockLte).toHaveBeenCalledWith('created_at', '2023-01-31 23:59:59');
-        });
-      }
+      await waitFor(() => {
+        // 2023年1月の範囲でフィルタリングされることを確認
+        expect(mockGte).toHaveBeenCalledWith('created_at', '2023-01-01 00:00:00');
+        expect(mockLte).toHaveBeenCalledWith('created_at', '2023-01-31 23:59:59');
+      });
     });
 
     test('異なる月に設定した場合の日付範囲フィルタリング', async () => {
@@ -224,17 +246,16 @@ describe('useFetchRawsData', () => {
       const swrCall = mockedUseSWR.mock.calls[0];
       const fetcherFunction = swrCall[1];
 
-      if (fetcherFunction) {
-        await act(async () => {
-          await fetcherFunction();
-        });
+      expect(fetcherFunction).toBeDefined();
+      await act(async () => {
+        await fetcherFunction!();
+      });
 
-        await waitFor(() => {
-          // 2023年2月の範囲でフィルタリングされることを確認
-          expect(mockGte).toHaveBeenCalledWith('created_at', '2023-02-01 00:00:00');
-          expect(mockLte).toHaveBeenCalledWith('created_at', '2023-02-28 23:59:59');
-        });
-      }
+      await waitFor(() => {
+        // 2023年2月の範囲でフィルタリングされることを確認
+        expect(mockGte).toHaveBeenCalledWith('created_at', '2023-02-01 00:00:00');
+        expect(mockLte).toHaveBeenCalledWith('created_at', '2023-02-28 23:59:59');
+      });
     });
   });
 });

@@ -95,13 +95,12 @@ describe('useFetchMember', () => {
 
       mockEq.mockResolvedValueOnce({ data: mockSuccessData, error: null });
 
-      if (fetcherFunction) {
-        const result = await fetcherFunction();
-        expect(supabase.from).toHaveBeenCalledWith('members_list');
-        expect(mockSelect).toHaveBeenCalledWith('admin');
-        expect(mockEq).toHaveBeenCalledWith('email', 'test@test.com');
-        expect(result).toStrictEqual({ data: mockSuccessData, error: null });
-      }
+      expect(fetcherFunction).toBeDefined();
+      const result = await fetcherFunction!();
+      expect(supabase.from).toHaveBeenCalledWith('members_list');
+      expect(mockSelect).toHaveBeenCalledWith('admin');
+      expect(mockEq).toHaveBeenCalledWith('email', 'test@test.com');
+      expect(result).toStrictEqual({ data: mockSuccessData, error: null });
     });
 
     test('失敗時、supabaseからエラーレスポンスを返す', async () => {
@@ -112,10 +111,9 @@ describe('useFetchMember', () => {
 
       mockEq.mockResolvedValueOnce({ data: null, error: mockErrorData });
 
-      if (fetcherFunction) {
-        const result = await fetcherFunction();
-        expect(result).toStrictEqual({ data: null, error: mockErrorData });
-      }
+      expect(fetcherFunction).toBeDefined();
+      const result = await fetcherFunction!();
+      expect(result).toStrictEqual({ data: null, error: mockErrorData });
     });
 
     test('supabaseが例外をスローした場合、エラーがスローされる', async () => {
@@ -126,9 +124,8 @@ describe('useFetchMember', () => {
 
       mockEq.mockRejectedValueOnce(new Error('Network error'));
 
-      if (fetcherFunction) {
-        await expect(fetcherFunction()).rejects.toThrow('Network error');
-      }
+      expect(fetcherFunction).toBeDefined();
+      await expect(fetcherFunction!()).rejects.toThrow('Network error');
     });
   });
 });
