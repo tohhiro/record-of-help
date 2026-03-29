@@ -10,26 +10,27 @@ const SupabaseListener: React.FC<{ serverUserId?: string }> = ({ serverUserId })
   const router = useRouter();
   const { updateLoginUser } = useStore();
   const [userInfo, setUserInfo] = useState<{ id: string; email: string | null } | null>(null);
-  const { result, error: memberError, isLoading } = useFetchMember(userInfo?.email ?? null);
+  const member = useFetchMember(userInfo?.email ?? null);
+  const { memberData, postgrestError, swrError, isLoading } = member;
 
   // member情報が取得できたらstoreのauth情報を更新
   useEffect(() => {
     if (!userInfo) return;
     if (isLoading) return;
-    if (memberError) {
-      console.warn('[SupabaseListener] admin判定に失敗:', memberError);
+    if (swrError || postgrestError) {
+      console.warn('[SupabaseListener] admin判定に失敗:', swrError || postgrestError);
       updateLoginUser({ id: userInfo.id, email: userInfo.email, auth: undefined });
-    } else if (result) {
+    } else if (memberData) {
       updateLoginUser({
         id: userInfo.id,
         email: userInfo.email,
-        auth: result.data?.[0]?.admin === true,
+        auth: memberData[0]?.admin === true,
       });
     } else if (!userInfo.email) {
       // emailがnullの場合、SWRキーがnullでフェッチされないためauth undefinedで確定
       updateLoginUser({ id: userInfo.id, email: userInfo.email, auth: undefined });
     }
-  }, [userInfo, result, memberError, isLoading, updateLoginUser]);
+  }, [userInfo, memberData, postgrestError, swrError, isLoading, updateLoginUser]);
 
   useEffect(() => {
     const getUserInfo = async () => {

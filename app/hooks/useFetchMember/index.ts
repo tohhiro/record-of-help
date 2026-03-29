@@ -19,11 +19,12 @@ const fetcher = async (email: string): Promise<MemberResult> => {
 export const useFetchMember = (email: string | null) => {
   const { data, error, isLoading } = useSWR(
     email ? `admin_auth_${email}` : null,
-    () => fetcher(email!),
+    email ? () => fetcher(email) : null,
   );
   return {
-    result: data,
-    error,
+    memberData: data?.data ?? null,
+    postgrestError: data?.error ?? null,
+    swrError: error,
     isLoading,
   };
 };

@@ -50,8 +50,9 @@ describe('SupabaseListener', () => {
     });
 
     mockUseFetchMember.mockReturnValue({
-      result: undefined,
-      error: undefined,
+      memberData: null,
+      postgrestError: null,
+      swrError: undefined,
       isLoading: false,
     });
   });
@@ -75,8 +76,9 @@ describe('SupabaseListener', () => {
     });
 
     mockUseFetchMember.mockReturnValue({
-      result: { data: [{ admin: true }], error: null },
-      error: undefined,
+      memberData: [{ admin: true }],
+      postgrestError: null,
+      swrError: undefined,
       isLoading: false,
     });
 
@@ -107,8 +109,9 @@ describe('SupabaseListener', () => {
       });
 
     mockUseFetchMember.mockReturnValue({
-      result: { data: [{ admin: false }], error: null },
-      error: undefined,
+      memberData: [{ admin: false }],
+      postgrestError: null,
+      swrError: undefined,
       isLoading: false,
     });
 
@@ -210,8 +213,9 @@ describe('SupabaseListener', () => {
       });
 
     mockUseFetchMember.mockReturnValue({
-      result: { data: [{ admin: true }], error: null },
-      error: undefined,
+      memberData: [{ admin: true }],
+      postgrestError: null,
+      swrError: undefined,
       isLoading: false,
     });
 

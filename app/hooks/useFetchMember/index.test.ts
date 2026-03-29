@@ -45,8 +45,8 @@ describe('useFetchMember', () => {
   test('emailがnullの場合、SWRキーがnullになる', () => {
     const { result } = renderHook(() => useFetchMember(null));
 
-    expect(mockedUseSWR).toHaveBeenCalledWith(null, expect.any(Function));
-    expect(result.current.result).toBeUndefined();
+    expect(mockedUseSWR).toHaveBeenCalledWith(null, null);
+    expect(result.current.memberData).toBeNull();
     expect(result.current.isLoading).toBe(false);
   });
 
@@ -59,7 +59,8 @@ describe('useFetchMember', () => {
     const { result } = renderHook(() => useFetchMember('test@test.com'));
 
     expect(mockedUseSWR).toHaveBeenCalledWith('admin_auth_test@test.com', expect.any(Function));
-    expect(result.current.result).toStrictEqual({ data: mockSuccessData, error: null });
+    expect(result.current.memberData).toStrictEqual(mockSuccessData);
+    expect(result.current.postgrestError).toBeNull();
   });
 
   test('SWRがエラーを返した場合、errorに値が入る', () => {
@@ -71,7 +72,7 @@ describe('useFetchMember', () => {
 
     const { result } = renderHook(() => useFetchMember('test@test.com'));
 
-    expect(result.current.error).toBe(mockError);
+    expect(result.current.swrError).toBe(mockError);
   });
 
   test('ローディング中はisLoadingがtrueになる', () => {
