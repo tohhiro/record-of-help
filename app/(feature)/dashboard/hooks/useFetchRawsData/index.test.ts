@@ -1,44 +1,26 @@
 import { supabase } from '@/app/libs/supabase';
 import { mockRawsData } from '@/mocks/rawsData';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import { useFetchRawsData, type ConditionsArgsType } from './index';
 
-jest.mock('@/app/libs/supabase');
+const mockSelect = jest.fn();
+const mockEq = jest.fn();
+const mockOrder = jest.fn();
+const mockGte = jest.fn();
+const mockLte = jest.fn();
+
+jest.mock('@/app/libs/supabase', () => ({
+  supabase: {
+    from: jest.fn(() => ({
+      select: mockSelect,
+    })),
+  },
+}));
+
 jest.mock('swr');
 
-const mockedSupabase = jest.mocked(supabase);
 const mockedUseSWR = jest.mocked(useSWR);
-const mockedMutate = jest.mocked(mutate);
-
-// Supabaseチェーンのモック
-const createMockSupabaseChain = () => {
-  const mockChain = {
-    from: jest.fn().mockReturnThis(),
-    select: jest.fn().mockReturnThis(),
-    eq: jest.fn().mockReturnThis(),
-    order: jest.fn().mockReturnThis(),
-    gte: jest.fn().mockReturnThis(),
-    lte: jest.fn(),
-  };
-
-  // lteメソッドは戻り値によって分岐する
-  mockChain.lte.mockImplementation(() => {
-    // personなしの場合は直接結果を返す
-    return Promise.resolve({ data: mockRawsData.data, error: null });
-  });
-
-  // eqメソッドを持つチェーンも作成
-  const mockChainWithEq = {
-    ...mockChain,
-    eq: jest.fn().mockResolvedValue({ data: mockRawsData.data, error: null }),
-  };
-
-  // 条件によって異なるチェーンを返す
-  mockChain.lte.mockReturnValue(mockChainWithEq);
-
-  return mockChain;
-};
 
 describe('useFetchRawsData', () => {
   const commonMockData = {
@@ -49,8 +31,6 @@ describe('useFetchRawsData', () => {
     mutate: jest.fn(),
   };
 
-  let mockSupabaseChain: ReturnType<typeof createMockSupabaseChain>;
-
   beforeEach(() => {
     jest.clearAllMocks();
 
@@ -58,10 +38,18 @@ describe('useFetchRawsData', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2023-01-15T12:00:00Z'));
 
-    // Supabaseチェーンモックを初期化
-    mockSupabaseChain = createMockSupabaseChain();
-    // 型エラー回避のため any キャスト
-    mockedSupabase.from.mockReturnValue(mockSupabaseChain as any);
+    // Supabaseチェーンモックを構成
+    const chain = { eq: mockEq, order: mockOrder, gte: mockGte, lte: mockLte };
+    mockSelect.mockReturnValue(chain);
+    mockEq.mockReturnValue(chain);
+    mockOrder.mockReturnValue(chain);
+    mockGte.mockReturnValue(chain);
+
+    // lteの戻り値: person指定時の.eq()チェーン用
+    const chainAfterLte = {
+      eq: jest.fn().mockResolvedValue({ data: mockRawsData.data, error: null }),
+    };
+    mockLte.mockReturnValue(chainAfterLte);
 
     mockedUseSWR.mockReturnValue({
       ...commonMockData,
@@ -81,8 +69,11 @@ describe('useFetchRawsData', () => {
         expect(result.current.success.rawsData).toEqual(mockRawsData.data);
       });
 
-      // useSWRが正しいキーで呼ばれることを確認
-      expect(mockedUseSWR).toHaveBeenCalledWith('raws_data', expect.any(Function));
+      // useSWRが今月の日付範囲を含むキーで呼ばれることを確認
+      expect(mockedUseSWR).toHaveBeenCalledWith(
+        'raws_data/2023-01-01/2023-01-31/',
+        expect.any(Function),
+      );
     });
 
     test('データがnullの場合、rawsDataがnullになる', async () => {
@@ -112,42 +103,34 @@ describe('useFetchRawsData', () => {
   });
 
   describe('conditionsFetch テスト', () => {
-    test('条件指定でデータを取得できる', async () => {
+    test('条件指定でSWRキーが更新される', async () => {
       const conditionsArgs: ConditionsArgsType = {
         startDate: '2023-02-01',
         endDate: '2023-02-28',
         person: 'テストユーザー1',
       };
 
-      const mockMutateResult = { data: mockRawsData.data, error: null };
-      mockedMutate.mockResolvedValue(mockMutateResult);
-
       const { result } = renderHook(() => useFetchRawsData());
 
-      // conditionsFetchを実行
+      // conditionsFetchを実行してstateを更新
       await act(async () => {
         result.current.conditionsFetch(conditionsArgs);
       });
 
       await waitFor(() => {
-        // mutateが正しいキーで呼ばれることを確認
-        expect(mockedMutate).toHaveBeenCalledWith(
-          `raws_data_conditions/${conditionsArgs.startDate}/${conditionsArgs.endDate}/${conditionsArgs.person}`,
-          expect.any(Promise),
+        // useSWRが新しいキーで呼ばれることを確認
+        expect(mockedUseSWR).toHaveBeenCalledWith(
+          `raws_data/${conditionsArgs.startDate}/${conditionsArgs.endDate}/${conditionsArgs.person}`,
+          expect.any(Function),
         );
-        // データが更新されることを確認
-        expect(result.current.success.rawsData).toEqual(mockRawsData.data);
       });
     });
 
-    test('personが指定されていない場合でも正常に動作する', async () => {
+    test('personが指定されていない場合でも正常にキーが生成される', async () => {
       const conditionsArgs: ConditionsArgsType = {
         startDate: '2023-02-01',
         endDate: '2023-02-28',
       };
-
-      const mockMutateResult = { data: mockRawsData.data, error: null };
-      mockedMutate.mockResolvedValue(mockMutateResult);
 
       const { result } = renderHook(() => useFetchRawsData());
 
@@ -156,21 +139,23 @@ describe('useFetchRawsData', () => {
       });
 
       await waitFor(() => {
-        expect(mockedMutate).toHaveBeenCalledWith(
-          `raws_data_conditions/${conditionsArgs.startDate}/${conditionsArgs.endDate}/undefined`,
-          expect.any(Promise),
+        expect(mockedUseSWR).toHaveBeenCalledWith(
+          `raws_data/${conditionsArgs.startDate}/${conditionsArgs.endDate}/undefined`,
+          expect.any(Function),
         );
       });
     });
 
-    test('mutateでエラーが発生した場合、rawsDataがnullになる', async () => {
+    test('SWRがデータなしを返す場合、rawsDataがnullになる', async () => {
+      mockedUseSWR.mockReturnValue({
+        ...commonMockData,
+      });
+
       const conditionsArgs: ConditionsArgsType = {
         startDate: '2023-02-01',
         endDate: '2023-02-28',
         person: 'テストユーザー1',
       };
-
-      mockedMutate.mockResolvedValue(null);
 
       const { result } = renderHook(() => useFetchRawsData());
 
@@ -194,14 +179,14 @@ describe('useFetchRawsData', () => {
 
       if (fetcherFunction) {
         await act(async () => {
-          await fetcherFunction();
+          await fetcherFunction('raws_data/2023-01-01/2023-01-31/');
         });
 
         // Supabaseクエリが正しく呼ばれることを確認
-        expect(mockedSupabase.from).toHaveBeenCalledWith('raws_data');
-        expect(mockSupabaseChain.select).toHaveBeenCalledWith('*');
-        expect(mockSupabaseChain.eq).toHaveBeenCalledWith('del_flag', false);
-        expect(mockSupabaseChain.order).toHaveBeenCalledWith('created_at', { ascending: true });
+        expect(supabase.from).toHaveBeenCalledWith('raws_data');
+        expect(mockSelect).toHaveBeenCalledWith('*');
+        expect(mockEq).toHaveBeenCalledWith('del_flag', false);
+        expect(mockOrder).toHaveBeenCalledWith('created_at', { ascending: true });
       }
     });
 
@@ -213,13 +198,13 @@ describe('useFetchRawsData', () => {
 
       if (fetcherFunction) {
         await act(async () => {
-          await fetcherFunction();
+          await fetcherFunction('raws_data/2023-01-01/2023-01-31/');
         });
 
         await waitFor(() => {
           // 2023年1月の範囲でフィルタリングされることを確認
-          expect(mockSupabaseChain.gte).toHaveBeenCalledWith('created_at', '2023-01-01 00:00:00');
-          expect(mockSupabaseChain.lte).toHaveBeenCalledWith('created_at', '2023-01-31 23:59:59');
+          expect(mockGte).toHaveBeenCalledWith('created_at', '2023-01-01 00:00:00');
+          expect(mockLte).toHaveBeenCalledWith('created_at', '2023-01-31 23:59:59');
         });
       }
     });
@@ -235,13 +220,13 @@ describe('useFetchRawsData', () => {
 
       if (fetcherFunction) {
         await act(async () => {
-          await fetcherFunction();
+          await fetcherFunction('raws_data/2023-02-01/2023-02-28/');
         });
 
         await waitFor(() => {
           // 2023年2月の範囲でフィルタリングされることを確認
-          expect(mockSupabaseChain.gte).toHaveBeenCalledWith('created_at', '2023-02-01 00:00:00');
-          expect(mockSupabaseChain.lte).toHaveBeenCalledWith('created_at', '2023-02-28 23:59:59');
+          expect(mockGte).toHaveBeenCalledWith('created_at', '2023-02-01 00:00:00');
+          expect(mockLte).toHaveBeenCalledWith('created_at', '2023-02-28 23:59:59');
         });
       }
     });
