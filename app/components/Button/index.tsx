@@ -14,7 +14,7 @@ export const Button = ({ label, type, intent, onClick }: Props) => {
       <button
         className={buttonStyles({ intent })}
         type={type}
-        disabled={intent === 'disabled' || false}
+        disabled={intent === 'disabled'}
         onClick={onClick}
       >
         {label}

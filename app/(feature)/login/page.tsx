@@ -16,8 +16,7 @@ export default function Page() {
   const {
     formState: { errors },
     control,
-    getValues,
-    trigger,
+    handleSubmit,
   } = useForm<LoginProps>({
     mode: 'onChange',
     resolver: zodResolver(validationSchema),
@@ -40,20 +39,9 @@ export default function Page() {
     });
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const isValid = await trigger();
-    if (!isValid) return;
-    const values = getValues();
-    await onSubmit(values);
-  };
-
   return (
     <div className={'w-100  h-200 m-10 text-center'}>
-      <form
-        onSubmit={handleFormSubmit}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Section>
           <Controller
             name="email"
