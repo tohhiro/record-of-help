@@ -10,7 +10,7 @@ export type PricesHelpsList = {
     prices_list: {
       created_at: string;
       help_id: string | null;
-      id: number;
+      id: string;
       price: number;
       update_at: string | null;
     }[];

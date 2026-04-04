@@ -45,7 +45,7 @@ export const mockPricesListRaw: PricesHelpsList = {
         {
           created_at: '2021-10-01T00:00:00.000000Z',
           help_id: null,
-          id: 1,
+          id: '1',
           price: 30,
           update_at: '2021-10-01T00:00:00.000000Z',
         },
@@ -61,7 +61,7 @@ export const mockPricesListRaw: PricesHelpsList = {
         {
           created_at: '2021-10-01T00:00:00.000000Z',
           help_id: null,
-          id: 2,
+          id: '2',
           price: 10,
           update_at: '2021-10-01T00:00:00.000000Z',
         },
@@ -77,7 +77,7 @@ export const mockPricesListRaw: PricesHelpsList = {
         {
           created_at: '2021-10-01T00:00:00.000000Z',
           help_id: null,
-          id: 3,
+          id: '3',
           price: 20,
           update_at: '2021-10-01T00:00:00.000000Z',
         },
@@ -93,7 +93,7 @@ export const mockPricesListRaw: PricesHelpsList = {
         {
           created_at: '2021-10-01T00:00:00.000000Z',
           help_id: null,
-          id: 4,
+          id: '4',
           price: 20,
           update_at: '2021-10-01T00:00:00.000000Z',
         },
@@ -109,7 +109,7 @@ export const mockPricesListRaw: PricesHelpsList = {
         {
           created_at: '2021-10-01T00:00:00.000000Z',
           help_id: null,
-          id: 5,
+          id: '5',
           price: 50,
           update_at: '2021-10-01T00:00:00.000000Z',
         },
