@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Suspense, useState } from 'react';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { DashboardTable, type Props as TdProps } from './components/DashboardTable';
-import { sumObjectArrayData, validationSchema, type DashboardProps } from './helper';
+import { sumObjectArrayData, validationSchema, type DashboardProps } from './helpers';
 import { dashboardFormStyles, dashboardStyles } from './index.styles';
 
 type OptionsType = { value: string; label: string };
