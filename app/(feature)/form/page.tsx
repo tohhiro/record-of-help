@@ -45,6 +45,7 @@ export default function Page() {
     control,
   } = useForm<FormProps>({
     mode: 'onChange',
+    defaultValues: { person: '', items: { helps: [], comments: '' } },
     resolver: zodResolver(validationSchema),
   });
 
@@ -56,7 +57,6 @@ export default function Page() {
         <Controller
           name="person"
           control={control}
-          defaultValue=""
           rules={{
             required: true,
           }}
@@ -72,21 +72,11 @@ export default function Page() {
           <ErrorContainer>{errors.person && errors.person.message}</ErrorContainer>
         </div>
         <Section>
-          <Controller
-            name="items.helps"
-            control={control}
-            defaultValue={[]}
-            rules={{ required: true }}
-            render={() => (
-              <>
-                <ErrorBoundary fallback={<p>エラーが発生しました</p>}>
-                  <Suspense fallback={<p>...Loading</p>}>
-                    <PricesList register={{ ...register('items.helps') }} />
-                  </Suspense>
-                </ErrorBoundary>
-              </>
-            )}
-          />
+          <ErrorBoundary fallback={<p>エラーが発生しました</p>}>
+            <Suspense fallback={<p>...Loading</p>}>
+              <PricesList register={{ ...register('items.helps') }} />
+            </Suspense>
+          </ErrorBoundary>
 
           <ErrorContainer>{errors.items?.helps && errors.items.helps.message}</ErrorContainer>
         </Section>
@@ -94,7 +84,6 @@ export default function Page() {
         <Controller
           name="items.comments"
           control={control}
-          defaultValue=""
           rules={{
             required: true,
           }}
