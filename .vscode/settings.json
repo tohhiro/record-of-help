@@ -1,0 +1,23 @@
+{
+  "editor.defaultFormatter": null,
+  "editor.formatOnSave": true,
+  "jest.autoRun": "off",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.exclude": {
+    "playwright-report": true,
+    "test-results": true,
+    "storybook-static": true
+  },
+  "search.exclude": {
+    "playwright-report": true,
+    "test-results": true,
+    "storybook-static": true
+  },
+  "files.watcherExclude": {
+    "playwright-report/**": true,
+    "test-results/**": true,
+    "storybook-static/**": true
+  }
+}
