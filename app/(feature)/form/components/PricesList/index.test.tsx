@@ -1,32 +1,8 @@
 import { PricesList } from '@/app/(feature)/form/components/PricesList';
-import { useFetchPricesList } from '@/app/(feature)/form/hooks/useFetchPricesList';
 import { mockPricesListRaw } from '@/mocks/pricesList';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { type UseFormRegisterReturn } from 'react-hook-form';
-
-jest.mock('@/app/(feature)/form/hooks/useFetchPricesList');
-const mockUseFetchPricesList = jest.mocked(useFetchPricesList);
-
-const mockFailedData = {
-  data: [],
-  error: {
-    name: 'PostgrestError',
-    message: 'string',
-    details: 'string',
-    hint: 'string',
-    code: 'string',
-    toJSON() {
-      return {
-        name: this.name,
-        message: this.message,
-        details: this.details,
-        hint: this.hint,
-        code: this.code,
-      };
-    },
-  },
-};
 
 describe('PricesList', () => {
   const user = userEvent.setup();
@@ -38,32 +14,23 @@ describe('PricesList', () => {
     name: 'items.helps',
   };
 
-  afterEach(() => {
-    mockUseFetchPricesList.mockReset();
-  });
-
   test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', () => {
-    mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
-
-    render(<PricesList register={register} />);
+    render(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
 
     const checkbox = screen.getByLabelText('皿洗い');
     expect(checkbox).toBeInTheDocument();
     expect(checkbox).toHaveAttribute('type', 'checkbox');
   });
 
-  test('hooksからエラーが返る場合、チェックボックスがレンダリングされない', () => {
-    mockUseFetchPricesList.mockReturnValue(mockFailedData);
-    render(<PricesList register={register} />);
+  test('pricesListが空配列の場合、チェックボックスがレンダリングされない', () => {
+    render(<PricesList register={register} pricesList={[]}/>);
 
     const checkbox = screen.queryByLabelText('皿洗い');
     expect(checkbox).not.toBeInTheDocument();
   });
 
   test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックを入れ外しできる', async () => {
-    mockUseFetchPricesList.mockReturnValue(mockPricesListRaw);
-
-    render(<PricesList register={register} />);
+    render(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
 
     const checkbox = screen.getByLabelText('皿洗い');
     expect(checkbox).toBeInTheDocument();
