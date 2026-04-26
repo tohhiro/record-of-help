@@ -1,16 +1,13 @@
-import { handlers } from '@/mocks/handlers/pricesList'; //
+import { mockPricesListRaw } from '@/mocks/pricesList';
 import { type Meta, type StoryObj } from '@storybook/react';
-import Page from './page';
+import { FormClient } from '.';
 
 export default {
   title: 'app/feature/Form',
-  component: Page,
+  component: FormClient,
   parameters: {
     chromatic: {
       disableSnapshot: false,
-    },
-    msw: {
-      handlers,
     },
     nextjs: {
       appDirectory: true,
@@ -19,8 +16,12 @@ export default {
       },
     },
   },
-} satisfies Meta<typeof Page>;
+} satisfies Meta<typeof FormClient>;
 
-type Story = StoryObj<typeof Page>;
+type Story = StoryObj<typeof FormClient>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    pricesList: mockPricesListRaw.data,
+  },
+};
