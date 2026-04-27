@@ -1,9 +1,9 @@
 import { type PricesHelpsList } from '@/app/types';
 
-export const createPricesList = (pricesListRaw: PricesHelpsList | undefined) => {
-  if (pricesListRaw?.error) return null;
+export const createPricesList = (pricesListRaw: PricesHelpsList['data'] | undefined) => {
+  if (!pricesListRaw) return undefined;
 
-  const pricesList = pricesListRaw?.data?.map((item) => ({
+  const pricesList = pricesListRaw.map((item) => ({
     id: item.id,
     label: item.label,
     column: item.help,

@@ -1,6 +1,5 @@
 import {
   mockFormattedPricesList,
-  mockPricesListErrorRaw,
   mockPricesListRaw,
 } from '@/mocks/pricesList';
 import { type PricesHelpsList } from '@/app/types';
@@ -8,13 +7,13 @@ import { createPricesList } from '.';
 
 describe('createPricesList', () => {
   test('rawデータからpricesListを生成する', () => {
-    const pricesList = createPricesList(mockPricesListRaw);
+    const pricesList = createPricesList(mockPricesListRaw.data);
     expect(pricesList).toStrictEqual(mockFormattedPricesList);
   });
 
-  test('rawデータにエラーがある場合はnullになる', () => {
-    const pricesList = createPricesList(mockPricesListErrorRaw);
-    expect(pricesList).toBeNull();
+  test('rawデータにエラーがある場合はundefinedになる', () => {
+    const pricesList = createPricesList(undefined);
+    expect(pricesList).toBeUndefined();
   });
 
   test('prices_listが空配列の場合はvalueが0になる', () => {
@@ -31,7 +30,7 @@ describe('createPricesList', () => {
       ],
       error: null,
     };
-    const pricesList = createPricesList(rawWithEmptyPrices);
+    const pricesList = createPricesList(rawWithEmptyPrices.data);
     expect(pricesList).toStrictEqual([
       { id: 'dish', label: '皿洗い', column: 'dish', value: 0 },
     ]);

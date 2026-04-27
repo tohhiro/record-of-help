@@ -118,23 +118,3 @@ export const mockPricesListRaw: PricesHelpsList = {
   ],
   error: null,
 };
-
-export const mockPricesListErrorRaw: PricesHelpsList = {
-  data: [],
-  error: {
-    name: 'PostgrestError',
-    message: 'error',
-    details: 'error',
-    hint: 'This is a hint',
-    code: '404',
-    toJSON() {
-      return {
-        name: this.name,
-        message: this.message,
-        details: this.details,
-        hint: this.hint,
-        code: this.code,
-      };
-    },
-  },
-};

@@ -1,16 +1,19 @@
-import { useFetchPricesList } from '@/app/(feature)/form/hooks';
 import { Checkbox } from '@/app/components/Checkbox';
+import { type PricesHelpsList } from '@/app/types';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 import { createPricesList } from './helpers';
 
-export const PricesList = ({ register }: { register: UseFormRegisterReturn<'items.helps'> }) => {
-  const pricesListRaw = useFetchPricesList();
+type Props = {
+  register: UseFormRegisterReturn<'items.helps'>;
+  pricesList: PricesHelpsList['data'];
+}
 
-  const pricesList = createPricesList(pricesListRaw);
+export const PricesList = ({ register, pricesList }: Props) => {
+  const formattedList = createPricesList(pricesList);
 
   return (
     <>
-      {pricesList?.map((item) => (
+      {formattedList?.map((item) => (
         <Checkbox
           key={item.id}
           label={item.label}
