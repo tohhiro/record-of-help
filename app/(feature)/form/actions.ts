@@ -13,12 +13,17 @@ type Props = {
 };
 
 export async function postHelp(data: Props) {
-  const supabase = createSupabaseServerClient();
-  const result = await supabase.from('raws_data').insert([data]);
-
-  if (result.error) {
-    throw new Error(result.error.message);
+  try {
+    const supabase = createSupabaseServerClient();
+    const result = await supabase.from('raws_data').insert([data]);
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+    return { status: result.status };
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error(String(error));
   }
-
-  return { status: result.status };
 }
