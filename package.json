@@ -65,7 +65,7 @@
     "msw-storybook-addon": "^2.0.7",
     "next-remote-watch": "^2.0.0",
     "next-router-mock": "^1.0.5",
-    "postcss": "^8.5.9",
+    "postcss": "^8.5.12",
     "prettier": "^3.8.3",
     "prettier-plugin-organize-imports": "^4.3.0",
     "storybook": "^8.6.18",
