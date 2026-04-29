@@ -1,22 +1,19 @@
 import { mockPricesListRaw } from '@/mocks/pricesList';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { usePostHelp } from '../hooks/usePostHelp';
+import { postHelp } from '../actions';
 import { FormClient } from '.';
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
-jest.mock('../hooks/usePostHelp');
+jest.mock('../actions');
 
-const mockUsePostHelp = jest.mocked(usePostHelp);
+const mockPostHelp = jest.mocked(postHelp);
 
 describe('Form', () => {
   const user = userEvent.setup();
 
   beforeEach(() => {
-    mockUsePostHelp.mockReturnValue({
-      postHelp: jest.fn().mockResolvedValue(undefined),
-      isMutating: false,
-    });
+    mockPostHelp.mockResolvedValue({ status: 201 });
   });
 
   afterEach(() => {
@@ -135,15 +132,7 @@ describe('Form', () => {
   describe('submit error', () => {
     test('送信に失敗した場合、alertが表示される', async () => {
       const errorMessage = 'Server error';
-      const mockPostHelp = jest.fn().mockImplementation((_data, cb) => {
-        cb.onError(new Error(errorMessage));
-        return Promise.resolve();
-      });
-
-      mockUsePostHelp.mockReturnValue({
-        postHelp: mockPostHelp,
-        isMutating: false,
-      });
+      mockPostHelp.mockRejectedValue(new Error(errorMessage));
 
       const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 

@@ -1,5 +1,7 @@
 'use client';
-import { useLeavingModal, usePostHelp } from '@/app/(feature)/form/hooks';
+import { useState } from 'react';
+import { useLeavingModal } from '@/app/(feature)/form/hooks';
+import { postHelp } from '../actions';
 import { Button } from '@/app/components/Button';
 import { ErrorContainer } from '@/app/components/ErrorContainer';
 import { Radio } from '@/app/components/Radio';
@@ -13,11 +15,11 @@ import { convertHelps, validationSchema, type FormProps } from '../helpers';
 import { type PricesHelpsList } from '@/app/types';
 
 type Props = {
-    pricesList: PricesHelpsList['data']
-}
+  pricesList: PricesHelpsList['data']
+};
 
 export const FormClient = ({ pricesList }: Props) => {
-  const { postHelp, isMutating } = usePostHelp();
+  const [isMutating, setIsMutating] = useState(false);
 
   const router = useRouter();
 
@@ -30,15 +32,17 @@ export const FormClient = ({ pricesList }: Props) => {
       comments: data.items.comments || '',
     };
 
-    await postHelp(sendingData, {
-      onSuccess: () => {
-        router.replace('/dashboard');
-      },
-      onError: (_error) => {
-        // eslint-disable-next-line no-alert
-        alert(`エラーが発生しました: ${_error instanceof Error ? _error.message : '不明なエラー'}`);
-      },
-    });
+    setIsMutating(true);
+
+    try {
+      await postHelp(sendingData);
+      router.replace('/dashboard');
+    } catch (error) {
+      // eslint-disable-next-line no-alert
+      alert(`エラーが発生しました: ${error instanceof Error ? error.message : '不明なエラー'}`);
+    } finally {
+      setIsMutating(false);
+    }
   };
 
   const {
