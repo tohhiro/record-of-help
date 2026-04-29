@@ -15,8 +15,8 @@ import { convertHelps, validationSchema, type FormProps } from '../helpers';
 import { type PricesHelpsList } from '@/app/types';
 
 type Props = {
-    pricesList: PricesHelpsList['data']
-}
+  pricesList: PricesHelpsList['data']
+};
 
 export const FormClient = ({ pricesList }: Props) => {
   const [isMutating, setIsMutating] = useState(false);

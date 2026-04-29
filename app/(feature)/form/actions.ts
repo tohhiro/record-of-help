@@ -1,21 +1,14 @@
 'use server';
 
 import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
+import type { Database } from '@/supabase/schema';
 
-type Props = {
-  person: string;
-  comments: string;
-  dish: number;
-  curtain: number;
-  prepareEat: number;
-  landry: number;
-  special: number;
-};
+type Props = Database['public']['Tables']['raws_data']['Insert'];
 
 export async function postHelp(data: Props) {
   try {
     const supabase = createSupabaseServerClient();
-    const result = await supabase.from('raws_data').insert([data]);
+    const result = await supabase.from('raws_data').insert(data);
     if (result.error) {
       throw new Error(result.error.message);
     }

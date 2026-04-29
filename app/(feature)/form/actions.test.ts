@@ -1,15 +1,17 @@
 import { postHelp } from './actions';
 import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
 
-// モックすべきは「依存先」であるSupabase
 jest.mock('@/app/libs/supabaseServer');
 
 const mockInsert = jest.fn();
 const mockFrom = jest.fn(() => ({ insert: mockInsert }));
 
-(createSupabaseServerClient as jest.Mock).mockReturnValue({
+const mockedCreateSupabaseServerClient = jest.mocked(
+  createSupabaseServerClient,
+);
+mockedCreateSupabaseServerClient.mockReturnValue({
   from: mockFrom,
-});
+} as unknown as ReturnType<typeof createSupabaseServerClient>);
 
 describe('postHelp', () => {
   afterEach(() => {
@@ -30,6 +32,15 @@ describe('postHelp', () => {
     });
 
     expect(mockFrom).toHaveBeenCalledWith('raws_data');
+    expect(mockInsert).toHaveBeenCalledWith({
+      person: 'eito',
+      comments: 'テスト',
+      dish: 30,
+      curtain: 0,
+      prepareEat: 0,
+      landry: 0,
+      special: 0,
+    });
     expect(result).toEqual({ status: 201 });
   });
 
