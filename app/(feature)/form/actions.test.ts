@@ -66,5 +66,6 @@ describe('postHelp', () => {
         special: 0,
       }),
     ).rejects.toThrow('Insert failed');
+    expect(revalidatePath).not.toHaveBeenCalled();
   });
 });
