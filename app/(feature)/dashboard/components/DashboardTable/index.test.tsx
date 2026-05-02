@@ -1,6 +1,6 @@
 import { mockRawsData } from '@/mocks/rawsData';
 import { mockThData } from '@/mocks/tableHeader';
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DashboardTable } from '.';
 import { deleteRecord } from '@/app/(feature)/dashboard/actions';
@@ -113,9 +113,11 @@ describe('DashboardTable', () => {
         await user.click(deleteButtons[0]);
       });
 
-      expect(alertSpy).toHaveBeenCalledWith(
-        '削除に失敗しました: Delete failed',
-      );
+      await waitFor(() => {
+        expect(alertSpy).toHaveBeenCalledWith(
+          '削除に失敗しました: Delete failed',
+        );
+      });
     });
   });
 });
