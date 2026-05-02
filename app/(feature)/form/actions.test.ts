@@ -1,7 +1,11 @@
 import { postHelp } from './actions';
 import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
+import { revalidatePath } from 'next/cache';
 
 jest.mock('@/app/libs/supabaseServer');
+jest.mock('next/cache', () => ({
+  revalidatePath: jest.fn(),
+}));
 
 const mockInsert = jest.fn();
 const mockFrom = jest.fn(() => ({ insert: mockInsert }));
@@ -41,6 +45,7 @@ describe('postHelp', () => {
       landry: 0,
       special: 0,
     });
+    expect(revalidatePath).toHaveBeenCalledWith('/dashboard');
     expect(result).toEqual({ status: 201 });
   });
 

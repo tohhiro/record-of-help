@@ -1,7 +1,9 @@
+'use client';
+import { useTransition } from 'react';
 import { Button } from '@/app/components/Button';
 import { Table, type Props as TableProps } from '@/app/components/Table';
 import type { Database } from '@/supabase/schema';
-import { useDeleteRecord } from './hooks/useDeleteRecord';
+import { deleteRecord } from '@/app/(feature)/dashboard/actions';
 
 export type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
@@ -52,17 +54,19 @@ const sortData = (
 };
 
 export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: Props }) => {
-  const { deleteRecord } = useDeleteRecord();
+  const [, startTransition] = useTransition();
 
   if (!Object.keys(th).length || !td) return null;
 
   const filteredData = filterData(td);
   const convertedData = convertDateTime(filteredData);
 
-  const handleClick = async (id: string) => {
+  const handleClick = (id: string) => {
     // eslint-disable-next-line no-alert
     if (window.confirm('このレコードを削除しますか？')) {
-      await deleteRecord({ id });
+      startTransition(async () => {
+        await deleteRecord({ id });
+      });
     }
   };
 
