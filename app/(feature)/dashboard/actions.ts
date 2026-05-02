@@ -2,17 +2,23 @@
 
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
-import type { Database } from '@/supabase/schema';
 
-type Props = Database['public']['Tables']['raws_data']['Insert'];
+type Props = {
+  id: string;
+};
 
-export async function postHelp(data: Props) {
+export async function deleteRecord({ id }: Props) {
   try {
     const supabase = createSupabaseServerClient();
-    const result = await supabase.from('raws_data').insert(data);
+    const result = await supabase
+      .from('raws_data')
+      .update({ del_flag: true })
+      .eq('id', id);
+
     if (result.error) {
       throw new Error(result.error.message);
     }
+
     revalidatePath('/dashboard');
     return { status: result.status };
   } catch (error) {

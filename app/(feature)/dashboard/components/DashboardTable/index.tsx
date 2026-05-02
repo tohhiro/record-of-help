@@ -1,7 +1,10 @@
+'use client';
+import { useTransition } from 'react';
+import { useSWRConfig } from 'swr';
 import { Button } from '@/app/components/Button';
 import { Table, type Props as TableProps } from '@/app/components/Table';
 import type { Database } from '@/supabase/schema';
-import { useDeleteRecord } from './hooks/useDeleteRecord';
+import { deleteRecord } from '@/app/(feature)/dashboard/actions';
 
 export type Props = Database['public']['Tables']['raws_data']['Row'][] | null;
 
@@ -52,18 +55,32 @@ const sortData = (
 };
 
 export const DashboardTable = ({ th, td }: { th: Record<string, string>; td: Props }) => {
-  const { deleteRecord } = useDeleteRecord();
+  const [, startTransition] = useTransition();
+  const { mutate } = useSWRConfig();
 
   if (!Object.keys(th).length || !td) return null;
 
   const filteredData = filterData(td);
   const convertedData = convertDateTime(filteredData);
 
-  const handleClick = async (id: string) => {
+  const handleClick = (id: string) => {
     // eslint-disable-next-line no-alert
-    if (window.confirm('このレコードを削除しますか？')) {
-      await deleteRecord({ id });
-    }
+    if (!window.confirm('このレコードを削除しますか？')) return;
+
+    startTransition(async () => {
+      try {
+        await deleteRecord({ id });
+        // useFetchRawsData の SWR キーは "raws_data/..." 形式の prefix を持つので、まとめて再検証する
+        await mutate(
+          (key) => typeof key === 'string' && key.startsWith('raws_data/'),
+        );
+      } catch (error) {
+        // eslint-disable-next-line no-alert
+        alert(
+          `削除に失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`,
+        );
+      }
+    });
   };
 
   const sortedData = sortData(convertedData, th, handleClick);
