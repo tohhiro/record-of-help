@@ -25,14 +25,14 @@ const thData = {
   dish: '皿洗い',
   curtain: 'カーテン開閉',
   prepareEat: '食事準備',
-  landry: '洗濯物片付け',
+  laundry: '洗濯物片付け',
   special: 'スペシャル',
   comments: 'コメント',
   created_at: '日付',
   id: '削除',
 };
 
-const wageItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
+const wageItem = ['dish', 'curtain', 'prepareEat', 'laundry', 'special'];
 
 export default function Page() {
   const [isSearchPanelHidden, setIsSearchPanelHidden] = useState(true);

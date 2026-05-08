@@ -3,7 +3,7 @@ export const convertHelps = (data: string[]) => {
     dish: 0,
     curtain: 0,
     prepareEat: 0,
-    landry: 0,
+    laundry: 0,
     special: 0,
   };
   return data.reduce((acc, help) => {
