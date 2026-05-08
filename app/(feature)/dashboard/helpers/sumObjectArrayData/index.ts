@@ -1,6 +1,6 @@
 import type { Props } from '../../components/DashboardTable';
 
-export const sumObjectArrayData = (data: Props, sumItem: string[]) => {
+export const sumObjectArrayData = (data: Props, sumItem: readonly string[]) => {
   if (!data) return 0;
   const sumEachObject = data?.map((item) => {
     return Object.keys(item).reduce((acc, cur) => {

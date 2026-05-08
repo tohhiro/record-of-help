@@ -41,7 +41,7 @@ export default function Page() {
 
   const { startDate, endDate } = getNowMonthFirstLast();
 
-  const sumFetchData = sumObjectArrayData(fetchData, [...wageItem]);
+  const sumFetchData = sumObjectArrayData(fetchData, wageItem);
 
   const {
     handleSubmit,
