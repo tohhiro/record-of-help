@@ -32,7 +32,7 @@ const thData = {
   id: '削除',
 };
 
-const wageItem = ['dish', 'curtain', 'prepareEat', 'laundry', 'special'];
+const wageItem = ['dish', 'curtain', 'prepareEat', 'laundry', 'special'] as const satisfies readonly (keyof typeof thData)[];
 
 export default function Page() {
   const [isSearchPanelHidden, setIsSearchPanelHidden] = useState(true);
@@ -41,7 +41,7 @@ export default function Page() {
 
   const { startDate, endDate } = getNowMonthFirstLast();
 
-  const sumFetchData = sumObjectArrayData(fetchData, wageItem);
+  const sumFetchData = sumObjectArrayData(fetchData, [...wageItem]);
 
   const {
     handleSubmit,
