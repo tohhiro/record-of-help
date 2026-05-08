@@ -2,14 +2,14 @@ import { convertHelps } from '.';
 
 describe('convertHelps', () => {
   test('dataとして入った文字列の配列を、カンマ区切りで分解しオブジェクトに変換する', () => {
-    const data = ['dish,30', 'curtain,10', 'prepareEat,20', 'landry,20', 'special,50'];
+    const data = ['dish,30', 'curtain,10', 'prepareEat,20', 'laundry,20', 'special,50'];
 
     const result = convertHelps(data);
     expect(result).toStrictEqual({
       dish: 30,
       curtain: 10,
       prepareEat: 20,
-      landry: 20,
+      laundry: 20,
       special: 50,
     });
   });
@@ -22,7 +22,7 @@ describe('convertHelps', () => {
       dish: 30,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 50,
     });
   });
@@ -33,7 +33,7 @@ describe('convertHelps', () => {
       dish: 0,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 0,
     });
   });
@@ -46,7 +46,7 @@ describe('convertHelps', () => {
       dish: 30,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 50,
     });
   });
@@ -59,7 +59,7 @@ describe('convertHelps', () => {
       dish: 30,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 50,
     });
   });
@@ -72,7 +72,7 @@ describe('convertHelps', () => {
       dish: 0,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 50,
     });
   });
