@@ -19,7 +19,7 @@ const mockTdDataWithDelFlag = [
     del_flag: true,
     dish: 10,
     id: '1',
-    landry: 20,
+    laundry: 20,
     person: 'eito',
     prepareEat: 20,
     special: 5,

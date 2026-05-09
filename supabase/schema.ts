@@ -111,7 +111,6 @@ export type Database = {
           },
         ];
       };
-      // NOTE: `landry` は正しくは `laundry`。DB カラム名の変更はマイグレーション対応時に修正予定
       raws_data: {
         Row: {
           comments: string | null;
@@ -120,7 +119,7 @@ export type Database = {
           del_flag: boolean | null;
           dish: number;
           id: string;
-          landry: number;
+          laundry: number;
           person: string;
           prepareEat: number;
           special: number;
@@ -132,7 +131,7 @@ export type Database = {
           del_flag?: boolean | null;
           dish: number;
           id?: string;
-          landry: number;
+          laundry: number;
           person: string;
           prepareEat: number;
           special: number;
@@ -144,7 +143,7 @@ export type Database = {
           del_flag?: boolean | null;
           dish?: number;
           id?: string;
-          landry?: number;
+          laundry?: number;
           person?: string;
           prepareEat?: number;
           special?: number;

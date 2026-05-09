@@ -31,7 +31,7 @@ describe('postHelp', () => {
       dish: 30,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 0,
     });
 
@@ -42,7 +42,7 @@ describe('postHelp', () => {
       dish: 30,
       curtain: 0,
       prepareEat: 0,
-      landry: 0,
+      laundry: 0,
       special: 0,
     });
     expect(revalidatePath).toHaveBeenCalledWith('/dashboard');
@@ -62,7 +62,7 @@ describe('postHelp', () => {
         dish: 30,
         curtain: 0,
         prepareEat: 0,
-        landry: 0,
+        laundry: 0,
         special: 0,
       }),
     ).rejects.toThrow('Insert failed');

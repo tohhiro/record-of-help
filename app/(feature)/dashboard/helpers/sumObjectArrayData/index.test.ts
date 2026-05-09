@@ -1,7 +1,7 @@
 import { mockRawsData } from '@/mocks/rawsData';
 import { sumObjectArrayData } from '.';
 
-const mockSumItem = ['dish', 'curtain', 'prepareEat', 'landry', 'special'];
+const mockSumItem = ['dish', 'curtain', 'prepareEat', 'laundry', 'special'];
 
 describe('sumObjectArrayData', () => {
   test('mockのデータの合計¥250で計算される', () => {

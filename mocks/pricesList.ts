@@ -20,9 +20,9 @@ export const mockFormattedPricesList = [
     value: 20,
   },
   {
-    id: 'landry',
+    id: 'laundry',
     label: '洗濯物片付け',
-    column: 'landry',
+    column: 'laundry',
     value: 20,
   },
   {
@@ -85,8 +85,8 @@ export const mockPricesListRaw: PricesHelpsList = {
     },
     {
       created_at: '2021-10-01T00:00:00.000000Z',
-      help: 'landry',
-      id: 'landry',
+      help: 'laundry',
+      id: 'laundry',
       label: '洗濯物片付け',
       update_at: '2021-10-01T00:00:00.000000Z',
       prices_list: [

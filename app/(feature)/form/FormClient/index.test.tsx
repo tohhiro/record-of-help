@@ -70,7 +70,7 @@ describe('Form', () => {
       ${'皿洗い'}       | ${'dish,30'}
       ${'カーテン開閉'} | ${'curtain,10'}
       ${'食事準備'}     | ${'prepareEat,20'}
-      ${'洗濯物片付け'} | ${'landry,20'}
+      ${'洗濯物片付け'} | ${'laundry,20'}
       ${'スペシャル'}   | ${'special,50'}
     `('checkboxのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
       render(<FormClient pricesList={mockPricesListRaw.data} />);
