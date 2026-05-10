@@ -23,5 +23,6 @@ type Story = StoryObj<typeof FormClient>;
 export const Default: Story = {
   args: {
     pricesList: mockPricesListRaw.data,
+    memberNames: ['eito', 'mei', 'tohhiro'],
   },
 };
