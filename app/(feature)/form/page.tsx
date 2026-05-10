@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
+import { getMemberNames } from '@/app/helpers/getMemberNames';
 import { FormClient } from './FormClient';
 
 export default async function Page() {
@@ -19,9 +20,7 @@ export default async function Page() {
     throw new Error(membersListError.message);
   }
 
-  const memberNames = [...new Set((membersList ?? []).map(({ name }) => name))].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const memberNames = getMemberNames(membersList);
 
   return <FormClient pricesList={pricesList ?? []} memberNames={memberNames} />;
 }
