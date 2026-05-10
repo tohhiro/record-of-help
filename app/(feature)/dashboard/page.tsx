@@ -1,137 +1,18 @@
-'use client';
-import { useFetchRawsData } from '@/app/(feature)/dashboard/hooks';
-import { getNowMonthFirstLast } from '@/app/(feature)/dashboard/hooks/useFetchRawsData/helpers';
-import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
-import { SelectBox } from '@/app/components/SelectBox';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Suspense, useState } from 'react';
-import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
-import { DashboardTable, type Props as TdProps } from './components/DashboardTable';
-import { sumObjectArrayData, validationSchema, type DashboardProps } from './helpers';
-import { dashboardFormStyles, dashboardStyles } from './index.styles';
+import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
+import { DashboardClient } from './DashboardClient';
 
-type OptionsType = { value: string; label: string };
+export default async function Page() {
+  const supabase = createSupabaseServerClient();
+  const { data } = await supabase.from('members_list').select('name');
 
-const options: OptionsType[] = [
-  { value: 'all', label: 'All' },
-  { value: 'eito', label: 'Eito' },
-  { value: 'mei', label: 'Mei' },
-  { value: 'tohhiro', label: 'Tohhiro' },
-];
-
-const thData = {
-  person: '名前',
-  dish: '皿洗い',
-  curtain: 'カーテン開閉',
-  prepareEat: '食事準備',
-  laundry: '洗濯物片付け',
-  special: 'スペシャル',
-  comments: 'コメント',
-  created_at: '日付',
-  id: '削除',
-};
-
-const wageItem = ['dish', 'curtain', 'prepareEat', 'laundry', 'special'] as const satisfies readonly (keyof typeof thData)[];
-
-export default function Page() {
-  const [isSearchPanelHidden, setIsSearchPanelHidden] = useState(true);
-  const { success, conditionsFetch } = useFetchRawsData();
-  const fetchData: TdProps = success.rawsData;
-
-  const { startDate, endDate } = getNowMonthFirstLast();
-
-  const sumFetchData = sumObjectArrayData(fetchData, wageItem);
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<DashboardProps>({
-    defaultValues: { person: { value: '', label: '' }, selectDate: { startDate, endDate } },
-    resolver: zodResolver(validationSchema),
-  });
-
-  const onToggleSearchPanel = () => {
-    setIsSearchPanelHidden((prev) => !prev);
-  };
-
-  const onSubmit: SubmitHandler<DashboardProps> = (data) => {
-    const sendingData = {
-      person: data.person.value === 'all' ? '' : data.person.value,
-      startDate: data.selectDate.startDate,
-      endDate: data.selectDate.endDate,
-    };
-
-    conditionsFetch(sendingData);
-  };
-
-  return (
-    <div className={dashboardStyles.container}>
-      <div className="my-10">
-        <Button
-          type="button"
-          intent="secondary"
-          label={isSearchPanelHidden ? '表示' : '非表示'}
-          onClick={onToggleSearchPanel}
-        />
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={dashboardFormStyles({ display: isSearchPanelHidden ? 'hidden' : 'block' })}
-      >
-        <div className="w-[10em]">
-          <Controller
-            name="person"
-            control={control}
-            defaultValue={{ value: '', label: '' }}
-            render={({ field }) => (
-              <SelectBox options={options} id="person_select" label="対象者を選択" {...field} />
-            )}
-          />
-          <p className={dashboardStyles.errorMessageContainer}>
-            {errors.person && errors.person.message}
-          </p>
-        </div>
-
-        <div className={dashboardStyles.inputDateContainer}>
-          <div>
-            <Controller
-              name="selectDate.startDate"
-              control={control}
-              defaultValue=""
-              render={({ field }) => <Input type="date" id="start" label="開始" {...field} />}
-            />
-            <p className={dashboardStyles.errorMessageContainer}>
-              {errors.selectDate?.startDate && errors.selectDate.startDate.message}
-            </p>
-          </div>
-          <div>
-            <Controller
-              name="selectDate.endDate"
-              control={control}
-              defaultValue=""
-              render={({ field }) => <Input type="date" id="end" label="終了" {...field} />}
-            />
-            <p className={dashboardStyles.errorMessageContainer}>
-              {errors.selectDate?.endDate && errors.selectDate.endDate.message}
-            </p>
-          </div>
-        </div>
-        <div className={dashboardStyles.sendingButton}>
-          <Button type="submit" intent="primary" label="検索" />
-        </div>
-      </form>
-      <div className="text-2xl">合計：¥{sumFetchData || 0}</div>
-      <div
-        className={`${dashboardStyles.tableContainer} ${
-          isSearchPanelHidden ? 'h-[560px]' : 'h-56'
-        }`}
-      >
-        <Suspense fallback={<div>Loading...</div>}>
-          <DashboardTable th={thData} td={fetchData} />
-        </Suspense>
-      </div>
-    </div>
+  const memberNames = [...new Set((data ?? []).map(({ name }) => name))].sort((a, b) =>
+    a.localeCompare(b),
   );
+
+  const memberOptions = [
+    { value: 'all', label: 'All' },
+    ...memberNames.map((name) => ({ value: name, label: name })),
+  ];
+
+  return <DashboardClient memberOptions={memberOptions} />;
 }
