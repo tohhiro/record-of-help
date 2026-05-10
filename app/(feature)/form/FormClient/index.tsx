@@ -15,10 +15,11 @@ import { convertHelps, validationSchema, type FormProps } from '../helpers';
 import { type PricesHelpsList } from '@/app/types';
 
 type Props = {
-  pricesList: PricesHelpsList['data']
+  pricesList: PricesHelpsList['data'];
+  memberNames: string[];
 };
 
-export const FormClient = ({ pricesList }: Props) => {
+export const FormClient = ({ pricesList, memberNames }: Props) => {
   const [isMutating, setIsMutating] = useState(false);
 
   const router = useRouter();
@@ -69,9 +70,15 @@ export const FormClient = ({ pricesList }: Props) => {
           }}
           render={({ field }) => (
             <Section>
-              <Radio id="eito" label="eito" {...field} value="eito" />
-              <Radio id="mei" label="mei" {...field} value="mei" />
-              <Radio id="tohhiro" label="tohhiro" {...field} value="tohhiro" />
+              {memberNames.map((memberName) => (
+                <Radio
+                  key={memberName}
+                  id={memberName}
+                  label={memberName}
+                  {...field}
+                  value={memberName}
+                />
+              ))}
             </Section>
           )}
         />
