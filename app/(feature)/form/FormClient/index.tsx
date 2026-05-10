@@ -70,15 +70,17 @@ export const FormClient = ({ pricesList, memberNames }: Props) => {
           }}
           render={({ field }) => (
             <Section>
-              {memberNames.map((memberName) => (
-                <Radio
-                  key={memberName}
-                  id={memberName}
-                  label={memberName}
-                  {...field}
-                  value={memberName}
-                />
-              ))}
+              {memberNames.map((memberName, idx) => {
+                const memberId = `member-${idx}`;
+                return (
+                 <Radio
+                   key={memberId}
+                   id={memberId}
+                   label={memberName}
+                   {...field}
+                   value={memberName}
+                  />);
+              })}
             </Section>
           )}
         />
