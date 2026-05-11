@@ -8,6 +8,7 @@ jest.mock('next/navigation', () => jest.requireActual('next-router-mock'));
 jest.mock('../actions');
 
 const mockPostHelp = jest.mocked(postHelp);
+const mockMemberNames = ['eito', 'mei', 'tohhiro'];
 
 describe('Form', () => {
   const user = userEvent.setup();
@@ -23,7 +24,7 @@ describe('Form', () => {
 
   describe('radio', () => {
     test('radioボタンが3つレンダリングされる', () => {
-      render(<FormClient pricesList={[]} />);
+      render(<FormClient pricesList={[]} memberNames={mockMemberNames} />);
 
       const radioButtons = screen.getAllByRole('radio');
       expect(radioButtons).toHaveLength(3);
@@ -35,7 +36,7 @@ describe('Form', () => {
       ${'mei'}     | ${'mei'}
       ${'tohhiro'} | ${'tohhiro'}
     `('radioボタンのvalue属性が正しく設定されている', ({ radioName, expected }) => {
-      render(<FormClient pricesList={[]} />);
+      render(<FormClient pricesList={[]} memberNames={mockMemberNames} />);
 
       const radioButton = screen.getByRole('radio', { name: radioName });
       expect(radioButton).toHaveAttribute('value', expected);
@@ -49,7 +50,7 @@ describe('Form', () => {
     `(
       'radioボタンのチェックを入れると、チェックされたradioボタンの属性がcheckedになっている',
       async ({ radioName }) => {
-        render(<FormClient pricesList={[]} />);
+        render(<FormClient pricesList={[]} memberNames={mockMemberNames} />);
         const radioButton = screen.getByRole('radio', { name: radioName });
 
         await user.click(radioButton);
@@ -60,7 +61,7 @@ describe('Form', () => {
 
   describe('checkbox', () => {
     test('checkboxが5つレンダリングされる', () => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
       const checkboxes = screen.getAllByRole('checkbox');
       expect(checkboxes).toHaveLength(mockPricesListRaw.data.length);
     });
@@ -73,7 +74,7 @@ describe('Form', () => {
       ${'洗濯物片付け'} | ${'laundry,20'}
       ${'スペシャル'}   | ${'special,50'}
     `('checkboxのvalue属性が正しく設定されている', ({ checkboxName, expected }) => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
       const checkbox = screen.getByRole('checkbox', { name: checkboxName });
       expect(checkbox).toHaveAttribute('value', expected);
     });
@@ -86,7 +87,7 @@ describe('Form', () => {
       ${'洗濯物片付け'}
       ${'スペシャル'}
     `('checkboxのvalue属性が正しく設定されている', async ({ checkboxName }) => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
       const checkbox = screen.getByRole('checkbox', { name: checkboxName });
       await user.click(checkbox);
       expect(checkbox).toBeChecked();
@@ -95,13 +96,13 @@ describe('Form', () => {
 
   describe('textarea', () => {
     test('textareaが1つレンダーされる', () => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
       const textarea = screen.getAllByRole('textbox');
       expect(textarea).toHaveLength(1);
     });
 
     test('textareaに入力ができる', async () => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
       const textarea = screen.getByRole('textbox');
       const typeText = 'テスト';
 
@@ -112,14 +113,14 @@ describe('Form', () => {
 
   describe('button', () => {
     test('buttonが1つ有効な状態でレンダーされる', () => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
 
       const button = screen.getByRole('button');
       expect(button).toBeEnabled();
     });
 
     test('buttonをそのままクリックすると「どちらかを選択してください」と「1つ以上選択してください」のバリデーションエラーがでる', async () => {
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
 
       const button = screen.getByRole('button');
 
@@ -136,7 +137,7 @@ describe('Form', () => {
 
       const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-      render(<FormClient pricesList={mockPricesListRaw.data} />);
+      render(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
 
       const radioButton = screen.getByRole('radio', { name: 'eito' });
       await user.click(radioButton);
