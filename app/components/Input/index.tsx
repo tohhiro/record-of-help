@@ -22,8 +22,8 @@ type HiddenProps = {
 
 export type Props = DefaultProps | HiddenProps;
 
-export const Input = forwardRef(
-  ({ id, label, type, onClick, placeholder, disabled, ...field }: Props, _ref) => {
+export const Input = forwardRef<HTMLInputElement, Props>(
+  ({ id, label, type, onClick, placeholder, disabled, ...field }: Props, ref) => {
     return (
       <div>
         <label htmlFor={id} className={labelStyles.label}>
@@ -31,6 +31,7 @@ export const Input = forwardRef(
         </label>
         <input
           {...field}
+          ref={ref}
           id={id}
           placeholder={placeholder}
           onClick={onClick}
@@ -42,3 +43,5 @@ export const Input = forwardRef(
     );
   },
 );
+
+Input.displayName = 'Input';
