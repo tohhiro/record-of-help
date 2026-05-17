@@ -1,5 +1,5 @@
 import '@/app/styles/globals.css';
-import { forwardRef } from 'react';
+import { type ComponentRef, forwardRef } from 'react';
 import Select from 'react-select';
 import { SelectBoxStyles } from './index.styles';
 
@@ -8,7 +8,10 @@ export type Props = {
   label: string;
 };
 
-export const SelectBox = forwardRef(
+export const SelectBox = forwardRef<
+  ComponentRef<typeof Select>,
+  { options: Props[]; label: string; id: string; isDisabled?: boolean }
+>(
   (
     {
       options,
@@ -17,7 +20,7 @@ export const SelectBox = forwardRef(
       isDisabled,
       ...field
     }: { options: Props[]; label: string; id: string; isDisabled?: boolean },
-    _ref,
+    ref,
   ) => {
     return (
       <div>
@@ -26,6 +29,7 @@ export const SelectBox = forwardRef(
         </label>
         <Select
           {...field}
+          ref={ref}
           id={id}
           name="selects"
           inputId="selects"
@@ -39,3 +43,5 @@ export const SelectBox = forwardRef(
     );
   },
 );
+
+SelectBox.displayName = 'SelectBox';
