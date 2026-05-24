@@ -1,4 +1,5 @@
 import { createServerClient } from '@supabase/ssr';
+import { middleware } from './middleware';
 
 jest.mock('@supabase/ssr', () => ({
   createServerClient: jest.fn(),
@@ -18,17 +19,6 @@ jest.mock('next/server', () => ({
     })),
   },
 }));
-
-if (typeof global.Request === 'undefined') {
-  global.Request = class Request {} as unknown as typeof Request;
-}
-
-if (typeof global.Response === 'undefined') {
-  global.Response = class Response {} as typeof Response;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { middleware } = require('./middleware') as typeof import('./middleware');
 
 const mockedCreateServerClient = jest.mocked(createServerClient);
 
