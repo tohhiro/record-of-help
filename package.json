@@ -63,7 +63,7 @@
     "msw": "^2.14.6",
     "msw-storybook-addon": "^2.0.7",
     "next-router-mock": "^1.0.5",
-    "postcss": "^8.5.14",
+    "postcss": "^8.5.15",
     "prettier": "^3.8.3",
     "prettier-plugin-organize-imports": "^4.3.0",
     "storybook": "^8.6.18",
