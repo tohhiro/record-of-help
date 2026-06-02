@@ -3,11 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
 
-type Props = {
-  id: string;
-};
-
-export async function deleteRecord({ id }: Props) {
+export async function deleteRecord({ id }: { id: string }) {
   try {
     const supabase = createSupabaseServerClient();
     const result = await supabase
