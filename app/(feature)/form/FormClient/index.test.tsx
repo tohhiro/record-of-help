@@ -10,12 +10,12 @@ jest.mock('../actions');
 const mockPostHelp = jest.mocked(postHelp);
 const mockMemberNames = ['eito', 'mei', 'tohhiro'];
 
-function setup(jsx: JSX.Element) {
+const setup = (jsx: JSX.Element) => {
   return {
     user: userEvent.setup(),
     ...render(jsx),
   };
-}
+};
 
 describe('Form', () => {
   beforeEach(() => {
