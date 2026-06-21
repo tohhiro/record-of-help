@@ -40,7 +40,8 @@ jobs:
       - name: Check if app/ directory has changes
         id: changes
         run: |
-          if git diff --name-only origin/$BASE_REF | grep '^app/'; then
+          CHANGED=$(git diff --name-only origin/main...)
+          if echo "$CHANGED" | grep -qE '^app/|^package(-lock)?\.json$'; then
             echo "shouldRun=true" >> $GITHUB_OUTPUT
           else
             echo "shouldRun=false" >> $GITHUB_OUTPUT
