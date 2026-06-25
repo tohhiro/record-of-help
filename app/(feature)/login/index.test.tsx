@@ -8,9 +8,14 @@ jest.mock('./hooks/useSignIn');
 
 const mockedUseSignIn = jest.mocked(useSignIn);
 
-describe('Login', () => {
-  const user = userEvent.setup();
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
 
+describe('Login', () => {
   beforeEach(() => {
     mockedUseSignIn.mockReturnValue({
       signIn: jest.fn().mockResolvedValue(undefined),
@@ -23,7 +28,7 @@ describe('Login', () => {
   });
 
   test('Loginのコンポーネントが有効な状態でレンダーされる', () => {
-    render(<Login />);
+    setup(<Login/>);
 
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
@@ -52,7 +57,7 @@ describe('Login', () => {
   });
 
   test('emailとpasswordが入力できる', async () => {
-    render(<Login />);
+    const { user } = setup(<Login/>);
 
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
@@ -79,7 +84,7 @@ describe('Login', () => {
       signIn: mockSignIn,
     });
 
-    render(<Login />);
+    const { user } = setup(<Login/>);
 
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
@@ -117,7 +122,7 @@ describe('Login', () => {
 
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-    render(<Login />);
+    const { user } = setup(<Login/>);
 
     const emailInputComponent = screen.getByRole('textbox', {
       name: 'メールアドレス',
