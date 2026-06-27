@@ -27,6 +27,13 @@ const mockTdDataWithDelFlag = [
   { ...mockRawsData.data[1] },
 ];
 
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
+
 describe('DashboardTable', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -34,7 +41,7 @@ describe('DashboardTable', () => {
   });
 
   test('テーブルに3つの氏名が表示され、データにない氏名は表示されない', () => {
-    render(<DashboardTable th={mockThData} td={mockRawsData.data} />);
+    setup(<DashboardTable th={mockThData} td={mockRawsData.data} />);
     expect(screen.getByText('eito')).toBeInTheDocument();
     expect(screen.getByText('mei')).toBeInTheDocument();
     expect(screen.getByText('tohhiro')).toBeInTheDocument();
@@ -42,18 +49,18 @@ describe('DashboardTable', () => {
   });
 
   test('2つのデータのうち、1つにdel_flag=trueのデータが渡された場合、テーブルに1つの氏名が表示される', () => {
-    render(<DashboardTable th={mockThData} td={mockTdDataWithDelFlag} />);
+    setup(<DashboardTable th={mockThData} td={mockTdDataWithDelFlag} />);
     expect(screen.queryByText('eito')).not.toBeInTheDocument();
     expect(screen.getByText('mei')).toBeInTheDocument();
   });
 
   test('tdにnullが渡されるとコンポーネントが表示されない', () => {
-    const result = render(<DashboardTable th={mockThData} td={null} />);
+    const result = setup(<DashboardTable th={mockThData} td={null} />);
     expect(result.container).toBeEmptyDOMElement();
   });
 
   test('tdに正常なデータが渡されても、thに空のオブジェクトが渡されるとコンポーネントは表示されない', () => {
-    const result = render(<DashboardTable th={{}} td={mockRawsData.data} />);
+    const result = setup(<DashboardTable th={{}} td={mockRawsData.data} />);
     expect(result.container).toBeEmptyDOMElement();
   });
 
@@ -61,10 +68,9 @@ describe('DashboardTable', () => {
     const thWithDelete = { ...mockThData, id: '削除' };
 
     test('削除ボタンをクリックすると確認ダイアログが表示される', async () => {
-      const user = userEvent.setup();
       const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(false);
 
-      render(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
+      const { user } = setup(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
       const deleteButtons = screen.getAllByRole('button', { name: '削除' });
 
       await user.click(deleteButtons[0]);
@@ -73,11 +79,10 @@ describe('DashboardTable', () => {
     });
 
     test('確認ダイアログでOKを選択すると deleteRecord が該当IDで呼ばれる', async () => {
-      const user = userEvent.setup();
       jest.spyOn(window, 'confirm').mockReturnValue(true);
       mockedDeleteRecord.mockResolvedValue({ status: 200 });
 
-      render(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
+      const { user } = setup(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
       const deleteButtons = screen.getAllByRole('button', { name: '削除' });
 
       await act(async () => {
@@ -89,10 +94,9 @@ describe('DashboardTable', () => {
     });
 
     test('確認ダイアログでキャンセルを選択すると deleteRecord は呼ばれない', async () => {
-      const user = userEvent.setup();
       jest.spyOn(window, 'confirm').mockReturnValue(false);
 
-      render(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
+      const { user } = setup(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
       const deleteButtons = screen.getAllByRole('button', { name: '削除' });
 
       await user.click(deleteButtons[0]);
@@ -101,12 +105,11 @@ describe('DashboardTable', () => {
     });
 
     test('deleteRecord が例外を投げた場合、alert でユーザーに通知される', async () => {
-      const user = userEvent.setup();
       jest.spyOn(window, 'confirm').mockReturnValue(true);
       const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
       mockedDeleteRecord.mockRejectedValue(new Error('Delete failed'));
 
-      render(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
+      const { user } = setup(<DashboardTable th={thWithDelete} td={mockRawsData.data} />);
       const deleteButtons = screen.getAllByRole('button', { name: '削除' });
 
       await act(async () => {
