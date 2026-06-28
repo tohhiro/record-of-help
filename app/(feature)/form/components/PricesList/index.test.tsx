@@ -4,9 +4,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 
-describe('PricesList', () => {
-  const user = userEvent.setup();
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
 
+describe('PricesList', () => {
   const register: UseFormRegisterReturn<'items.helps'> = {
     onChange: jest.fn(),
     onBlur: jest.fn(),
@@ -15,7 +20,7 @@ describe('PricesList', () => {
   };
 
   test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', () => {
-    render(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
+    setup(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
 
     const checkbox = screen.getByLabelText('皿洗い');
     expect(checkbox).toBeInTheDocument();
@@ -23,14 +28,14 @@ describe('PricesList', () => {
   });
 
   test('pricesListが空配列の場合、チェックボックスがレンダリングされない', () => {
-    render(<PricesList register={register} pricesList={[]}/>);
+    setup(<PricesList register={register} pricesList={[]}/>);
 
     const checkbox = screen.queryByLabelText('皿洗い');
     expect(checkbox).not.toBeInTheDocument();
   });
 
   test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックを入れ外しできる', async () => {
-    render(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
+    const { user } = setup(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
 
     const checkbox = screen.getByLabelText('皿洗い');
     expect(checkbox).toBeInTheDocument();
