@@ -8,7 +8,7 @@ type Props = Database['public']['Tables']['raws_data']['Insert'];
 
 export async function postHelp(data: Props) {
   try {
-    const supabase = createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
     const result = await supabase.from('raws_data').insert(data);
     if (result.error) {
       throw new Error(result.error.message);

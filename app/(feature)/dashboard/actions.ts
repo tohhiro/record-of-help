@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from '@/app/libs/supabaseServer';
 
 export async function deleteRecord({ id }: { id: string }) {
   try {
-    const supabase = createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
     const result = await supabase
       .from('raws_data')
       .update({ del_flag: true })
