@@ -3,7 +3,7 @@ import { getMemberNames } from '@/app/helpers/getMemberNames';
 import { FormClient } from './FormClient';
 
 export default async function Page() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const [
     { data: pricesList, error: pricesListError },
     { data: membersList, error: membersListError },

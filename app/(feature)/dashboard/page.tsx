@@ -3,7 +3,7 @@ import { getMemberNames } from '@/app/helpers/getMemberNames';
 import { DashboardClient } from './DashboardClient';
 
 export default async function Page() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.from('members_list').select('name');
   if (error) {
     throw new Error(error.message);

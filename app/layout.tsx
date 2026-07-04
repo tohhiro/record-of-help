@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: PropsWithChildren) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const {
     data: { user },
     error,
