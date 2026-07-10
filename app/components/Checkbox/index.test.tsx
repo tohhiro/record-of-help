@@ -2,11 +2,18 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Checkbox } from '.';
 
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
+
 describe('Checkbox', () => {
   const mockValues = { label: 'Checkbox Label', id: 'checkbox1', value: 'checkboxValue' };
 
   test('Checkboxがレンダーされる', () => {
-    render(<Checkbox {...mockValues} />);
+    setup(<Checkbox {...mockValues} />);
 
     const labelOfCheckboxComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfCheckboxComponent).toBeInTheDocument();
@@ -16,13 +23,12 @@ describe('Checkbox', () => {
   });
 
   test('Checkboxがチェックできる', async () => {
-    render(<Checkbox {...mockValues} />);
+    const { user } = setup(<Checkbox {...mockValues} />);
     const checkboxComponent = screen.getByRole('checkbox', { name: mockValues.label });
 
     expect(checkboxComponent).toBeEnabled();
     expect(checkboxComponent).not.toBeChecked();
 
-    const user = userEvent.setup();
     await user.click(checkboxComponent);
     expect(checkboxComponent).toBeChecked();
   });
