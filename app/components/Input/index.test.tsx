@@ -2,9 +2,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Input, type Props } from '.';
 
-describe('Input', () => {
-  const user = userEvent.setup();
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
 
+describe('Input', () => {
   const mockValues: Props = { id: 'input', label: 'Input Label', type: 'text', onClick: jest.fn() };
 
   beforeEach(() => {
@@ -12,14 +17,14 @@ describe('Input', () => {
   });
 
   test('inputがレンダーされる', () => {
-    render(<Input {...mockValues} />);
+    setup(<Input {...mockValues} />);
     const inputComponent = screen.getByRole('textbox', { name: mockValues.label });
     expect(inputComponent).toHaveAttribute('type', mockValues.type);
     expect(inputComponent).toBeEnabled();
   });
 
   test('inputに「ほげほげ」と入力ができる', async () => {
-    render(<Input {...mockValues} />);
+    const { user } = setup(<Input {...mockValues} />);
 
     const inputComponent = screen.getByRole('textbox', { name: mockValues.label });
 
@@ -34,7 +39,7 @@ describe('Input', () => {
   test('inputがdisabledで表示', async () => {
     const mockValuesWithDisabledButton: Props = { ...mockValues, disabled: true };
 
-    render(<Input {...mockValuesWithDisabledButton} />);
+    const { user } = setup(<Input {...mockValuesWithDisabledButton} />);
     const inputComponent = screen.getByRole('textbox', {
       name: mockValuesWithDisabledButton.label,
     });
@@ -48,7 +53,7 @@ describe('Input', () => {
   });
 
   test('inputをクリックするとonClickが呼ばれる', async () => {
-    render(<Input {...mockValues} />);
+    const { user } = setup(<Input {...mockValues} />);
     const inputComponent = screen.getByRole('textbox', { name: mockValues.label });
 
     await user.click(inputComponent);
@@ -58,7 +63,7 @@ describe('Input', () => {
   test('disabledの場合、inputをクリックしてもonClickが呼ばれない', async () => {
     const mockValuesWithDisabledButton: Props = { ...mockValues, disabled: true };
 
-    render(<Input {...mockValuesWithDisabledButton} />);
+    const { user } = setup(<Input {...mockValuesWithDisabledButton} />);
     const inputComponent = screen.getByRole('textbox', { name: mockValues.label });
 
     await user.click(inputComponent);
