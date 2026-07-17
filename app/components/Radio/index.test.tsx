@@ -1,25 +1,32 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Radio, type Props } from '.';
+import { Radio } from '.';
 
-describe('Radio', () => {
-  const mockValues = [
-    { id: 'radio1', label: 'Radio Label1', value: 'radioValue1', name: 'radioName' },
-    { id: 'radio2', label: 'Radio Label2', value: 'radioValue2', name: 'radioName' },
-  ];
+const mockValues = [
+  { id: 'radio1', label: 'Radio Label1', value: 'radioValue1', name: 'radioName' },
+  { id: 'radio2', label: 'Radio Label2', value: 'radioValue2', name: 'radioName' },
+];
 
-  const renderSuccess = (mocks: Props[] = mockValues) => {
-    render(
-      <div>
-        {mocks.map((value) => (
+const RadioButtons = () => {
+  return (
+     <div>
+        {mockValues.map((value) => (
           <Radio key={value.id} {...value} />
         ))}
-      </div>,
-    );
-  };
+      </div>
+  );
+};
 
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
+
+describe('Radio', () => {
   test('RadioボタンがPropsに渡された数だけレンダリングされる', () => {
-    renderSuccess();
+    setup(<RadioButtons/>);
 
     const radioButtons = screen.getAllByRole('radio');
     expect(radioButtons.length).toBe(mockValues.length);
@@ -30,8 +37,7 @@ describe('Radio', () => {
   });
 
   test('Radioボタンがクリックでチェックでき、別のRadioボタンをクリックすると、もう一方のRadioボタンのチェックが外れる', async () => {
-    const user = userEvent.setup();
-    renderSuccess();
+    const { user } = setup(<RadioButtons/>);
 
     const radioButtons = screen.getAllByRole('radio');
 
