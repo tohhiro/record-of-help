@@ -8,18 +8,24 @@ const mockOptions = [
   { value: 'mei', label: 'Mei' },
 ];
 
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
+
 const mockValues = { options: mockOptions, id: 'select', label: '選択してください' };
 
 describe('SelectBox', () => {
   test('SelectBoxがレンダーされる', () => {
-    render(<SelectBox {...mockValues} />);
+    setup(<SelectBox {...mockValues} />);
   });
 
   test('SelectBoxのそれぞれの要素をクリックすると、対応する値になっている', async () => {
-    const { container } = render(<SelectBox {...mockValues} />);
+    const { container, user } = setup(<SelectBox {...mockValues} />);
 
     const select = screen.getByRole('combobox');
-    const user = userEvent.setup();
 
     for (const option of mockOptions) {
       await user.click(select);
