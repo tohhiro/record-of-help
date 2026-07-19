@@ -33,9 +33,14 @@ const data = {
   resetLoginUser: jest.fn(),
 };
 
-describe('NavHeader', () => {
-  const user = userEvent.setup();
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
 
+describe('NavHeader', () => {
   let signOut: jest.SpyInstance;
 
   afterEach(() => {
@@ -53,7 +58,7 @@ describe('NavHeader', () => {
         }) || {},
     );
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut');
-    render(<NavHeader />);
+    setup(<NavHeader />);
     expect(screen.getByText('Record of help')).toBeInTheDocument();
     expect(mockedUseStore).toHaveBeenCalled();
   });
@@ -62,7 +67,7 @@ describe('NavHeader', () => {
     mockedUseStore.mockImplementation((state) => state(data));
     signOut = jest.spyOn(Supabase.supabase.auth, 'signOut').mockResolvedValueOnce({ error: null });
 
-    render(<NavHeader />);
+    const { user } = setup(<NavHeader />);
     const logout = screen.getByRole('link', { name: mockedLoginUser });
     await user.click(logout);
 
@@ -79,7 +84,7 @@ describe('NavHeader', () => {
     });
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-    render(<NavHeader />);
+    const { user } = setup(<NavHeader />);
     const logout = screen.getByRole('link', { name: mockedLoginUser });
     await user.click(logout);
 
