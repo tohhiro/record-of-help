@@ -2,6 +2,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Textarea } from '.';
 
+const setup = (jsx: JSX.Element) => {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+};
+
 describe('Textarea', () => {
   const mockValues = {
     id: 'textarea',
@@ -10,7 +17,7 @@ describe('Textarea', () => {
   };
 
   test('textareaがレンダーされる', () => {
-    render(<Textarea {...mockValues} />);
+    setup(<Textarea {...mockValues} />);
     const labelOfTextareaComponent = screen.getByLabelText(mockValues.label);
     expect(labelOfTextareaComponent).toBeInTheDocument();
     const textareaComponent = screen.queryByPlaceholderText(mockValues.placeholder!);
@@ -18,11 +25,10 @@ describe('Textarea', () => {
   });
 
   test('textareaに入力ができる', async () => {
-    render(<Textarea {...mockValues} />);
+    const { user } = setup(<Textarea {...mockValues} />);
     const textareaComponent = screen.getByRole('textbox', { name: mockValues.label });
 
     const typeText = 'テスト';
-    const user = userEvent.setup();
     await user.type(textareaComponent, typeText);
     expect(textareaComponent).toHaveDisplayValue(typeText);
   });
