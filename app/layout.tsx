@@ -1,4 +1,4 @@
-import { NavHeader } from '@/app/(feature)/navHeader';
+import { NavHeader } from '@/app/(feature)/NavHeader';
 import { isExpectedAuthError } from '@/app/libs/authUtils';
 import SupabaseListener from '@/app/libs/supabaseListener';
 import { type PropsWithChildren } from 'react';
