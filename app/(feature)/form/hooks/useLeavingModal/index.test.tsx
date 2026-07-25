@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
 import { useLeavingModal } from '.';
 
-const renderForm = () => {
+const setup = () => {
   const WrapperComponent = () => {
     const {
       register,
@@ -29,6 +29,7 @@ const renderForm = () => {
     input: screen.getByRole('textbox'),
     link: screen.getByRole('link', { name: 'Link' }),
     nestedSpan: screen.getByTestId('nested-span'),
+    user: userEvent.setup(),
   };
 };
 
@@ -56,8 +57,6 @@ describe('useLeavingModal', () => {
     backSpy.mockRestore();
   });
 
-  const user = userEvent.setup();
-
   test('hooksにtrueの引数が渡るとbeforeunload、click、popstateイベントが登録される', () => {
     renderHook(() => useLeavingModal(true));
     expect(addEventListenerSpy).toHaveBeenCalledWith('beforeunload', expect.any(Function));
@@ -71,7 +70,7 @@ describe('useLeavingModal', () => {
   });
 
   test('フォームが変更され離脱する場合、確認ダイアログが表示される', async () => {
-    const { input, link } = renderForm();
+    const { input, link, user } = setup();
 
     await user.type(input, 'test');
     await user.click(link);
@@ -80,14 +79,14 @@ describe('useLeavingModal', () => {
   });
 
   test('フォームが変更されず離脱する場合、確認ダイアログが表示されない', async () => {
-    const { link } = renderForm();
+    const { link, user } = setup();
 
     await user.click(link);
     expect(windowSpy).not.toHaveBeenCalledWith('ページを離れても良いですか？');
   });
 
   test('aタグの子要素をクリックしても確認ダイアログが表示される', async () => {
-    const { input, nestedSpan } = renderForm();
+    const { input, nestedSpan, user } = setup();
 
     await user.type(input, 'test');
     await user.click(nestedSpan);
