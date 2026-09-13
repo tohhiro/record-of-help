@@ -21,7 +21,7 @@
     "@supabase/ssr": "^0.12.5",
     "@supabase/supabase-js": "^2.112.4",
     "dotenv": "^16.6.1",
-    "next": "^15.5.23",
+    "next": "^15.5.25",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-error-boundary": "^4.1.2",
