@@ -124,24 +124,42 @@ describe('Form', () => {
   });
 
   describe('button', () => {
-    test('buttonが1つ有効な状態でレンダーされる', () => {
+    test('buttonが無効な状態でレンダリングされる', () => {
       setup(<FormClient pricesList={mockPricesListRaw.data} memberNames={mockMemberNames} />);
 
       const button = screen.getByRole('button');
-      expect(button).toBeEnabled();
+      expect(button).toBeDisabled();
     });
 
-    test('buttonをそのままクリックすると「どちらかを選択してください」と「1つ以上選択してください」のバリデーションエラーがでる', async () => {
+    test('チェックボックスを入れたあと、buttonをクリックすると「どちらかを選択してください」のバリデーションエラーがでる', async () => {
       const { user } = setup(
         <FormClient
           pricesList={mockPricesListRaw.data}
           memberNames={mockMemberNames} />,
       );
 
+      const checkbox = screen.getByRole('checkbox', { name: '皿洗い' });
+      await user.click(checkbox);
+
       const button = screen.getByRole('button');
 
       await user.click(button);
       expect(screen.getAllByText('どちらかを選択してください')).toHaveLength(1);
+    });
+
+    test('ラジオボタンを入れたあと、buttonをクリックすると「1つ以上選択してください」のバリデーションエラーがでる', async () => {
+      const { user } = setup(
+        <FormClient
+          pricesList={mockPricesListRaw.data}
+          memberNames={mockMemberNames} />,
+      );
+
+      const radioButton = screen.getByRole('radio', { name: 'tohhiro' });
+      await user.click(radioButton);
+
+      const button = screen.getByRole('button');
+
+      await user.click(button);
       expect(screen.getAllByText('1つ以上選択してください')).toHaveLength(1);
     });
   });

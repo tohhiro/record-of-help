@@ -107,7 +107,7 @@ export const FormClient = ({ pricesList, memberNames }: Props) => {
         <ErrorContainer>{errors.items?.comments && errors.items.comments.message}</ErrorContainer>
 
         <Section>
-          <Button label="Submit" type="submit" intent={isMutating ? 'disabled' : 'primary'} />
+          <Button label="Submit" type="submit" intent={!isDirty || isMutating ? 'disabled' : 'primary'} />
         </Section>
       </form>
     </div>
