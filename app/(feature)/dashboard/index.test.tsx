@@ -19,10 +19,6 @@ describe('Dashboard', () => {
     { value: 'tohhiro', label: 'tohhiro' },
   ];
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   describe('検索パネル', () => {
     test('SelectBoxが1つレンダリングされる', () => {
       setup(<DashboardClient memberOptions={mockMemberOptions} />);
