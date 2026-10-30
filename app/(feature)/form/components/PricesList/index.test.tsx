@@ -19,7 +19,7 @@ describe('PricesList', () => {
     name: 'items.helps',
   };
 
-  test('hooksからリストのデータが変える場合、チェックボックスがレンダリングされる', () => {
+  test('チェックボックスがレンダリングされる', () => {
     setup(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
 
     const checkbox = screen.getByLabelText('皿洗い');
@@ -34,7 +34,7 @@ describe('PricesList', () => {
     expect(checkbox).not.toBeInTheDocument();
   });
 
-  test('hooksからリストのデータが変える場合、チェックボックスがクリックでチェックを入れ外しできる', async () => {
+  test('チェックボックスをクリックすることで排他的にチェックを入れ外しできる', async () => {
     const { user } = setup(<PricesList register={register} pricesList={mockPricesListRaw.data}/>);
 
     const checkbox = screen.getByLabelText('皿洗い');
